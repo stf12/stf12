@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSets>
+<workingSet editPageId="org.eclipse.cdt.ui.CElementWorkingSetPage" id="1287153823643_2" label="CORTEX_STM32F107_Eclipse" name="CORTEX_STM32F107_Eclipse">
+<item factoryID="org.eclipse.cdt.ui.PersistableCElementFactory" path="/CORTEX_STM32F107_Eclipse" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/OpenOCD" type="4"/>
+</workingSet>
+</workingSets>
