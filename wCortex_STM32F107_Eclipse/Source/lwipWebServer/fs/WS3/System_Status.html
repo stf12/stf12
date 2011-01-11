@@ -1,0 +1,39 @@
+<html>
+
+<head>
+<title>System Status</title> 
+</head>
+
+<BODY bgcolor=#CCCCCC>
+<H3>System Status</H3>
+<FORM METHOD="GET" ACTION="System_Status.html">
+<HR>
+<FORM NAME="LCD_TEXT" ACTION="temp" >
+ <table border="0" cellpadding="3" cellspacing="0" align="left">
+ <tr> 
+               <td align="right" colspan="2" class="item" nowrap>CAMERA</td>
+               <td>
+<INPUT readonly NAME="display" TYPE="Text" MAXLENGTH=17 VALUE="                         " >
+</td>
+             </tr>
+             <tr> 
+ <td colspan="2" align="right" class="item" nowrap>MEMORY</td>
+               <td>
+<INPUT readonly NAME="display" TYPE="Text" MAXLENGTH=17 VALUE="                         " >
+</td>
+             </tr> 
+
+ <tr> 
+<td align="center" colspan="2" class="item" nowrap>
+ <input type="button" onClick="window.location.reload()" value="Refresh" />
+
+</td>
+ </tr> 
+</table>
+</FORM>
+
+
+</body>
+
+</html>
+
