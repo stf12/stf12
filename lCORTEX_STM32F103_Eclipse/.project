@@ -91,11 +91,6 @@
 			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source</locationURI>
 		</link>
 		<link>
-			<name>Source/FreeRTOS</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
 			<name>Source/FreeRTOS/ARM_CM3</name>
 			<type>2</type>
 			<locationURI>WORKSPACE_LOC/FreeRTOS/Source/portable/GCC/ARM_CM3</locationURI>
