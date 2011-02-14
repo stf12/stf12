@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval.h
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file contains definitions for STM3210C_EVAL's Leds, push-buttons
   *          COM ports, SD Card on SPI and sEE on I2C hardware resources.
   ******************************************************************************
@@ -212,6 +212,11 @@
    
 #define sEE_DIRECTION_TX                 0
 #define sEE_DIRECTION_RX                 1   
+
+/* Time constant for the delay caclulation allowing to have a millisecond 
+   incrementing counter. This value should be equal to (System Clock / 1000).
+   ie. if system clock = 72MHz then sEE_TIME_CONST should be 72. */
+#define sEE_TIME_CONST                   72 
    
 /**
   * @}

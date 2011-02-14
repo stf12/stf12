@@ -5,6 +5,8 @@
 
 
 
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="File-List" href="Library_files/filelist.xml">
 <link rel="Edit-Time-Data" href="Library_files/editdata.mso"><!--[if !mso]> <style> v\:* {behavior:url(#default#VML);} o\:* {behavior:url(#default#VML);} w\:* {behavior:url(#default#VML);} .shape {behavior:url(#default#VML);} </style> <![endif]--><title>Release Notes for STM32F10x Standard Peripherals Library</title><!--[if gte mso 9]><xml> <o:DocumentProperties> <o:Author>STMicroelectronics</o:Author> <o:LastAuthor>STMicroelectronics</o:LastAuthor> <o:Revision>37</o:Revision> <o:TotalTime>136</o:TotalTime> <o:Created>2009-02-27T19:26:00Z</o:Created> <o:LastSaved>2009-03-01T17:56:00Z</o:LastSaved> <o:Pages>1</o:Pages> <o:Words>522</o:Words> <o:Characters>2977</o:Characters> <o:Company>STMicroelectronics</o:Company> <o:Lines>24</o:Lines> <o:Paragraphs>6</o:Paragraphs> <o:CharactersWithSpaces>3493</o:CharactersWithSpaces> <o:Version>11.6568</o:Version> </o:DocumentProperties> </xml><![endif]--><!--[if gte mso 9]><xml> <w:WordDocument> <w:Zoom>110</w:Zoom> <w:ValidateAgainstSchemas/> <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid> <w:IgnoreMixedContent>false</w:IgnoreMixedContent> <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText> <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel> </w:WordDocument> </xml><![endif]--><!--[if gte mso 9]><xml> <w:LatentStyles DefLockedState="false" LatentStyleCount="156"> </w:LatentStyles> </xml><![endif]-->
@@ -61,8 +63,7 @@ mso-paper-source:0;}
 div.Section1
 {page:Section1;}
 -->
-</style><!--[if gte mso 10]> <style> /* Style Definitions */ table.MsoNormalTable {mso-style-name:"Table Normal"; mso-tstyle-rowband-size:0; mso-tstyle-colband-size:0; mso-style-noshow:yes; mso-style-parent:""; mso-padding-alt:0in 5.4pt 0in 5.4pt; mso-para-margin:0in; mso-para-margin-bottom:.0001pt; mso-pagination:widow-orphan; font-size:10.0pt; font-family:"Times New Roman"; mso-ansi-language:#0400; mso-fareast-language:#0400; mso-bidi-language:#0400;} </style> <![endif]--><!--[if gte mso 9]><xml> <o:shapedefaults v:ext="edit" spidmax="5122"/> </xml><![endif]--><!--[if gte mso 9]><xml> <o:shapelayout v:ext="edit"> <o:idmap v:ext="edit" data="1"/> </o:shapelayout></xml><![endif]--></head>
-<body style="" lang="EN-US" link="blue" vlink="blue">
+</style><!--[if gte mso 10]> <style> /* Style Definitions */ table.MsoNormalTable {mso-style-name:"Table Normal"; mso-tstyle-rowband-size:0; mso-tstyle-colband-size:0; mso-style-noshow:yes; mso-style-parent:""; mso-padding-alt:0in 5.4pt 0in 5.4pt; mso-para-margin:0in; mso-para-margin-bottom:.0001pt; mso-pagination:widow-orphan; font-size:10.0pt; font-family:"Times New Roman"; mso-ansi-language:#0400; mso-fareast-language:#0400; mso-bidi-language:#0400;} </style> <![endif]--><!--[if gte mso 9]><xml> <o:shapedefaults v:ext="edit" spidmax="5122"/> </xml><![endif]--><!--[if gte mso 9]><xml> <o:shapelayout v:ext="edit"> <o:idmap v:ext="edit" data="1"/> </o:shapelayout></xml><![endif]--></head><body style="" lang="EN-US" link="blue" vlink="blue">
 <div class="Section1">
 <p class="MsoNormal"><span style="font-family: Arial;"><o:p><br></o:p></span><a href="../../../DOC/Others/FWLib/CHM_Generator/Library_html/index.html"></a></p>
 <div align="center">
@@ -88,15 +89,101 @@ Notes for STM32F10x Standard Peripherals Library (StdPeriph_Lib)</span><span sty
 <tbody>
 <tr style="">
 <td style="padding: 0cm;" valign="top">
-<h2 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><span style="font-size: 12pt; color: white;">Contents<o:p></o:p></span></h2>
+<h2 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"><span style="font-size: 12pt; color: white;">Contents<o:p></o:p></span></h2>
 <ol style="margin-top: 0cm;" start="1" type="1">
 <li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"><a href="#History">STM32F10x Standard Peripherals Library
 update History</a><o:p></o:p></span></li>
 <li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"><a href="#License">License</a><o:p></o:p></span></li>
 </ol>
 <span style="font-family: &quot;Times New Roman&quot;;"></span>
-<h2 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><a name="History"></a><span style="font-size: 12pt; color: white;">STM32F10x Standard
-Peripherals Library update History</span></h2><h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">3.3.0 - 04/16/2010</span></h3>
+<h2 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"><a name="History"></a><span style="font-size: 12pt; color: white;">STM32F10x Standard
+Peripherals Library update History</span></h2><br>
+            <h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">3.4.0 - 10/15/2010</span></h3>
+
+    
+            <ol style="margin-top: 0in;" start="1" type="1">
+<li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">General</span></i></b><i><span style="font-size: 10pt; font-family: Verdana;"> </span></i><i><span style="font-size: 10pt;"><o:p></o:p></span></i></li>
+            </ol>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Add support for <span style="font-weight: bold;">STM32F10x High-density Value line</span> devices. <br>
+</span></li>
+              <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Add 3 examples: FSMC OneNAND, I2C TSENSOR (Temperature Sensro) and I2C IOExpander.<br>
+</span></li>
+              <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Utilities STM32&nbsp; EVAL drivers enhancements:</span></li>
+              <ul>
+                <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">I2C EEPROM, Temperature Sensor and IO Expander drivers updated to use the DMA for read/write transfer and add more robustness.</span></li>
+                <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">SD Card (SDIO) driver updated to add more robustness.<br>
+</span></li>
+              </ul>
+
+            </ul>
+
+    
+            <ol style="margin-top: 0in;" start="2" type="1">
+<li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">Libraries</span></i></b><b><i><span style="font-size: 10pt;"><o:p></o:p></span></i></b></li>
+            </ol>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">CMSIS</span></u></i><u><span style="font-size: 10pt;"><o:p></o:p></span></u></li>
+            </ul>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See <a href="Libraries/CMSIS/CM3/DeviceSupport/ST/Release_Notes_for_STM32F10x_CMSIS.html">Release Notes for STM32F10x CMSIS</a></span></li></ul>
+            </ul>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">STM32F10x_StdPeriph_Drive</span></u></i><u><span style="font-size: 10pt; font-family: Verdana;">r</span></u><u><span style="font-size: 10pt;"></span></u></li>
+            </ul>
+
+    
+    
+            <ul style="margin-top: 0in;" type="disc">
+<ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See <a href="Libraries/STM32F10x_StdPeriph_Driver/Release_Notes_for_STM32F10x_StdPeriph_Driver.html">Release Notes for STM32F10x_StdPeriph_Driver</a></span><b><i><span style="font-size: 10pt; font-family: Verdana;"></span></i></b></li></ul>
+            </ul>
+            <ol start="3">
+<li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">Project</span></i></b><b><i><span style="font-size: 10pt;"><o:p></o:p></span></i></b></li>
+            </ol>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">STM32F10x_StdPeriph_Examples</span></u></i><u><span style="font-size: 10pt;"><o:p></o:p></span></u></li>
+            </ul>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Project/STM32F10x_StdPeriph_Examples/Release_Notes_for_STM32F10x_StdPeriph_Examples.html">Release Notes for STM32F10x_StdPeriph_Examples</a></span></li></ul>
+            </ul>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">STM32F10x_StdPeriph_Template</span></u></i><u><span style="font-size: 10pt; font-family: Verdana;"></span></u><u><span style="font-size: 10pt;"></span></u></li>
+            </ul>
+
+    
+    
+            <ul>
+<ul><li><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Project/STM32F10x_StdPeriph_Template/Release_Notes_for_STM32F10x_StdPeriph_Template.html">Release Notes for STM32F10x_StdPeriph_Template</a></span></li></ul>
+            </ul>
+            <ol start="4">
+<li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">Utilities</span></i></b><b><i><span style="font-size: 10pt;"><o:p></o:p></span></i></b></li>
+            </ol>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">STM32_EVAL</span></u></i><u><span style="font-size: 10pt;"><o:p></o:p></span></u></li>
+            </ul>
+
+    
+            <ul style="margin-top: 0in;" type="disc">
+<ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Utilities/STM32_EVAL/Release_Notes_for_STM32_EVAL.html">Release Notes_for_STM32_EVAL</a></span></li></ul>
+            </ul>
+            <br>
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">3.3.0 - 04/16/2010</span></h3>
     <ol style="margin-top: 0in;" start="1" type="1"><li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">General</span></i></b><i><span style="font-size: 10pt; font-family: Verdana;"> </span></i><i><span style="font-size: 10pt;"><o:p></o:p></span></i></li></ol>
     <ul style="margin-top: 0in;" type="disc"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Add support for <span style="font-weight: bold;">STM32F10x XL-density</span> devices.&nbsp;</span></li><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Add template project for <span style="font-weight: bold;">TrueSTUDIO</span> toolchain. </span><span style="font-size: 10pt;"><o:p></o:p></span></li></ul>
     <ol style="margin-top: 0in;" start="2" type="1"><li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">Libraries</span></i></b><b><i><span style="font-size: 10pt;"><o:p></o:p></span></i></b></li></ol>
@@ -111,7 +198,7 @@ Peripherals Library update History</span></h2><h3 style="background: rgb(51, 102
     
     <ul><ul><li><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Project/STM32F10x_StdPeriph_Template/Release_Notes_for_STM32F10x_StdPeriph_Template.html">Release Notes for STM32F10x_StdPeriph_Template</a></span></li></ul></ul><ol start="4"><li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">Utilities</span></i></b><b><i><span style="font-size: 10pt;"><o:p></o:p></span></i></b></li></ol>
     <ul style="margin-top: 0in;" type="disc"><li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">STM32_EVAL</span></u></i><u><span style="font-size: 10pt;"><o:p></o:p></span></u></li></ul>
-    <ul style="margin-top: 0in;" type="disc"><ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Utilities/STM32_EVAL/Release_Notes_for_STM32_EVAL.html">Release Notes_for_STM32_EVAL</a></span></li></ul></ul><h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">3.2.0 - 03/01/2010</span></h3>
+    <ul style="margin-top: 0in;" type="disc"><ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Utilities/STM32_EVAL/Release_Notes_for_STM32_EVAL.html">Release Notes_for_STM32_EVAL</a></span></li></ul></ul><h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">3.2.0 - 03/01/2010</span></h3>
     <ol style="margin-top: 0in;" start="1" type="1"><li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">General</span></i></b><i><span style="font-size: 10pt; font-family: Verdana;"> </span></i><i><span style="font-size: 10pt;"><o:p></o:p></span></i></li></ol>
     <ul style="margin-top: 0in;" type="disc"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Add support for&nbsp;<b>STM32 Low-density Value line (STM32F100x4/6) and Medium-density Value line (STM32F100x8/B) devices</b>.</span></li>
               <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">New <span style="font-weight: bold;">CMSIS V1.30</span> release </span><span style="font-size: 10pt;"><o:p></o:p></span></li>
@@ -129,7 +216,7 @@ Peripherals Library update History</span></h2><h3 style="background: rgb(51, 102
     <ul><ul><li><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Project/STM32F10x_StdPeriph_Template/Release_Notes_for_STM32F10x_StdPeriph_Template.html">Release Notes for STM32F10x_StdPeriph_Template</a></span></li></ul></ul><ol start="4"><li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">Utilities</span></i></b><b><i><span style="font-size: 10pt;"><o:p></o:p></span></i></b></li></ol>
     <ul style="margin-top: 0in;" type="disc"><li class="MsoNormal" style=""><i><u><span style="font-size: 10pt; font-family: Verdana;">STM32_EVAL</span></u></i><u><span style="font-size: 10pt;"><o:p></o:p></span></u></li></ul>
     <ul style="margin-top: 0in;" type="disc"><ul style="margin-top: 0in;" type="circle"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">See&nbsp;<a href="Utilities/Release_Notes_for_STM32F10x_StdPeriph_Utilities.html">Release Notes for STM32F10x_StdPeriph_Utilities</a></span></li></ul></ul>
-    <h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V3.1.2 -
+    <h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V3.1.2 -
     09/28/2009</span></h3>
     <ol style="margin-top: 0in;" start="1" type="1"><li class="MsoNormal" style=""><b><i><span style="font-size: 10pt; font-family: Verdana;">General</span></i></b><i><span style="font-size: 10pt; font-family: Verdana;"> </span></i><i><span style="font-size: 10pt;"><o:p></o:p></span></i></li></ol>
     <ul style="margin-top: 0in;" type="disc"><li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">Add support for <b>Hitex
@@ -169,7 +256,7 @@ Peripherals Library update History</span></h2><h3 style="background: rgb(51, 102
           for <span style="font-weight: bold;">HiTOP</span> toolchain to support <span style="font-style: italic;">Medium-density</span> (Template\HiTOP\STM3210B-EVAL),
           <span style="font-style: italic;">High-density</span> (Template\HiTOP\STM3210E-EVAL) and <span style="font-style: italic;">Connectivity line</span>
           (Template\HiTOP\STM3210C-EVAL) devices.</span></li></ul></ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V3.1.0
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V3.1.0
 - 06/19/2009</span></h3><ol style="font-style: italic;"><li><big><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;">General</span> </span></big></li></ol><ul><li><span style="font-size: 10pt; font-family: Verdana;">Update to support the additional peripherals and features embedded in the <span style="font-weight: bold;">STM32F10x Connectivity Line devices</span>. </span></li><li><span style="font-size: 10pt; font-family: Verdana;">Doxygen
 documentation enhanced to give more detail about driver function&#8217;s
 parameters: description, allowed values and required preconditions.
@@ -193,14 +280,14 @@ LEDs and COM ports, while these resources hardware&nbsp; definitions is
 made in the header file of each evaluation board (stm3210x_eval.h). A
 common API is provided to manage the LCD across the supported boards,
 with a separate driver for each board stm3210x_eval_lcd.c.</span></li></ul><span style="font-size: 10pt; font-family: Verdana;"></span>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V3.0.0
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V3.0.0
 - 04/06/2009<o:p></o:p></span></h3>
 <ol style="font-weight: bold; font-style: italic;"><li><span style="color: black;"><o:p></o:p></span><span style="font-size: 10pt; font-family: Verdana;">General</span></li></ol><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"><span class="SpellE"><span class="spelle"><span style="font-family: Verdana;"></span></span></span></span><span style="font-size: 10pt; font-family: Verdana;">STM3210x FW Library renamed to STM32F10x Standard Peripherals Library (<span style="font-weight: bold; font-style: italic;">StdPeriph_Lib</span>)</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">STM32F10x Standard Peripherals Library is full CMSIS compliant</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">STM32F10x Standard Peripherals Library Structure is updated.</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">STM32F10x Standard Peripherals Package Architecture is enhanced</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">STM32F10x Standard Peripherals Library User Manual&nbsp; with *.chm format</span></li></ul><ol style="font-weight: bold; font-style: italic;" start="2"><li><span style="font-size: 10pt; font-family: Verdana;">library</span></li></ol><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">CAN driver updated</span></li><ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">CAN driver was updated to support STM32F10xxx connectivity line products.</span><span style="font-size: 10pt; font-family: Verdana;"></span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">CAN peripheral was renamed as CAN1. All occurrences related to CAN were also renamed as CAN1 in the different drivers.</span></li></ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">I2C driver</span></li><ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">I2C event assert macro missing in stm32f10x_i2c.h file.<br></span></li></ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">DBGMCU</span></li><ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Wrong
 defines in stm32f10x_dbgmcu.h: DBGMCU_TIM5_STOP, DBGMCU_TIM6_STOP,
 DBGMCU_TIM7_STOP and&nbsp; DBGMCU_TIM8_STOP defines values are wrong.<br><br></span></li></ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">FSMC</span></li><ul><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Remove the FSMC AddressLowMapping configuration</span><span style="font-size: 10pt; font-family: Verdana;"></span></li></ul></ul><ol start="3" style="font-weight: bold; font-style: italic;"><li><span style="font-size: 10pt; font-family: Verdana;">examples</span></li></ol><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">FSMC NOR driver Timings are updated.</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Add CAN "Normal" example</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">TIM "6Steps" example wave forms updated</span></li><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">NVIC "CM3_LPModes" and "System_Handlers" examples removed<br></span></li></ul><p class="MsoNormal"></p><p class="MsoNormal"><span style="font-size: 10pt; font-family: Verdana; color: black;">For more details, please
 refer to <a href="http://www.st.com/mcu/familiesdocs-110.html" target="_blank">AN2953</a> "How to migrate from the STM32F10xxx firmware library
 V2.0.3 to the STM32F10xxx standard peripheral library V3.0.0".</span></p>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0.3
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0.3
 - 09/22/2008<o:p></o:p></span></h3>
 <ol style="margin-top: 0cm; font-weight: bold; font-style: italic;" start="1" type="1">
 <li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">General</span><span style="font-size: 10pt; font-family: Verdana;"><o:p></o:p></span></li>
@@ -290,7 +377,7 @@ example<o:p></o:p></span></li>
 check changed by USART TXE flag check<o:p></o:p></span></li>
 </ul>
 </ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0.2
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0.2
 - 07/11/2008<o:p></o:p></span></h3>
 <ol style="font-style: italic; font-weight: bold;" start="1" type="1">
 <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">library</span><span style="font-size: 10pt;"><o:p></o:p></span></li>
@@ -457,7 +544,7 @@ Update: add <span class="SpellE"><span class="spelle"><span style="font-family: 
 file.<o:p></o:p></span></li>
 </ul>
 </ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0.1
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0.1
 - 06/13/2008<o:p></o:p></span></h3>
 <ul style="margin-top: 0cm;" type="square">
 <li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Remove the
@@ -466,7 +553,7 @@ Firmware License Agreement file.<o:p></o:p></span></li>
 source <span class="SpellE"><span class="spelle"><span style="font-family: Verdana;">files's</span></span></span>
 header to remove reference to the License.<o:p></o:p></span></li>
 </ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V2.0
 - 05/23/2008<o:p></o:p></span></h3>
 <ol style="font-style: italic; font-weight: bold;" start="1" type="1">
 <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">General</span><span style="font-size: 10pt;"><o:p></o:p></span></li>
@@ -690,7 +777,7 @@ example for CRC module. <o:p></o:p></span></li>
 folder renamed, use of short name instead of <span class="SpellE"><span class="spelle"><span style="font-family: Verdana;">examplex</span></span></span>
 (x: 1 2 ...).<o:p></o:p></span></li>
 </ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.0
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.0
 - 10/08/2007<o:p></o:p></span></h3>
 <ol style="font-style: italic; font-weight: bold;" start="1" type="1">
 <li class="MsoNormal" style=""><span style="font-size: 10pt; font-family: Verdana;">library<o:p></o:p></span></li>
@@ -843,12 +930,12 @@ value changed from 32 KHz to 40 KHz&nbsp; <o:p></o:p></span></li>
 <li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Update the
 STM32F10x evaluation board name from STM32F10x-EVAL to STM3210B-EVAL <o:p></o:p></span></li>
 </ul>
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V0.3
+<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-right: 558.05pt;"><span style="font-size: 10pt; font-family: Arial; color: white;">V0.3
 - 05/21/2007<o:p></o:p></span></h3>
 <ul style="margin-top: 0cm;" type="square">
 <li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">Created.<o:p></o:p></span></li>
 </ul>
-<h2 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><a name="License"></a><span style="font-size: 12pt; color: white;">License<o:p></o:p></span></h2>
+<h2 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"><a name="License"></a><span style="font-size: 12pt; color: white;">License<o:p></o:p></span></h2>
 <p class="MsoNormal" style="margin: 4.5pt 0cm;"><span style="font-size: 10pt; font-family: Verdana; color: black;">The
 enclosed firmware and all the related documentation are not covered by
 a License Agreement, if you need such License you can contact your

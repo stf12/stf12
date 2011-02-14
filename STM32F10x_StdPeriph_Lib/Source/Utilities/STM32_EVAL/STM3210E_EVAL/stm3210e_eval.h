@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval.h
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file contains definitions for STM3210E_EVAL's Leds, push-buttons
   *          COM ports, sFLASH (on SPI) and Temperature Sensor LM75 (on I2C)
   *          hardware resources.  
@@ -273,7 +273,13 @@
 #define LM75_I2C_SMBUSALERT_PIN          GPIO_Pin_5                  /* PB.05 */
 #define LM75_I2C_SMBUSALERT_GPIO_PORT    GPIOB                       /* GPIOB */
 #define LM75_I2C_SMBUSALERT_GPIO_CLK     RCC_APB2Periph_GPIOB
+#define LM75_I2C_DR                      ((uint32_t)0x40005410)
 
+#define LM75_DMA_CLK                     RCC_AHBPeriph_DMA1
+#define LM75_DMA_TX_CHANNEL              DMA1_Channel6
+#define LM75_DMA_RX_CHANNEL              DMA1_Channel7
+#define LM75_DMA_TX_TCFLAG               DMA1_FLAG_TC6
+#define LM75_DMA_RX_TCFLAG               DMA1_FLAG_TC7
 /**
   * @}
   */
@@ -303,7 +309,7 @@ void SD_LowLevel_DeInit(void);
 void SD_LowLevel_Init(void); 
 void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize);
 void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize);
-void SD_WaitForDMAEndOfTransfer(void);
+uint32_t SD_DMAEndOfTransferStatus(void);
 void sFLASH_LowLevel_DeInit(void);
 void sFLASH_LowLevel_Init(void); 
 void LM75_LowLevel_DeInit(void);

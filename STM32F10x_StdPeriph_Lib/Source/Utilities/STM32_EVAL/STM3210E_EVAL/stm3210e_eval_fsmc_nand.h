@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval_fsmc_nand.h
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the 
   *          stm3210e_eval_fsmc_nand firmware driver.
   ******************************************************************************
@@ -84,7 +84,6 @@ typedef struct
 #define NAND_CMD_AREA_A            ((uint8_t)0x00)
 #define NAND_CMD_AREA_B            ((uint8_t)0x01)
 #define NAND_CMD_AREA_C            ((uint8_t)0x50)
-#define NAND_CMD_AREA_TRUE1        ((uint8_t)0x30)
 
 #define NAND_CMD_WRITE0            ((uint8_t)0x80)
 #define NAND_CMD_WRITE_TRUE1       ((uint8_t)0x10)

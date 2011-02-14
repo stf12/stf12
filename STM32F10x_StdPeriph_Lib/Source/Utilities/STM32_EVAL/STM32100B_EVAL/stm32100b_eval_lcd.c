@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32100b_eval_lcd.c
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file includes the LCD driver for AM-240320LTNQW00H (LCD_HX8312),
   *          AM-240320L8TNQW00H (LCD_ILI9320), AM-240320LDTNQW00H (LCD_SPFD5408B)
   *          Liquid Crystal Display Module of STM32100B-EVAL board.
@@ -963,18 +963,18 @@ void LCD_DrawBMP(uint32_t BmpAddress)
 {
   uint32_t i = 0, size = 0;
   /* Read bitmap size */
-  SPI_FLASH_BufferRead((uint8_t*)&size, BmpAddress + 2, 4);
+  sFLASH_ReadBuffer((uint8_t*)&size, BmpAddress + 2, 4);
   /* get bitmap data address offset */
-  SPI_FLASH_BufferRead((uint8_t*)&i, BmpAddress + 10, 4);
+  sFLASH_ReadBuffer((uint8_t*)&i, BmpAddress + 10, 4);
   
   size = (size - i)/2;
-  SPI_FLASH_StartReadSequence(BmpAddress + i);
-  /* Disable SPI1  */
-  SPI_Cmd(SPI1, DISABLE);
+  sFLASH_StartReadSequence(BmpAddress + i);
+  /* Disable LCD_SPI  */
+  SPI_Cmd(LCD_SPI, DISABLE);
   /* SPI in 16-bit mode */
-  SPI_DataSizeConfig(SPI1, SPI_DataSize_16b);
-  /* Enable SPI1  */
-  SPI_Cmd(SPI1, ENABLE);
+  SPI_DataSizeConfig(LCD_SPI, SPI_DataSize_16b);
+  /* Enable LCD_SPI  */
+  SPI_Cmd(LCD_SPI, ENABLE);
   
   if((LCDType == LCD_ILI9320) || (LCDType == LCD_SPFD5408))
   {
@@ -988,7 +988,7 @@ void LCD_DrawBMP(uint32_t BmpAddress)
   /* Read bitmap data from SPI Flash and send them to LCD */
   for(i = 0; i < size; i++)
   {
-    LCD_WriteRAM(__REV16(SPI_FLASH_SendHalfWord(0xA5A5)));
+    LCD_WriteRAM(__REV16(sFLASH_SendHalfWord(0xA5A5)));
   }
   if((LCDType == LCD_ILI9320) || (LCDType == LCD_SPFD5408))
   {
@@ -996,13 +996,13 @@ void LCD_DrawBMP(uint32_t BmpAddress)
   }
 
   /* Deselect the FLASH: Chip Select high */
-  SPI_FLASH_CS_HIGH();
-  /* Disable SPI1  */
-  SPI_Cmd(SPI1, DISABLE);
+  sFLASH_CS_HIGH();
+  /* Disable LCD_SPI  */
+  SPI_Cmd(LCD_SPI, DISABLE);
   /* SPI in 8-bit mode */
-  SPI_DataSizeConfig(SPI1, SPI_DataSize_8b);
-  /* Enable SPI1  */
-  SPI_Cmd(SPI1, ENABLE);
+  SPI_DataSizeConfig(LCD_SPI, SPI_DataSize_8b);
+  /* Enable LCD_SPI  */
+  SPI_Cmd(LCD_SPI, ENABLE);
 
   if((LCDType == LCD_ILI9320) || (LCDType == LCD_SPFD5408))
   {

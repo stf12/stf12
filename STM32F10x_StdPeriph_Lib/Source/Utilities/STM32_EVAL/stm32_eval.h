@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval.h
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   Header file for stm32_eval.c module.
   ******************************************************************************
   * @copy
@@ -64,6 +64,8 @@
    STM3210C-EVAL   |  4  |    3     |     1     | YES (SPI) | YES  |  NO    | YES |   NO    |    YES   |    NO     |
   -----------------------------------------------------------------------------------------------------------------+
    STM32100B-EVAL  |  4  |    8     |     2     | YES (SPI) | NO   |  YES   | NO  |   YES   |    YES   |    NO     |
+  -----------------------------------------------------------------------------------------------------------------+
+   STM32100E-EVAL  |  4  |    8     |     2     | YES (FSMC)| YES  |  YES   | YES |   YES   |    YES   |    NO     |      
   =================================================================================================================+
 @endcode
 */
@@ -132,11 +134,13 @@ typedef enum
   *  Tip: To avoid modifying this file each time you need to switch between these
   *       boards, you can define the board in your toolchain compiler preprocessor.    
   */ 
-#if !defined (USE_STM32100B_EVAL) && !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL) &&  !defined (USE_STM3210C_EVAL)
+#if !defined (USE_STM32100B_EVAL) && !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL)\
+   &&  !defined (USE_STM3210C_EVAL) &&  !defined (USE_STM32100E_EVAL)
  //#define USE_STM32100B_EVAL
  //#define USE_STM3210B_EVAL
  //#define USE_STM3210E_EVAL
  //#define USE_STM3210C_EVAL
+ //#define USE_STM32100E_EVAL
 #endif
 
 #ifdef USE_STM32100B_EVAL
@@ -151,6 +155,9 @@ typedef enum
 #elif defined USE_STM3210C_EVAL
  #include "stm32f10x.h"
  #include "stm3210c_eval/stm3210c_eval.h"
+#elif defined USE_STM32100E_EVAL
+ #include "stm32f10x.h"
+ #include "stm32100e_eval/stm32100e_eval.h"
 #else 
  #error "Please select first the STM32 EVAL board to be used (in stm32_eval.h)"
 #endif                      

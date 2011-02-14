@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210b_eval.c
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file provides
   *            - set of firmware functions to manage Leds, push-button and COM ports
   *            - low level initialization functions for SD card (on SPI), SPI serial
@@ -423,14 +423,15 @@ void SD_LowLevel_Init(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
   GPIO_Init(SD_SPI_SCK_GPIO_PORT, &GPIO_InitStructure);
 
-  /*!< Configure SD_SPI pins: MISO */
-  GPIO_InitStructure.GPIO_Pin = SD_SPI_MISO_PIN;
-  GPIO_Init(SD_SPI_MISO_GPIO_PORT, &GPIO_InitStructure);
-
   /*!< Configure SD_SPI pins: MOSI */
   GPIO_InitStructure.GPIO_Pin = SD_SPI_MOSI_PIN;
   GPIO_Init(SD_SPI_MOSI_GPIO_PORT, &GPIO_InitStructure);
 
+  /*!< Configure SD_SPI pins: MISO */
+  GPIO_InitStructure.GPIO_Pin = SD_SPI_MISO_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  
+  GPIO_Init(SD_SPI_MISO_GPIO_PORT, &GPIO_InitStructure);
+  
   /*!< Configure SD_SPI_CS_PIN pin: SD Card CS pin */
   GPIO_InitStructure.GPIO_Pin = SD_CS_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -515,14 +516,15 @@ void sFLASH_LowLevel_Init(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
   GPIO_Init(sFLASH_SPI_SCK_GPIO_PORT, &GPIO_InitStructure);
 
-  /*!< Configure sFLASH_SPI pins: MISO */
-  GPIO_InitStructure.GPIO_Pin = sFLASH_SPI_MISO_PIN;
-  GPIO_Init(sFLASH_SPI_MISO_GPIO_PORT, &GPIO_InitStructure);
-
   /*!< Configure sFLASH_SPI pins: MOSI */
   GPIO_InitStructure.GPIO_Pin = sFLASH_SPI_MOSI_PIN;
   GPIO_Init(sFLASH_SPI_MOSI_GPIO_PORT, &GPIO_InitStructure);
 
+  /*!< Configure sFLASH_SPI pins: MISO */
+  GPIO_InitStructure.GPIO_Pin = sFLASH_SPI_MISO_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  
+  GPIO_Init(sFLASH_SPI_MISO_GPIO_PORT, &GPIO_InitStructure);
+  
   /*!< Configure sFLASH_CS_PIN pin: sFLASH Card CS pin */
   GPIO_InitStructure.GPIO_Pin = sFLASH_CS_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;

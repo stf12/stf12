@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_sdio_sd.c
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file provides a set of functions needed to manage the SDIO SD 
   *          Card memory mounted on STM32xx-EVAL board (refer to stm32_eval.h
   *          to know about the boards supporting this memory). 
@@ -171,6 +171,7 @@ uint32_t *SrcBuffer, *DestBuffer;
 __IO SD_Error TransferError = SD_OK;
 __IO uint32_t TransferEnd = 0;
 __IO uint32_t NumberOfBytes = 0;
+SD_CardInfo SDCardInfo;
 SDIO_InitTypeDef SDIO_InitStructure;
 SDIO_CmdInitTypeDef SDIO_CmdInitStructure;
 SDIO_DataInitTypeDef SDIO_DataInitStructure;   
@@ -221,7 +222,7 @@ void SD_DeInit(void)
 SD_Error SD_Init(void)
 {
   SD_Error errorstatus = SD_OK;
-  SD_CardInfo sdcardinfo;
+  
   /* SDIO Peripheral Low Level Init */
   SD_LowLevel_Init();
 
@@ -244,7 +245,7 @@ SD_Error SD_Init(void)
   }
 
   /*!< Configure the SDIO peripheral */
-  /*!< SDIOCLK = HCLK, SDIO_CK = HCLK/(2 + SDIO_TRANSFER_CLK_DIV) */
+  /*!< SDIOCLK = HCLK, SDIO_CK = HCLK/(2 + SDIO_TRANSFER_CLK_DIV) */ 
   SDIO_InitStructure.SDIO_ClockDiv = SDIO_TRANSFER_CLK_DIV; 
   SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
   SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
@@ -256,13 +257,13 @@ SD_Error SD_Init(void)
   if (errorstatus == SD_OK)
   {
     /*----------------- Read CSD/CID MSD registers ------------------*/
-    errorstatus = SD_GetCardInfo(&sdcardinfo);
+    errorstatus = SD_GetCardInfo(&SDCardInfo);
   }
 
   if (errorstatus == SD_OK)
   {
     /*----------------- Select Card --------------------------------*/
-    errorstatus = SD_SelectDeselect((uint32_t) (sdcardinfo.RCA << 16));
+    errorstatus = SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16));
   }
 
   if (errorstatus == SD_OK)
@@ -359,14 +360,13 @@ uint8_t SD_Detect(void)
 SD_Error SD_PowerON(void)
 {
   SD_Error errorstatus = SD_OK;
-  uint32_t response = 0, count = 0;
-  bool validvoltage = FALSE;
+  uint32_t response = 0, count = 0, validvoltage = 0;
   uint32_t SDType = SD_STD_CAPACITY;
 
   /*!< Power ON Sequence -----------------------------------------------------*/
   /*!< Configure the SDIO peripheral */
   /*!< SDIOCLK = HCLK, SDIO_CK = HCLK/(2 + SDIO_INIT_CLK_DIV) */
-  /*!< SDIO_CK for initialization should not exceed 400 KHz */    
+  /*!< SDIO_CK for initialization should not exceed 400 KHz */  
   SDIO_InitStructure.SDIO_ClockDiv = SDIO_INIT_CLK_DIV;
   SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
   SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
@@ -476,7 +476,7 @@ SD_Error SD_PowerON(void)
       }
 
       response = SDIO_GetResponse(SDIO_RESP1);
-      validvoltage = (bool) (((response >> 31) == 1) ? 1 : 0);
+      validvoltage = (((response >> 31) == 1) ? 1 : 0);
       count++;
     }
     if (count >= SD_MAX_VOLT_TRIAL)
@@ -846,11 +846,7 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
         SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
         SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
         SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
-#ifdef USE_STM3210E_EVAL
         SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
-#else
-        SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Enable;
-#endif
         SDIO_Init(&SDIO_InitStructure);
       }
     }
@@ -866,11 +862,7 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
         SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
         SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
         SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_1b;
-#ifdef USE_STM3210E_EVAL
         SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
-#else
-        SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Enable;
-#endif
         SDIO_Init(&SDIO_InitStructure);
       }
     }
@@ -1085,7 +1077,12 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize)
     SDIO_ITConfig(SDIO_IT_DCRCFAIL | SDIO_IT_DTIMEOUT | SDIO_IT_DATAEND | SDIO_IT_RXOVERR | SDIO_IT_STBITERR, ENABLE);
     SDIO_DMACmd(ENABLE);
     SD_LowLevel_DMA_RxConfig((uint32_t *)readbuff, BlockSize);
-    SD_WaitForDMAEndOfTransfer();
+    while ((SD_DMAEndOfTransferStatus() == RESET) && (TransferEnd == 0) && (TransferError == SD_OK))
+    {}
+    if (TransferError != SD_OK)
+    {
+      return(TransferError);
+    }
   }
   return(errorstatus);
 }
@@ -1281,8 +1278,7 @@ SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint32_t ReadAddr, uint16_t Block
       SDIO_ITConfig(SDIO_IT_DCRCFAIL | SDIO_IT_DTIMEOUT | SDIO_IT_DATAEND | SDIO_IT_RXOVERR | SDIO_IT_STBITERR, ENABLE);
       SDIO_DMACmd(ENABLE);
       SD_LowLevel_DMA_RxConfig((uint32_t *)readbuff, (NumberOfBlocks * BlockSize));
-      SD_WaitForDMAEndOfTransfer();     
-      while ((TransferEnd == 0) && (TransferError == SD_OK))
+      while ((SD_DMAEndOfTransferStatus() == RESET) && (TransferEnd == 0) && (TransferError == SD_OK))
       {}
       if (TransferError != SD_OK)
       {
@@ -1501,8 +1497,7 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
     SDIO_ITConfig(SDIO_IT_DCRCFAIL | SDIO_IT_DTIMEOUT | SDIO_IT_DATAEND | SDIO_IT_TXUNDERR | SDIO_IT_STBITERR, ENABLE);
     SD_LowLevel_DMA_TxConfig((uint32_t *)writebuff, BlockSize);
     SDIO_DMACmd(ENABLE);
-    SD_WaitForDMAEndOfTransfer();
-    while ((TransferEnd == 0) && (TransferError == SD_OK))
+    while ((SD_DMAEndOfTransferStatus() == RESET) && (TransferEnd == 0) && (TransferError == SD_OK))
     {}
     if (TransferError != SD_OK)
     {
@@ -1537,9 +1532,10 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
   SD_Error errorstatus = SD_OK;
   uint8_t  power = 0, cardstate = 0;
   uint32_t bytestransferred = 0;
-  uint32_t count = 0, restwords = 0;
+  uint32_t restwords = 0;
   uint32_t *tempbuff = (uint32_t *)writebuff;
-
+  __IO uint32_t count = 0;
+  
   if (writebuff == NULL)
   {
     errorstatus = SD_INVALID_PARAMETER;
@@ -1770,8 +1766,7 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
       SDIO_ITConfig(SDIO_IT_DCRCFAIL | SDIO_IT_DTIMEOUT | SDIO_IT_DATAEND | SDIO_IT_TXUNDERR | SDIO_IT_STBITERR, ENABLE);
       SDIO_DMACmd(ENABLE);
       SD_LowLevel_DMA_TxConfig((uint32_t *)writebuff, (NumberOfBlocks * BlockSize));
-      SD_WaitForDMAEndOfTransfer();
-      while ((TransferEnd == 0) && (TransferError == SD_OK))
+      while ((SD_DMAEndOfTransferStatus() == RESET) && (TransferEnd == 0) && (TransferError == SD_OK))
       {}
       if (TransferError != SD_OK)
       {
@@ -1781,7 +1776,11 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t Bl
   }
   /*!< Clear all the static flags */
   SDIO_ClearFlag(SDIO_STATIC_FLAGS);
-
+  
+  /*!< Add some delay before checking the Card Status */
+  for(count = 0; count < 0xFFFF; count++)
+  {
+  }
   /*!< Wait till the card is in programming state */
   errorstatus = IsCardProgramming(&cardstate);
 

@@ -2,14 +2,14 @@
  ******************************************************************************
  * @file      startup_stm32f10x_hd.s
  * @author    MCD Application Team
- * @version   V3.3.0
- * @date      04/16/2010
+ * @version   V3.4.0
+ * @date      10/15/2010
  * @brief     STM32F10x High Density Devices vector table for Atollic toolchain.
  *            This module performs:
  *                - Set the initial SP
  *                - Set the initial PC == Reset_Handler,
  *                - Set the vector table entries with the exceptions ISR address,
- *                - Configure the clock system
+ *                - Configure the clock system  
  *                - Configure external SRAM mounted on STM3210E-EVAL board
  *                  to be used as data memory (optional, to be enabled by user)
  *                - Branches to main in the C library (which eventually
@@ -35,7 +35,6 @@
 	.thumb
 
 .global	g_pfnVectors
-.global	SystemInit_ExtMemCtl_Dummy
 .global	Default_Handler
 
 /* start address for the initialization values of the .data section.
@@ -49,9 +48,7 @@ defined in linker script */
 .word	_sbss
 /* end address for the .bss section. defined in linker script */
 .word	_ebss
-/* stack used for SystemInit_ExtMemCtl; always internal RAM used */
 
-.equ  Initial_spTop,  0x20000400
 .equ  BootRAM,        0xF1E0F85F
 /**
  * @brief  This is the code that gets called when the processor first
@@ -67,12 +64,6 @@ defined in linker script */
 	.type	Reset_Handler, %function
 Reset_Handler:
 
-/* FSMC Bank1 NOR/SRAM3 is used for the STM3210E-EVAL, if another Bank is
-  required, then adjust the Register Addresses */
-  bl	SystemInit_ExtMemCtl
-/* restore original stack pointer */
-  LDR r0, =_estack
-  MSR msp, r0
 /* Copy the data segment initializers from flash to SRAM */
   movs	r1, #0
   b	LoopCopyDataInit
@@ -104,21 +95,11 @@ LoopFillZerobss:
 /* Call the clock system intitialization function.*/
     bl  SystemInit
 /* Call static constructors */
-/*  bl __libc_init_array */
+    bl __libc_init_array
 /* Call the application's entry point.*/
 	bl	main
 	bx	lr
 .size	Reset_Handler, .-Reset_Handler
-
-/**
- * @brief  Dummy SystemInit_ExtMemCtl function
- * @param  None
- * @retval : None
-*/
-	.section	.text.SystemInit_ExtMemCtl_Dummy,"ax",%progbits
-SystemInit_ExtMemCtl_Dummy:
-	bx	lr
-	.size	SystemInit_ExtMemCtl_Dummy, .-SystemInit_ExtMemCtl_Dummy
 
 /**
  * @brief  This is the code that gets called when the processor receives an
@@ -146,7 +127,7 @@ Infinite_Loop:
 
 
 g_pfnVectors:
-	.word	Initial_spTop
+	.word	_estack
 	.word	Reset_Handler
 	.word	NMI_Handler
 	.word	HardFault_Handler
@@ -483,8 +464,5 @@ g_pfnVectors:
 
 	.weak	DMA2_Channel4_5_IRQHandler
 	.thumb_set DMA2_Channel4_5_IRQHandler,Default_Handler
-
-	.weak	SystemInit_ExtMemCtl
-	.thumb_set SystemInit_ExtMemCtl,SystemInit_ExtMemCtl_Dummy
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

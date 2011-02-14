@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_spi_sd.c
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file provides a set of functions needed to manage the SPI SD 
   *          Card memory mounted on STM32xx-EVAL board (refer to stm32_eval.h
   *          to know about the boards supporting this memory). 
@@ -216,7 +216,7 @@ SD_Error SD_ReadBlock(uint8_t* pBuffer, uint32_t ReadAddr, uint16_t BlockSize)
       {
         /*!< Save the received data */
         *pBuffer = SD_ReadByte();
-        *        
+       
         /*!< Point to the next location where the byte read will be saved */
         pBuffer++;
       }

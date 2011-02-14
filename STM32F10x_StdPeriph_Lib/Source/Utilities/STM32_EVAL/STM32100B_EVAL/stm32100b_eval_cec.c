@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32100b_eval_cec.c
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file provides all the STM32100B-EVAL HDMI-CEC firmware functions.
   ******************************************************************************
   * @copy

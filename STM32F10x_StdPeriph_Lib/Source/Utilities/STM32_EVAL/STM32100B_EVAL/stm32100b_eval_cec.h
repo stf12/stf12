@@ -2,8 +2,8 @@
  ******************************************************************************
  * @file     stm32100b_eval_cec.h
  * @author   MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
  * @brief    This file contains all the functions prototypes for the stm32100b_eval_cec
  *           firmware driver.
  ******************************************************************************

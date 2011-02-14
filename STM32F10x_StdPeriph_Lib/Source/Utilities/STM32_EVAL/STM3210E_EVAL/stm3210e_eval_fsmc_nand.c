@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval_fsmc_nand.c
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file provides a set of functions needed to drive the
   *          NAND512W3A2 memory mounted on STM3210E-EVAL board.
   ******************************************************************************
@@ -134,10 +134,10 @@ void NAND_Init(void)
   GPIO_Init(GPIOG, &GPIO_InitStructure);
 
   /*-- FSMC Configuration ------------------------------------------------------*/
-  p.FSMC_SetupTime = 0x1;
-  p.FSMC_WaitSetupTime = 0x3;
-  p.FSMC_HoldSetupTime = 0x2;
-  p.FSMC_HiZSetupTime = 0x1;
+  p.FSMC_SetupTime = 0x0;
+  p.FSMC_WaitSetupTime = 0x2;
+  p.FSMC_HoldSetupTime = 0x1;
+  p.FSMC_HiZSetupTime = 0x0;
 
   FSMC_NANDInitStructure.FSMC_Bank = FSMC_Bank2_NAND;
   FSMC_NANDInitStructure.FSMC_Waitfeature = FSMC_Waitfeature_Enable;
@@ -263,8 +263,6 @@ uint32_t NAND_ReadSmallPage(uint8_t *pBuffer, NAND_ADDRESS Address, uint32_t Num
     *(__IO uint8_t *)(Bank_NAND_ADDR | ADDR_AREA) = ADDR_2nd_CYCLE(ROW_ADDRESS);
     *(__IO uint8_t *)(Bank_NAND_ADDR | ADDR_AREA) = ADDR_3rd_CYCLE(ROW_ADDRESS);
     
-    *(__IO uint8_t *)(Bank_NAND_ADDR | CMD_AREA) = NAND_CMD_AREA_TRUE1;
-
     /*!< Calculate the size */
     size = NAND_PAGE_SIZE + (NAND_PAGE_SIZE * numpageread);
     
@@ -373,8 +371,6 @@ uint32_t NAND_ReadSpareArea(uint8_t *pBuffer, NAND_ADDRESS Address, uint32_t Num
     *(__IO uint8_t *)(Bank_NAND_ADDR | ADDR_AREA) = ADDR_1st_CYCLE(ROW_ADDRESS);
     *(__IO uint8_t *)(Bank_NAND_ADDR | ADDR_AREA) = ADDR_2nd_CYCLE(ROW_ADDRESS);
     *(__IO uint8_t *)(Bank_NAND_ADDR | ADDR_AREA) = ADDR_3rd_CYCLE(ROW_ADDRESS);
-
-    *(__IO uint8_t *)(Bank_NAND_ADDR | CMD_AREA) = NAND_CMD_AREA_TRUE1;
 
     /*!< Data Read */
     size = NAND_SPARE_AREA_SIZE +  (NAND_SPARE_AREA_SIZE * numsparearearead);

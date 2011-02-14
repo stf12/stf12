@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_spi_sd.h
   * @author  MCD Application Team
-  * @version V4.2.0
-  * @date    04/16/2010
+  * @version V4.3.0
+  * @date    10/15/2010
   * @brief   This file contains all the functions prototypes for the stm32_eval_spi_sd
   *          firmware driver.
   ******************************************************************************
@@ -71,7 +71,7 @@ typedef enum
   SD_DATA_OK                = (0x05),
   SD_DATA_CRC_ERROR         = (0x0B),
   SD_DATA_WRITE_ERROR       = (0x0D),
-  SD_DATA_OTHER_ERROR       = (0xFF),
+  SD_DATA_OTHER_ERROR       = (0xFF)
 } SD_Error;
 
 /** 
