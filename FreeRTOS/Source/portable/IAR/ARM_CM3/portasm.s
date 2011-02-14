@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V6.1.0 - Copyright (C) 2010 Real Time Engineers Ltd.
+    FreeRTOS V6.1.1 - Copyright (C) 2011 Real Time Engineers Ltd.
 
     ***************************************************************************
     *                                                                         *
@@ -33,9 +33,9 @@
     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details. You should have received a copy of the GNU General Public 
-    License and the FreeRTOS license exception along with FreeRTOS; if not it 
-    can be viewed here: http://www.freertos.org/a00114.html and also obtained 
+    more details. You should have received a copy of the GNU General Public
+    License and the FreeRTOS license exception along with FreeRTOS; if not it
+    can be viewed here: http://www.freertos.org/a00114.html and also obtained
     by writing to Richard Barry, contact details for whom are available on the
     FreeRTOS WEB site.
 
@@ -51,13 +51,6 @@
     licensing and training services.
 */
 
-/*
-	Change from V4.2.1:
-
-	+ Introduced usage of configKERNEL_INTERRUPT_PRIORITY macro to set the
-	  interrupt priority used by the kernel.
-*/
-
 #include <FreeRTOSConfig.h>
 
 /* For backward compatibility, ensure configKERNEL_INTERRUPT_PRIORITY is
@@ -67,10 +60,8 @@ FreeRTOS.org versions prior to V4.3.0 did not include this definition. */
 	#define configKERNEL_INTERRUPT_PRIORITY 0
 #endif
 
-#define vPortSVCHandler SVC_Handler
 #define xPortPendSVHandler PendSV_Handler
-#define xPortSysTickHandler SysTick_Handler
-
+#define vPortSVCHandler SVC_Handler
 	
 	RSEG    CODE:CODE(2)
 	thumb
@@ -161,6 +152,7 @@ vPortStartFirstTask
 	/* Set the msp back to the start of the stack. */
 	msr msp, r0
 	/* Call SVC to start the first task. */
+	cpsie i
 	svc 0
 
 	END
