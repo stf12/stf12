@@ -67,6 +67,10 @@ FreeRTOS.org versions prior to V4.3.0 did not include this definition. */
 	#define configKERNEL_INTERRUPT_PRIORITY 0
 #endif
 
+#define vPortSVCHandler SVC_Handler
+#define xPortPendSVHandler PendSV_Handler
+#define xPortSysTickHandler SysTick_Handler
+
 	
 	RSEG    CODE:CODE(2)
 	thumb

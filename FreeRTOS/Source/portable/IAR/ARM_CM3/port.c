@@ -66,6 +66,11 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#define vPortSVCHandler SVC_Handler
+#define xPortPendSVHandler PendSV_Handler
+#define xPortSysTickHandler SysTick_Handler
+
+
 /* Constants required to manipulate the NVIC. */
 #define portNVIC_SYSTICK_CTRL		( ( volatile unsigned long *) 0xe000e010 )
 #define portNVIC_SYSTICK_LOAD		( ( volatile unsigned long *) 0xe000e014 )
