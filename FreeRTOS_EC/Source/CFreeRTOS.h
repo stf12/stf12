@@ -2,7 +2,7 @@
  * @file CFreeRTOS.h
  * @class CFreeRTOS
  *
- * This class provide an interface for the <a href="http://www.freertos.org/a00020.html">Kernek Control FreeRTOA API</a>.
+ * This class provide an interface for the <a href="http://www.freertos.org/a00020.html">Kernek Control FreeRTOS API</a>.
  * Moreover provide a method used by the FreeRTOS Extension Layer to initialize the hardware resources of a managed task.
  * All methods are static and inline.
  *
