@@ -79,8 +79,8 @@ typedef struct
 /* #define USE_Delay */
 
 #ifdef USE_Delay
-#include "main.h"
- 
+
+  void Delay(uint32_t);
   #define _delay_     Delay  /* !< User can provide more timing precise _delay_ function
                                    (with 10ms time base), using SysTick for example */
 #else
