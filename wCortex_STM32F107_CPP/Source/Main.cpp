@@ -127,4 +127,9 @@ void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTask
 		for( ;; );
 	}
 
+extern "C"
+void Delay(uint32_t t) {
+	vTaskDelay(t / portTICK_RATE_MS);
+}
+
 

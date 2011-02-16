@@ -8,14 +8,14 @@
 #include "CLcdTask.h"
 
 //#include <stdio.h>
-#include "STCode\STM3210c_eval_lcd.h"
+#include "STM3210c_eval_lcd.h"
 #include "CFreeRTOS.h"
 
 
 CLcdTask CLcdTask::s_sharedInstance;
 
 CLcdTask::CLcdTask() {
-	m_nCurrentLine = Line3;
+	m_nCurrentLine = LCD_LINE_3;
 }
 
 CLcdTask::~CLcdTask() {
@@ -57,12 +57,12 @@ void CLcdTask::Run() {
 	/* Initialize the LCD and display a startup message that includes the
 	configured IP address. */
 	STM3210C_LCD_Init();
-	LCD_Clear(White);
-	LCD_SetTextColor(Green);
-	LCD_DisplayStringLine( Line0, ( unsigned char * ) "  www.FreeRTOS.org" );
-    LCD_SetTextColor(Blue);
-	LCD_DisplayStringLine( Line1, ( unsigned char * ) "  Hello C++ World!");
-	LCD_SetTextColor(Black);
+	LCD_Clear(LCD_COLOR_WHITE);
+	LCD_SetTextColor(LCD_COLOR_GREEN);
+	LCD_DisplayStringLine( LCD_LINE_0, ( unsigned char * ) "  www.FreeRTOS.org" );
+    LCD_SetTextColor(LCD_COLOR_BLUE);
+	LCD_DisplayStringLine( LCD_LINE_1, ( unsigned char * ) "  Hello C++ World!");
+	LCD_SetTextColor(LCD_COLOR_BLACK);
 
 	for( ;; )
 	{
@@ -71,13 +71,13 @@ void CLcdTask::Run() {
 
 		/* Move on to the next line. */
 		m_nCurrentLine += CLcdTask::LcdLineHeight;
-		if( m_nCurrentLine > Line9 )
+		if( m_nCurrentLine > LCD_LINE_9 )
 		{
 			// clear from Lin3 to Line9
-			for (uint8_t line=Line3; line<=Line9; line+=CLcdTask::LcdLineHeight)
+			for (uint8_t line=LCD_LINE_3; line<=LCD_LINE_9; line+=CLcdTask::LcdLineHeight)
 				LCD_ClearLine(line);
 
-			m_nCurrentLine = Line3;
+			m_nCurrentLine = LCD_LINE_3;
 		}
 
 		/* Display the received text */

@@ -110,5 +110,15 @@
 			<type>1</type>
 			<locationURI>WORKSPACE_LOC/FreeRTOS/Source/portable/MemMang/heap_2.c</locationURI>
 		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/STM3210C_EVAL</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/STM3210C_EVAL</locationURI>
+		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/stm32_eval.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/stm32_eval.h</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>
