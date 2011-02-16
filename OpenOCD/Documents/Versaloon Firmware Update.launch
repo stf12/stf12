@@ -2,6 +2,6 @@
 <launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/OpenOCD/Tools/Versaloon/vsprog.exe}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-ccomisp_stm32 -Z -C &quot;COM6&quot; -i ${versaloon_fw} -x0x08002000 -oe -owf"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-ccomisp_stm32 -Z -C &quot;COM6&quot; -i Versaloon0x15_openocd050.hex -x0x08002000 -oe -owf"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/OpenOCD/Tools/Versaloon}"/>
 </launchConfiguration>
