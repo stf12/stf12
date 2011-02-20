@@ -2,7 +2,7 @@
 <launchConfiguration type="org.eclipse.cdt.launch.applicationLaunchType">
 <booleanAttribute key="org.eclipse.cdt.debug.mi.core.AUTO_SOLIB" value="true"/>
 <listAttribute key="org.eclipse.cdt.debug.mi.core.AUTO_SOLIB_LIST"/>
-<stringAttribute key="org.eclipse.cdt.debug.mi.core.DEBUG_NAME" value="/home/stefano/Applications/CodeSourcery/Sourcery_G++_Lite/bin/arm-none-eabi-gdb"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.DEBUG_NAME" value="arm-none-eabi-gdb"/>
 <stringAttribute key="org.eclipse.cdt.debug.mi.core.DEV" value="/dev/ttyS0"/>
 <stringAttribute key="org.eclipse.cdt.debug.mi.core.DEV_SPEED" value="115200"/>
 <stringAttribute key="org.eclipse.cdt.debug.mi.core.GDB_INIT" value="OpenOCD/gdbinit"/>
