@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>wCORTEX_STM32F103E_Eclipse</name>
+	<name>wCORTEX_STM32F103E</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -99,6 +99,31 @@
 			<name>Source/FreeRTOS/heap_2.c</name>
 			<type>1</type>
 			<locationURI>WORKSPACE_LOC/FreeRTOS/Source/portable/MemMang/heap_2.c</locationURI>
+		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/STM32100E_EVAL</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/STM32100E_EVAL</locationURI>
+		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/stm32_eval.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/stm32_eval.h</locationURI>
+		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/Common/fonts.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/Common/fonts.h</locationURI>
+		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/Common/stm32_eval_spi_flash.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/Common/stm32_eval_spi_flash.c</locationURI>
+		</link>
+		<link>
+			<name>Source/STM32F10x_StdPeriph_Lib/STM32_EVAL/Common/stm32_eval_spi_flash.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/STM32F10x_StdPeriph_Lib/Source/Utilities/STM32_EVAL/Common/stm32_eval_spi_flash.h</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

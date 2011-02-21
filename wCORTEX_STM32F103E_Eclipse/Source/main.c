@@ -94,7 +94,7 @@
 #include "stm32f10x_it.h"
 
 /* Demo app includes. */
-#include "stm3210e_lcd.h"
+#include "stm32100e_eval_lcd.h"
 #include "LCD_Message.h"
 #include "death.h"
 #include "integer.h"
@@ -336,36 +336,12 @@ static void prvSetupHardware( void )
 static void prvConfigureLCD( void )
 {
 	/* Initialize the LCD */
-	STM3210E_LCD_Init();
+	STM32100E_LCD_Init();
 
 	/* Clear the LCD */
-	LCD_Clear(White);
-
-
-#ifdef LCD_MB542
-GPIO_InitTypeDef GPIO_InitStructure;
-
-	/* Configure LCD Back Light (PA8) as output push-pull */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init( GPIOA, &GPIO_InitStructure );
-
-	/* Set the Backlight Pin */
-	GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET);
-
-	/* Initialize the LCD */
-	LCD_Init();
-
-	/* Set the Back Color */
-	LCD_SetBackColor( White );
-
-	/* Set the Text Color */
-	LCD_SetTextColor( 0x051F );
-
-	LCD_Clear();
-#endif //LCD_MB5422
+	LCD_Clear(LCD_COLOR_WHITE);
 }
+
 /*-----------------------------------------------------------*/
 
 int putChar( int ch )
@@ -375,7 +351,7 @@ static unsigned portCHAR ucLine = 0;
 
 	if( ( usColumn == 0 ) && ( ucLine == 0 ) )
 	{
-		LCD_Clear(White);
+		LCD_Clear(LCD_COLOR_WHITE);
 	}
 
 	if( ch != '\n' )
@@ -410,6 +386,10 @@ static unsigned portCHAR ucLine = 0;
 	}
 
 	return ch;
+}
+
+void Delay(uint32_t t) {
+	vTaskDelay(t / portTICK_RATE_MS);
 }
 
 void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName )
