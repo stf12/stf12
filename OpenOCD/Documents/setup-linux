@@ -1,6 +1,0 @@
-#!/bin/bash
-# Setup OpenOCD
-# Version 1.0.0
-# by Stefano oliveri
-
-chmod a+x ../Linux/bin/*
