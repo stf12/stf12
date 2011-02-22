@@ -190,13 +190,10 @@ int main( void )
 
 	/* Start the standard demo tasks.  These are just here to exercise the
 	kernel port and provide examples of how the FreeRTOS API can be used. */
-//	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
-//    vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
-//    vStartIntegerMathTasks( mainINTEGER_TASK_PRIORITY );
+	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
+    vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
+    vStartIntegerMathTasks( mainINTEGER_TASK_PRIORITY );
 	vStartLEDFlashTasks( mainFLASH_TASK_PRIORITY );
-
-	/* Start all network task: ETH_INT, tcp/ip, httpd and n_calc */
-    vStartEthernetTasks(mainNET_TASK_BASE_PRIORITY, ( void * ) &xLCDQueue);
 
 	/* Create the queue used by the LCD task.  Messages for display on the LCD
 	are received via this queue. */
@@ -205,6 +202,9 @@ int main( void )
 	/* Start the LCD gatekeeper task - as described in the comments at the top
 	of this file. */
 	xTaskCreate( prvLCDTask, ( signed portCHAR * ) "LCD", configMINIMAL_STACK_SIZE * 2, NULL, mainLCD_TASK_PRIORITY, NULL );
+
+	/* Start all network task: ETH_INT, tcp/ip, httpd and n_calc */
+    vStartEthernetTasks(mainNET_TASK_BASE_PRIORITY, ( void * ) &xLCDQueue);
 
 	/* Configure the high frequency interrupt used to measure the interrupt
 	jitter time.  When debugging it can be helpful to comment this line out
@@ -226,8 +226,6 @@ int main( void )
 static void prvLCDTask( void *pvParameters )
 {
 unsigned char *pucMessage;
-unsigned long ulLine = Line3;
-const unsigned long ulLineHeight = 24;
 static char cMsgBuf[ 30 ];
 extern unsigned short usMaxJitter;
 
@@ -239,13 +237,17 @@ extern unsigned short usMaxJitter;
 	/* Initialise the LCD and display a startup message that includes the
 	configured IP address. */
 	STM3210C_LCD_Init();
-	LCD_Clear(White);
-	LCD_SetTextColor(Green);
-	LCD_DisplayStringLine( Line0, ( unsigned char * ) "  www.FreeRTOS.org" );
-    LCD_SetTextColor(Blue);
+	LCD_Clear(LCD_COLOR_WHITE);
+	LCD_SetTextColor(LCD_COLOR_GREEN);
+	LCD_DisplayStringLine( LCD_LINE_0, ( unsigned char * ) "  www.FreeRTOS.org" );
+    LCD_SetTextColor(LCD_COLOR_BLUE);
     sprintf( cMsgBuf, "  %d.%d.%d.%d", configIP_ADDR0, configIP_ADDR1, configIP_ADDR2, configIP_ADDR3 );
-	LCD_DisplayStringLine( Line1, ( unsigned char * ) cMsgBuf );
-	LCD_SetTextColor(Black);
+	LCD_DisplayStringLine( LCD_LINE_1, ( unsigned char * ) cMsgBuf );
+	LCD_SetTextColor(LCD_COLOR_BLACK);
+
+	unsigned long ulLine = LCD_LINE_3;
+	const unsigned long ulLineHeight = LCD_GetFont()->Height;//24;
+
 
 	for( ;; )
 	{
@@ -257,9 +259,9 @@ extern unsigned short usMaxJitter;
 
 		/* Move on to the next line. */
 		ulLine += ulLineHeight;
-		if( ulLine > Line9 )
+		if( ulLine > LCD_LINE_9 )
 		{
-			ulLine = Line3;
+			ulLine = LCD_LINE_3;
 		}
 
 		/* Display the received text, and the max jitter value. */
@@ -351,6 +353,6 @@ int putChar(int ch)
 	return ch;
 }
 
-//void Delay(uint32_t nCount) {
-//	vTaskDelay((portTickType)nCount);
-//}
+void Delay(uint32_t t) {
+	vTaskDelay(t / portTICK_RATE_MS);
+}
