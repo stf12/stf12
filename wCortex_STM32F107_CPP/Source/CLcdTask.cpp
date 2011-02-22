@@ -15,7 +15,7 @@
 CLcdTask CLcdTask::s_sharedInstance;
 
 CLcdTask::CLcdTask() {
-	m_nCurrentLine = LCD_LINE_3;
+
 }
 
 CLcdTask::~CLcdTask() {
@@ -63,6 +63,8 @@ void CLcdTask::Run() {
     LCD_SetTextColor(LCD_COLOR_BLUE);
 	LCD_DisplayStringLine( LCD_LINE_1, ( unsigned char * ) "  Hello C++ World!");
 	LCD_SetTextColor(LCD_COLOR_BLACK);
+
+	m_nCurrentLine = LCD_LINE_3;
 
 	for( ;; )
 	{
