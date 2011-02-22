@@ -7,8 +7,8 @@ define hookpost-step
 mon cortex_m3 maskisr off
 end
 
+clear main
 b main
 monitor soft_reset_halt
 monitor sleep 500
 continue
-clear main
