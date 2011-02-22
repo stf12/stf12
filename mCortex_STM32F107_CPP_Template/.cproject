@@ -68,7 +68,7 @@
 								</option>
 								<option id="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.functionsections.1226214033" name="Function sections (-ffunction-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.functionsections" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.datasections.78424046" name="Function sections (-fdata-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.datasections" value="true" valueType="boolean"/>
-								<option id="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.flags.1599098701" superClass="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.flags" value="-fno-threadsafe-statics " valueType="string"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.flags.1599098701" name="Other optimization flags" superClass="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.flags" value="-fno-threadsafe-statics " valueType="string"/>
 								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.cpp.compiler.base.input.1691206642" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.cpp.compiler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.linker.debug.756013776" name="ARM Sourcery Mac OS X GCC C Linker" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.linker.debug"/>
