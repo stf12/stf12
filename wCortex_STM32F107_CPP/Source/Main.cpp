@@ -27,6 +27,7 @@
 #include "CHelloWorld.h"
 #include "CLcdTask.h"
 #include "CGuardTestTask.h"
+#include "CMessageTestTask.h"
 
 #include "CHeapTestTask.h"
 
@@ -60,6 +61,8 @@ CCheckTask g_checkTask(4000/portTICK_RATE_MS);
 CHeapTestTask g_HeapTestTask;
 CHeapTestTaskMonitor g_HeapTestMonitorTask;
 
+CMessageTestTask g_MessageTestTask;
+
 /**
  * @brief: Main programma.
  */
@@ -83,12 +86,15 @@ int main() {
 	led3Task.Create("Led3", configMINIMAL_STACK_SIZE, mainFLASH_TASK_PRIORITY);
 
 	CSharedResourceEditor::StartGuardTestClass();
+	g_MessageTestTask.Create("msg_test", configMINIMAL_STACK_SIZE*2, 4);
+	static CMessageProducerTask s_MessageProduceTask(&g_MessageTestTask);
+	s_MessageProduceTask.Create("msg_prod", configMINIMAL_STACK_SIZE*2, 3);
 
-	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
-	ABlockQ::StartBlockingQueueTasks(&g_checkTask, mainBLOCK_Q_PRIORITY);
-	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
-	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
-	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
+//	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
+//	ABlockQ::StartBlockingQueueTasks(&g_checkTask, mainBLOCK_Q_PRIORITY);
+//	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
+//	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
+//	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
 
 
 	CFreeRTOS::InitHardwareForManagedTasks();
