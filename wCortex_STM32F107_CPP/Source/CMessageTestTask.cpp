@@ -10,7 +10,7 @@
 #define MSG_1 APP_MSG + 1
 #define MSG_2 APP_MSG + 2
 
-BEGIN_MESSAGE_MAP(CMessageTestTask)
+BEGIN_MESSAGE_MAP(CMessageTask, CMessageTestTask)
 	MESSAGE_MAP_ENTRY(CMessageTestTask, MSG_1, Message1Handler)
 	MESSAGE_MAP_ENTRY(CMessageTestTask, MSG_2, Message2Handler)
 END_MESSAGE_MAP(CMessageTestTask)
@@ -18,17 +18,6 @@ END_MESSAGE_MAP(CMessageTestTask)
 CMessageTestTask::CMessageTestTask() {
 	// TODO Auto-generated constructor stub
 
-}
-
-void CMessageTestTask::DispatchMessage(const CMessage &msg) {
-	for (int i=0; s_message_map[i].id!=NULL_MSG; ++i) {
-		if (s_message_map[i].id == msg.m_nId) {
-			(this->*s_message_map[i].MessageHandler)(msg.wParam);
-			return;
-		}
-	}
-
-	return CMessageTask::DispatchMessage(msg);
 }
 
 CMessageTestTask::~CMessageTestTask() {

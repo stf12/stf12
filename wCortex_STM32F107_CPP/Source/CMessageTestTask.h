@@ -11,12 +11,10 @@
 #include <CMessageTask.h>
 
 class CMessageTestTask: public CMessageTask {
-	DECLARE_MESSAGE_MAP(CMessageTestTask);
+	DECLARE_MESSAGE_MAP(CMessageTestTask)
 public:
 	CMessageTestTask();
 	virtual ~CMessageTestTask();
-
-	void DispatchMessage(const CMessage &msg);
 
 	void Message1Handler(unsigned long wParam);
 	void Message2Handler(unsigned long wParam);
