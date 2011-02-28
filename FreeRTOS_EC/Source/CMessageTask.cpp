@@ -9,14 +9,9 @@
 #include "CMessageTask.h"
 
 
-
-BEGIN_MESSAGE_MAP(CMessageTask)
-//	MESSAGE_MAP_ENTRY(CMessageTask, KEY_MSG, OnKey)
-//	MESSAGE_MAP_ENTRY(CMessageTask, WND_UPDATE_MSG, OnUpdate)
-//	MESSAGE_MAP_ENTRY(CMessageTask, WND_LOCK_ALL_CONTROL_MSG, OnLockAllControl)
-//	MESSAGE_MAP_ENTRY(CMessageTask, WND_UNLOCK_ALL_CONTROL_MSG, OnUnLockAllControl)
-//	MESSAGE_MAP_ENTRY(CMessageTask, WND_DISPLAY_INFO_MSG, OnDisplayInfo)
-END_MESSAGE_MAP(CMessageTask)
+const CMessageTask::message_map_entry_t CMessageTask::s_message_map[] = {
+		{ NULL_MSG, NULL }
+};
 
 CMessageTask::CMessageTask()
 {
@@ -43,10 +38,15 @@ void CMessageTask::Run() {
 
 		if ( m_queue.Receive(&msg, nRefreshRate) == pdTRUE ) {
 			// Message Handling routine
+
+			// Call the delegate, if one, before try to dispatch the event
+			if (m_pDelegate) m_pDelegate->OnHandleEvent(msg);
 			DispatchMessage(msg);
+			// Call the delegate, if one, after tried to dispatch the event
+			if (m_pDelegate) m_pDelegate->DidHandleEvent(msg);
 		}
 		else {
-			// Idle time processing.
+			// TODO: STF - ???
 		}
 	}
 }

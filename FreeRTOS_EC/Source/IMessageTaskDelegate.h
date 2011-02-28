@@ -11,7 +11,8 @@
 
 class IMessageTaskDelegate {
 public:
-	virtual void OnStartTest() =0;
+	virtual void OnHandleEvent(const CMessage &msg) =0;
+	virtual void DidHandleEvent(const CMessage &msg) =0;
 };
 
 #endif /* IDISPLAYDELEGATE_H_ */

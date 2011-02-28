@@ -67,8 +67,6 @@ public:
 
 	void PostMessage(CMessage *pMsg);
 	void PostMessageFromISR(CMessage *pMsg);
-	virtual void DispatchMessage(const CMessage &msg);
-
 };
 
 #endif /* CMESSAGETASK_H_ */

@@ -28,12 +28,22 @@ public:
 		unsigned short id;\
 		void (className::*MessageHandler)(unsigned long wParam);\
 	} message_map_entry_t;\
-	private: static const message_map_entry_t s_message_map[]
+	public:virtual void DispatchMessage(const CMessage &msg);\
+	private:static const message_map_entry_t s_message_map[];
 
 /**
  *
  */
-#define BEGIN_MESSAGE_MAP(className) \
+#define BEGIN_MESSAGE_MAP(baseClass, className) \
+	void className::DispatchMessage(const CMessage &msg) {\
+		for (int i=0; s_message_map[i].id!=NULL_MSG; ++i) {\
+			if (s_message_map[i].id == msg.m_nId) {\
+				(this->*s_message_map[i].MessageHandler)(msg.wParam);\
+				return;\
+			}\
+		}\
+		return baseClass::DispatchMessage(msg);\
+	}\
 	const className::message_map_entry_t className::s_message_map[] = {
 
 #define MESSAGE_MAP_ENTRY(className, messageId, messageHandler) \
