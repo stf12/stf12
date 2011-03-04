@@ -25,6 +25,10 @@
  *
  * The MessageMacro.h file export a set of macro in order to declare and define the message map in a derived class.
  *
+ * <b>Use Cases</b>
+ * 	- Gate keeper
+ * 	- Command Handler Task.
+ *
  * <b>Example</b>
  * \code
  * //In the header file

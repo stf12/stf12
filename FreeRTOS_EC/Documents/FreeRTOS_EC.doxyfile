@@ -114,7 +114,7 @@ FULL_PATH_NAMES = YES
 # If left blank the directory from which doxygen is run is used as the 
 # path to strip.
 
-STRIP_FROM_PATH = /Users/dimitri/doxygen/mail/1.5.7/doxywizard/ "J:/FreeRTOS 5.0.3/Demo/" "J/:FreeRTOS_EC_dev/FreeRTOS_EC/Source"
+STRIP_FROM_PATH = J:/FreeRTOS_EC_dev/FreeRTOS_EC/Source/
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of 
 # the path mentioned in the documentation of a class, which tells 
@@ -123,7 +123,7 @@ STRIP_FROM_PATH = /Users/dimitri/doxygen/mail/1.5.7/doxywizard/ "J:/FreeRTOS 5.0
 # definition is used. Otherwise one should specify the include paths that 
 # are normally passed to the compiler using the -I flag.
 
-STRIP_FROM_INC_PATH = "J:/FreeRTOS 5.0.3/Demo/Cortex_STM32F107_CPP/CppDemo/" "J:/FreeRTOS_EC_dev/FreeRTOS_EC/Source"
+STRIP_FROM_INC_PATH = J:/FreeRTOS_EC_dev/FreeRTOS_EC/Source/
 
 # If the SHORT_NAMES tag is set to YES, doxygen will generate much shorter 
 # (but less readable) file names. This can be useful is your file systems 
