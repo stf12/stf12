@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<title> Power Control </title>
+<script language="JavaScript">
+function message()
+{
+  if(confirm('Put Camera in Standby Mode'))
+  {return true}
+  else
+  {return false}
+  
+}
+
+function message1()
+{
+    if(confirm('Put Camera in Run Mode'))
+       {return true}
+    else
+       {return false}
+  
+
+} 
+
+</script>
+</head>
+
+<body bgcolor=#CCCCCC style="margin-left: 0%; margin-right: 0%; margin-top: 0%; margin-bottom: 0%">
+<form action="Power_Control.html" method=GET > 
+<INPUT TYPE="SUBMIT" name="dir" VALUE="Power ON" onClick="return message1();"> <br>
+ 
+</form>
+ <form action="Power_Control.html" method=GET > 
+<INPUT TYPE="SUBMIT" name="dir" VALUE="Power OFF" onClick="return message();"> 
+ 
+</form>
+
+
+</body>
+
+</html>
