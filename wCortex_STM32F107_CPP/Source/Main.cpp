@@ -25,7 +25,7 @@
 #include "CSemTest.h"
 
 #include "CHelloWorld.h"
-#include "CLcdTask.h"
+#include "CLcdTask2.h"
 #include "CGuardTestTask.h"
 #include "CMessageTestTask.h"
 
@@ -90,11 +90,11 @@ int main() {
 	static CMessageProducerTask s_MessageProduceTask(&g_MessageTestTask);
 	s_MessageProduceTask.Create("msg_prod", configMINIMAL_STACK_SIZE*2, 3);
 
-//	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
-//	ABlockQ::StartBlockingQueueTasks(&g_checkTask, mainBLOCK_Q_PRIORITY);
-//	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
-//	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
-//	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
+	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
+	ABlockQ::StartBlockingQueueTasks(&g_checkTask, mainBLOCK_Q_PRIORITY);
+	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
+	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
+	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
 
 
 	CFreeRTOS::InitHardwareForManagedTasks();

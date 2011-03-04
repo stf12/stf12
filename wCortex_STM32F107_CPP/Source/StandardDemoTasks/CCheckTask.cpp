@@ -6,7 +6,7 @@
  */
 
 #include "CCheckTask.h"
-#include "CLcdTask.h"
+#include "CLcdTask2.h"
 
 // ICommonDemoTask implementation
 /////////////////////////////////
@@ -51,6 +51,6 @@ void CCheckTask::Run() {
 		else
 			pcMsg = "Status: PASS";
 
-		CLcdTask::GetSharedInstance().Println(pcMsg);
+		CLcdTask2::GetSharedInstance().Println(pcMsg);
 	}
 }

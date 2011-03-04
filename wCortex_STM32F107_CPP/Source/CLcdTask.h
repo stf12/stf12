@@ -1,6 +1,9 @@
 /**
  * \file CLcdTask.h
  *
+ * This class was replaced by the CLcdTask2 class that show how to use the CMessageTask
+ * design pattern. This class is usefull to compare the two programming tecnique.
+ *
  * A simple interface to display text message on the screen of the STM32C-EVAL board.
  * It implements the singleton design pattern that match the underling gate-keeper concept
  * used by FreeRTOS.

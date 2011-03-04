@@ -1,5 +1,6 @@
-/*
- * CMessageTestTask.h
+/**
+ * @file CMessageTestTask.h
+ * @class CMessageTestTask
  *
  *  Created on: Feb 24, 2011
  *      Author: oliveris
@@ -20,6 +21,10 @@ public:
 	void Message2Handler(unsigned long wParam);
 };
 
+
+/**
+ * @class CMessageProducerTask
+ */
 class CMessageProducerTask: public AManagedTask {
 	CMessageTask *m_pMessageTask;
 public:
