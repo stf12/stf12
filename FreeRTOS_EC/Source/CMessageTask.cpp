@@ -16,6 +16,7 @@ const CMessageTask::message_map_entry_t CMessageTask::s_message_map[] = {
 CMessageTask::CMessageTask()
 {
 	m_pDelegate = NULL;
+	m_nTimeOut = portMAX_DELAY;
 }
 
 CMessageTask::~CMessageTask() {
@@ -31,12 +32,22 @@ portBASE_TYPE CMessageTask::OnCreate(const portCHAR * const pcName, unsigned por
 
 void CMessageTask::Run() {
 
-	const portTickType nRefreshRate = 300 / portTICK_RATE_MS;
+	// call task specific initialization code.
+	 if ( !OnInit() ) {
+#if INCLUDE_vTaskDelete == 1
+		 Delete();
+		 return;
+#else
+	 // The task must not start due to initialization problem, but the FreeRTOS
+	 // vTaskDelete function is not defined by configuration file. Suspend the task.
+		 Suspend();
+#endif
+	 }
 
 	CMessage msg;
 	for (;;) {
 
-		if ( m_queue.Receive(&msg, nRefreshRate) == pdTRUE ) {
+		if ( m_queue.Receive(&msg, m_nTimeOut) == pdTRUE ) {
 			// Message Handling routine
 
 			// Call the delegate, if one, before try to dispatch the event
@@ -46,7 +57,7 @@ void CMessageTask::Run() {
 			if (m_pDelegate) m_pDelegate->DidHandleEvent(msg);
 		}
 		else {
-			// TODO: STF - ???
+			// TODO: STF - timeout expired.
 		}
 	}
 }
@@ -60,25 +71,18 @@ void CMessageTask::DispatchMessage(const CMessage &msg) {
 	}
 }
 
-void CMessageTask::OnIdle() {
-
-//		if ( m_display.IsInvalid() ) {
-//		// post a WND_UPDATE_MSG message
-//		CMessage msg;
-//		msg.m_nId = WND_UPDATE_MSG;
-//
-//		PostMessageFromISR(&msg);
-//	}
-
+bool CMessageTask::PostMessage(CMessage *pMsg, portTickType nTicksToWait/*=portMAX_DELAY*/) {
+	return (bool)m_queue.Send(pMsg, nTicksToWait);
 }
 
-void CMessageTask::PostMessage(CMessage *pMsg) {
-	m_queue.Send(pMsg, portMAX_DELAY);
+bool CMessageTask::PostMessageFromISR(CMessage *pMsg, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+	return (bool)m_queue.SendFromISR(pMsg, pxHigherPriorityTaskWoken);
 }
 
-void CMessageTask::PostMessageFromISR(CMessage *pMsg) {
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	m_queue.SendFromISR(pMsg, &xHigherPriorityTaskWoken);
+bool CMessageTask::SendMessage(CMessage *pMsg, portTickType nTicksToWait/*=portMAX_DELAY*/) {
+	return (bool)m_queue.SendToFront(pMsg, nTicksToWait);
+}
 
-	portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
+bool CMessageTask::SenfFromISR(CMessage *pMsg, portBASE_TYPE * pxHigherPriorityTaskWoken) {
+	return (bool)m_queue.SendToFrontFromISR(pMsg, pxHigherPriorityTaskWoken);
 }
