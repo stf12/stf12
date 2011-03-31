@@ -68,7 +68,11 @@ extern "C" {
 
 #include "mpu_wrappers.h"
 
-
+/**
+ * Type by which queues are referenced.  For example, a call to xQueueCreate
+ * returns (via a pointer parameter) an xQueueHandle variable that can then
+ * be used as a parameter to xQueueSend(), xQueueReceive(), etc.
+ */
 typedef void * xQueueHandle;
 
 
@@ -140,7 +144,7 @@ xQueueHandle xQueueCreate( unsigned portBASE_TYPE uxQueueLength, unsigned portBA
  * <pre>
  portBASE_TYPE xQueueSendToToFront(
 								   xQueueHandle	xQueue,
-								   const	void	*	pvItemToQueue,
+								   const void	*	pvItemToQueue,
 								   portTickType	xTicksToWait
 							   );
  * </pre>
@@ -469,7 +473,7 @@ xQueueHandle xQueueCreate( unsigned portBASE_TYPE uxQueueLength, unsigned portBA
  * \defgroup xQueueSend xQueueSend
  * \ingroup QueueManagement
  */
-signed portBASE_TYPE xQueueGenericSend( xQueueHandle xQueue, const void * const pvItemToQueue, portTickType xTicksToWait, portBASE_TYPE xCopyPosition );
+signed portBASE_TYPE xQueueGenericSend( xQueueHandle pxQueue, const void * const pvItemToQueue, portTickType xTicksToWait, portBASE_TYPE xCopyPosition );
 
 /**
  * queue. h
@@ -784,7 +788,7 @@ unsigned portBASE_TYPE uxQueueMessagesWaiting( const xQueueHandle xQueue );
  * \page vQueueDelete vQueueDelete
  * \ingroup QueueManagement
  */
-void vQueueDelete( xQueueHandle xQueue );
+void vQueueDelete( xQueueHandle pxQueue );
 
 /**
  * queue. h
@@ -1223,8 +1227,8 @@ xQueueHandle xQueueCreateCountingSemaphore( unsigned portBASE_TYPE uxCountValue,
  * For internal use only.  Use xSemaphoreTakeMutexRecursive() or
  * xSemaphoreGiveMutexRecursive() instead of calling these functions directly.
  */
-portBASE_TYPE xQueueTakeMutexRecursive( xQueueHandle xMutex, portTickType xBlockTime );
-portBASE_TYPE xQueueGiveMutexRecursive( xQueueHandle xMutex );
+portBASE_TYPE xQueueTakeMutexRecursive( xQueueHandle pxMutex, portTickType xBlockTime );
+portBASE_TYPE xQueueGiveMutexRecursive( xQueueHandle pxMutex );
 
 /*
  * The registry is provided as a means for kernel aware debuggers to
@@ -1250,7 +1254,8 @@ portBASE_TYPE xQueueGiveMutexRecursive( xQueueHandle xMutex );
 	void vQueueAddToRegistry( xQueueHandle xQueue, signed char *pcName );
 #endif
 
-
+/* Not a public API function, hence the 'Restricted' in the name. */
+void vQueueWaitForMessageRestricted( xQueueHandle pxQueue, portTickType xTicksToWait );
 
 
 #ifdef __cplusplus
