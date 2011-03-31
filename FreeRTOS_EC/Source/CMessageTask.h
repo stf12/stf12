@@ -129,12 +129,26 @@ public:
 	virtual bool OnInit() { return true; }
 
 	/**
+	 * Called by the framework during the message loop when the timeout expire and no message are
+	 * received.
+	 */
+	virtual void OnTimeOut() {};
+
+	/**
 	 * Set the task delegate object. This object is notified during the message dispatching loop,
 	 * before and after the message is dispatched.
 	 * @param pDelegate specifies the delegate object. If <code>NULL</code> the current delegate
 	 * is removed.
 	 */
 	inline void SetDelegate(IMessageTaskDelegate *pDelegate);
+
+	/**
+	 * Set the timeout the will block waiting for new message. The default value is
+	 * <code>portMAX_DELAY</code> that cause the task will wait indefinitely.
+	 *
+	 * @param nNewTimeOut specifies a new timeout value.
+	 */
+	inline void SetTimeout(portTickType nNewTimeOut);
 
 	/**
 	 * Try to post a message to the task's message queue. This method block the calling task
@@ -194,6 +208,11 @@ public:
 inline
 void CMessageTask::SetDelegate(IMessageTaskDelegate *pDelegate) {
 	m_pDelegate = pDelegate;
+}
+
+inline
+void CMessageTask::SetTimeout(portTickType nNewTimeout) {
+	m_nTimeOut = nNewTimeout;
 }
 
 #endif /* CMESSAGETASK_H_ */

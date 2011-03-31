@@ -58,6 +58,7 @@ void CMessageTask::Run() {
 		}
 		else {
 			// TODO: STF - timeout expired.
+			OnTimeOut();
 		}
 	}
 }
