@@ -61,9 +61,13 @@ task.h is included from an application file. */
 #include "queue.h"
 #include "timers.h"
 
-#if configUSE_TIMERS == 1
-
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+
+/* This entire source file will be skipped if the application is not configured
+to include software timer functionality.  This #if is closed at the very bottom
+of this file.  If you want to include software timer functionality then ensure 
+configUSE_TIMERS is set to 1 in FreeRTOSConfig.h. */
+#if ( configUSE_TIMERS == 1 )
 
 /* Misc definitions. */
 #define tmrNO_DELAY		( portTickType ) 0U
@@ -623,4 +627,7 @@ xTIMER *pxTimer = ( xTIMER * ) xTimer;
 }
 /*-----------------------------------------------------------*/
 
-#endif // configUSE_TIMERS == 1
+/* This entire source file will be skipped if the application is not configured
+to include software timer functionality.  If you want to include software timer
+functionality then ensure configUSE_TIMERS is set to 1 in FreeRTOSConfig.h. */
+#endif /* configUSE_TIMERS == 1 */
