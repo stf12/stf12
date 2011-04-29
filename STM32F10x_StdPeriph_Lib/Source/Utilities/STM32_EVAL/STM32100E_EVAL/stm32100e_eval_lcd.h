@@ -17,7 +17,7 @@
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
   * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */
+  */ 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32100E_EVAL_LCD_H
@@ -25,7 +25,7 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif
+#endif 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
@@ -37,38 +37,39 @@
 
 /** @addtogroup STM32_EVAL
   * @{
-  */
+  */ 
 
 /** @addtogroup STM32100E_EVAL
   * @{
   */
-
+    
 /** @addtogroup STM32100E_EVAL_LCD
   * @{
-  */
+  */ 
 
 /** @defgroup STM32100E_EVAL_LCD_Exported_Types
   * @{
   */
-typedef struct
+typedef struct 
 {
   int16_t X;
   int16_t Y;
-} Point, * pPoint;
+} Point, * pPoint;   
 /**
   * @}
-  */
+  */ 
 
 /** @defgroup STM32100E_EVAL_LCD_Exported_Constants
   * @{
-  */
+  */ 
 
 /**
  * @brief Uncomment the line below if you want to use user defined Delay function
  *        (for precise timing), otherwise default _delay_ function defined within
- *         this driver is used (less precise timing).
+ *         this driver is used (less precise timing).  
  */
 /* #define USE_Delay */
+
 #ifdef USE_Delay
   void Delay(uint32_t t);
   #define _delay_     Delay  /* !< User can provide more timing precise _delay_ function
@@ -76,10 +77,10 @@ typedef struct
 #else
   #define _delay_     delay      /* !< Default _delay_ function with less precise timing */
 #endif
-
-/**
-  * @brief  LCD Registers
-  */
+ 
+/** 
+  * @brief  LCD Registers  
+  */ 
 #define LCD_REG_0             0x00
 #define LCD_REG_1             0x01
 #define LCD_REG_2             0x02
@@ -190,9 +191,9 @@ typedef struct
 #define LCD_REG_193           0xC1
 #define LCD_REG_229           0xE5
 
-/**
-  * @brief  LCD color
-  */
+/** 
+  * @brief  LCD color  
+  */ 
 #define LCD_COLOR_WHITE          0xFFFF
 #define LCD_COLOR_BLACK          0x0000
 #define LCD_COLOR_GREY           0xF7DE
@@ -204,8 +205,8 @@ typedef struct
 #define LCD_COLOR_CYAN           0x7FFF
 #define LCD_COLOR_YELLOW         0xFFE0
 
-/**
-  * @brief  LCD Lines depending on the chosen fonts.
+/** 
+  * @brief  LCD Lines depending on the chosen fonts.  
   */
 #define LCD_LINE_0               LINE(0)
 #define LCD_LINE_1               LINE(1)
@@ -238,44 +239,44 @@ typedef struct
 #define LCD_LINE_28              LINE(28)
 #define LCD_LINE_29              LINE(29)
 
-/**
-  * @brief LCD default font
-  */
+/** 
+  * @brief LCD default font 
+  */ 
 #define LCD_DEFAULT_FONT         Font16x24
 
-/**
-  * @brief  LCD Direction
-  */
+/** 
+  * @brief  LCD Direction  
+  */ 
 #define LCD_DIR_HORIZONTAL       0x0000
 #define LCD_DIR_VERTICAL         0x0001
 
-/**
-  * @brief  LCD Size (Width and Height)
-  */
+/** 
+  * @brief  LCD Size (Width and Height)  
+  */ 
 #define LCD_PIXEL_WIDTH          0x0140
 #define LCD_PIXEL_HEIGHT         0x00F0
 
 /**
   * @}
-  */
+  */ 
 
 /** @defgroup STM32100E_EVAL_LCD_Exported_Macros
   * @{
-  */
-#define ASSEMBLE_RGB(R, G, B)    ((((R)& 0xF8) << 8) | (((G) & 0xFC) << 3) | (((B) & 0xF8) >> 3))
+  */ 
+#define ASSEMBLE_RGB(R, G, B)    ((((R)& 0xF8) << 8) | (((G) & 0xFC) << 3) | (((B) & 0xF8) >> 3))  
 /**
   * @}
-  */
+  */ 
 
 /** @defgroup STM32100E_EVAL_LCD_Exported_Functions
   * @{
-  */
-/** @defgroup
+  */ 
+/** @defgroup  
   * @{
-  */
-void LCD_DeInit(void);
+  */ 
+void LCD_DeInit(void);  
 void STM32100E_LCD_Init(void);
-void LCD_SetColors(__IO uint16_t _TextColor, __IO uint16_t _BackColor);
+void LCD_SetColors(__IO uint16_t _TextColor, __IO uint16_t _BackColor); 
 void LCD_GetColors(__IO uint16_t *_TextColor, __IO uint16_t *_BackColor);
 void LCD_SetTextColor(__IO uint16_t Color);
 void LCD_SetBackColor(__IO uint16_t Color);
@@ -304,11 +305,11 @@ void LCD_ClosedPolyLineRelative(pPoint Points, uint16_t PointCount);
 void LCD_FillPolyLine(pPoint Points, uint16_t PointCount);
 /**
   * @}
-  */
+  */ 
 
-/** @defgroup
+/** @defgroup  
   * @{
-  */
+  */ 
 void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue);
 uint16_t LCD_ReadReg(uint8_t LCD_Reg);
 void LCD_WriteRAM_Prepare(void);
@@ -319,11 +320,11 @@ void LCD_DisplayOn(void);
 void LCD_DisplayOff(void);
 /**
   * @}
-  */
+  */ 
 
-/** @defgroup
+/** @defgroup  
   * @{
-  */
+  */ 
 void LCD_CtrlLinesConfig(void);
 void LCD_FSMCConfig(void);
 /**
@@ -332,7 +333,7 @@ void LCD_FSMCConfig(void);
 
 /**
   * @}
-  */
+  */    
 #ifdef __cplusplus
 }
 #endif
@@ -340,18 +341,18 @@ void LCD_FSMCConfig(void);
 #endif /* __STM32100E_EVAL_LCD_H */
 /**
   * @}
-  */
+  */ 
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */ 
 
 /**
   * @}
   */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
+  
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
