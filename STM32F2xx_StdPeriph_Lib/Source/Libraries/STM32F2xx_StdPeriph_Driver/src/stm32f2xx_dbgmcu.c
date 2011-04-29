@@ -2,11 +2,11 @@
   ******************************************************************************
   * @file    stm32f2xx_dbgmcu.c
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file provides all the DBGMCU firmware functions.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -15,8 +15,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx_dbgmcu.h"
@@ -25,58 +26,23 @@
   * @{
   */
 
-
-
 /** @defgroup DBGMCU 
   * @brief DBGMCU driver modules
   * @{
   */ 
 
-/** @defgroup DBGMCU_Private_TypesDefinitions
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-/** @defgroup DBGMCU_Private_Defines
-  * @{
-  */ 
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
 #define IDCODE_DEVID_MASK    ((uint32_t)0x00000FFF)
-/**
-  * @}
-  */ 
 
-
-/** @defgroup DBGMCU_Private_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-/** @defgroup DBGMCU_Private_Variables
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-/** @defgroup DBGMCU_Private_FunctionPrototypes
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
 
 /** @defgroup DBGMCU_Private_Functions
   * @{
   */ 
-
 
 /**
   * @brief  Returns the device revision identifier.
@@ -88,9 +54,8 @@ uint32_t DBGMCU_GetREVID(void)
    return(DBGMCU->IDCODE >> 16);
 }
 
-
 /**
-  * @brief   Returns the device identifier.
+  * @brief  Returns the device identifier.
   * @param  None
   * @retval Device identifier
   */
@@ -99,7 +64,6 @@ uint32_t DBGMCU_GetDEVID(void)
    return(DBGMCU->IDCODE & IDCODE_DEVID_MASK);
 }
 
-
 /**
   * @brief  Configures low power mode behavior when the MCU is in Debug mode.
   * @param  DBGMCU_Periph: specifies the low power mode.
@@ -107,7 +71,7 @@ uint32_t DBGMCU_GetDEVID(void)
   *     @arg DBGMCU_SLEEP: Keep debugger connection during SLEEP mode              
   *     @arg DBGMCU_STOP: Keep debugger connection during STOP mode               
   *     @arg DBGMCU_STANDBY: Keep debugger connection during STANDBY mode        
-  * @param  NewState: new state of the specified peripheral in Debug mode.
+  * @param  NewState: new state of the specified low power mode in Debug mode.
   *   This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
@@ -126,7 +90,6 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
   }
 }
 
-
 /**
   * @brief  Configures APB1 peripheral behavior when the MCU is in Debug mode.
   * @param  DBGMCU_Periph: specifies the APB1 peripheral.
@@ -140,7 +103,7 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
   *     @arg DBGMCU_TIM12_STOP: TIM12 counter stopped when Core is halted  
   *     @arg DBGMCU_TIM13_STOP: TIM13 counter stopped when Core is halted  
   *     @arg DBGMCU_TIM14_STOP: TIM14 counter stopped when Core is halted 
-  *     @arg DBGMCU_RTC_STOP: RTC counter stopped when Core is halted                                                                                 
+  *     @arg DBGMCU_RTC_STOP: RTC Wakeup counter stopped when Core is halted.                                                                                
   *     @arg DBGMCU_WWDG_STOP: Debug WWDG stopped when Core is halted
   *     @arg DBGMCU_IWDG_STOP: Debug IWDG stopped when Core is halted        
   *     @arg DBGMCU_I2C1_SMBUS_TIMEOUT: I2C1 SMBUS timeout mode stopped when Core is halted
@@ -166,7 +129,6 @@ void DBGMCU_APB1PeriphConfig(uint32_t DBGMCU_Periph, FunctionalState NewState)
     DBGMCU->APB1FZ &= ~DBGMCU_Periph;
   }
 }
-
 
 /**
   * @brief  Configures APB2 peripheral behavior when the MCU is in Debug mode.
@@ -196,19 +158,17 @@ void DBGMCU_APB2PeriphConfig(uint32_t DBGMCU_Periph, FunctionalState NewState)
     DBGMCU->APB2FZ &= ~DBGMCU_Periph;
   }
 }
-/**
-  * @}
-  */ 
-
 
 /**
   * @}
   */ 
 
+/**
+  * @}
+  */ 
 
 /**
   * @}
   */ 
 
-
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

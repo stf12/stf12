@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_sdio.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the SDIO firmware
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,8 +16,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_SDIO_H
@@ -38,9 +39,7 @@
   * @{
   */
 
-/** @defgroup SDIO_Exported_Types
-  * @{
-  */
+/* Exported types ------------------------------------------------------------*/
 
 typedef struct
 {
@@ -107,9 +106,8 @@ typedef struct
                                      This parameter can be a value of @ref SDIO_DPSM_State */
 } SDIO_DataInitTypeDef;
 
-/**
-  * @}
-  */ 
+
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup SDIO_Exported_Constants
   * @{
@@ -183,13 +181,13 @@ typedef struct
 
 #define SDIO_PowerState_OFF                 ((uint32_t)0x00000000)
 #define SDIO_PowerState_ON                  ((uint32_t)0x00000003)
-#define IS_SDIO_POWER_STATE(STATE) (((STATE) == SDIO_PowerState_OFF) || ((STATE) == SDIO_PowerState_ON)) 
+#define IS_SDIO_POWER_STATE(STATE) (((STATE) == SDIO_PowerState_OFF) || ((STATE) == SDIO_PowerState_ON))
 /**
   * @}
   */ 
 
 
-/** @defgroup SDIO_Interrupt_soucres 
+/** @defgroup SDIO_Interrupt_sources
   * @{
   */
 
@@ -231,7 +229,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup SDIO_Response_Type 
+/** @defgroup SDIO_Response_Type
   * @{
   */
 
@@ -245,7 +243,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup SDIO_Wait_Interrupt_State 
+/** @defgroup SDIO_Wait_Interrupt_State
   * @{
   */
 
@@ -258,7 +256,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup SDIO_CPSM_State 
+/** @defgroup SDIO_CPSM_State
   * @{
   */
 
@@ -269,7 +267,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup SDIO_Response_Registers 
+/** @defgroup SDIO_Response_Registers
   * @{
   */
 
@@ -467,44 +465,49 @@ typedef struct
   * @}
   */
 
-/** @defgroup SDIO_Exported_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup SDIO_Exported_Functions
-  * @{
-  */
-
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+/*  Function used to set the SDIO configuration to the default reset state ****/
 void SDIO_DeInit(void);
+
+/* Initialization and Configuration functions *********************************/
 void SDIO_Init(SDIO_InitTypeDef* SDIO_InitStruct);
 void SDIO_StructInit(SDIO_InitTypeDef* SDIO_InitStruct);
 void SDIO_ClockCmd(FunctionalState NewState);
 void SDIO_SetPowerState(uint32_t SDIO_PowerState);
 uint32_t SDIO_GetPowerState(void);
-void SDIO_ITConfig(uint32_t SDIO_IT, FunctionalState NewState);
-void SDIO_DMACmd(FunctionalState NewState);
+
+/* Command path state machine (CPSM) management functions *********************/
 void SDIO_SendCommand(SDIO_CmdInitTypeDef *SDIO_CmdInitStruct);
 void SDIO_CmdStructInit(SDIO_CmdInitTypeDef* SDIO_CmdInitStruct);
 uint8_t SDIO_GetCommandResponse(void);
 uint32_t SDIO_GetResponse(uint32_t SDIO_RESP);
+
+/* Data path state machine (DPSM) management functions ************************/
 void SDIO_DataConfig(SDIO_DataInitTypeDef* SDIO_DataInitStruct);
 void SDIO_DataStructInit(SDIO_DataInitTypeDef* SDIO_DataInitStruct);
 uint32_t SDIO_GetDataCounter(void);
 uint32_t SDIO_ReadData(void);
 void SDIO_WriteData(uint32_t Data);
 uint32_t SDIO_GetFIFOCount(void);
+
+/* SDIO IO Cards mode management functions ************************************/
 void SDIO_StartSDIOReadWait(FunctionalState NewState);
 void SDIO_StopSDIOReadWait(FunctionalState NewState);
 void SDIO_SetSDIOReadWaitMode(uint32_t SDIO_ReadWaitMode);
 void SDIO_SetSDIOOperation(FunctionalState NewState);
 void SDIO_SendSDIOSuspendCmd(FunctionalState NewState);
+
+/* CE-ATA mode management functions *******************************************/
 void SDIO_CommandCompletionCmd(FunctionalState NewState);
 void SDIO_CEATAITCmd(FunctionalState NewState);
 void SDIO_SendCEATACmd(FunctionalState NewState);
+
+/* DMA transfers management functions *****************************************/
+void SDIO_DMACmd(FunctionalState NewState);
+
+/* Interrupts and flags management functions **********************************/
+void SDIO_ITConfig(uint32_t SDIO_IT, FunctionalState NewState);
 FlagStatus SDIO_GetFlagStatus(uint32_t SDIO_FLAG);
 void SDIO_ClearFlag(uint32_t SDIO_FLAG);
 ITStatus SDIO_GetITStatus(uint32_t SDIO_IT);
@@ -515,9 +518,6 @@ void SDIO_ClearITPendingBit(uint32_t SDIO_IT);
 #endif
 
 #endif /* __STM32F2xx_SDIO_H */
-/**
-  * @}
-  */
 
 /**
   * @}
@@ -527,4 +527,4 @@ void SDIO_ClearITPendingBit(uint32_t SDIO_IT);
   * @}
   */
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

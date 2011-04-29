@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_wwdg.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the WWDG firmware
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,8 +16,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_WWDG_H
@@ -38,13 +39,8 @@
   * @{
   */ 
 
-/** @defgroup WWDG_Exported_Types
-  * @{
-  */ 
-  
-/**
-  * @}
-  */ 
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup WWDG_Exported_Constants
   * @{
@@ -52,7 +48,7 @@
   
 /** @defgroup WWDG_Prescaler 
   * @{
-  */ 
+  */
   
 #define WWDG_Prescaler_1    ((uint32_t)0x00000000)
 #define WWDG_Prescaler_2    ((uint32_t)0x00000080)
@@ -73,23 +69,22 @@
   * @}
   */ 
 
-/** @defgroup WWDG_Exported_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-/** @defgroup WWDG_Exported_Functions
-  * @{
-  */ 
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
   
+/*  Function used to set the WWDG configuration to the default reset state ****/  
 void WWDG_DeInit(void);
+
+/* Prescaler, Refresh window and Counter configuration functions **************/
 void WWDG_SetPrescaler(uint32_t WWDG_Prescaler);
 void WWDG_SetWindowValue(uint8_t WindowValue);
 void WWDG_EnableIT(void);
 void WWDG_SetCounter(uint8_t Counter);
+
+/* WWDG activation function ***************************************************/
 void WWDG_Enable(uint8_t Counter);
+
+/* Interrupts and flags management functions **********************************/
 FlagStatus WWDG_GetFlagStatus(void);
 void WWDG_ClearFlag(void);
 
@@ -107,8 +102,4 @@ void WWDG_ClearFlag(void);
   * @}
   */ 
 
-/**
-  * @}
-  */ 
-
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

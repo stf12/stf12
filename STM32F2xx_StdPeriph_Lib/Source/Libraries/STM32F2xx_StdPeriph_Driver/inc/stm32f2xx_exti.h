@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_exti.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the EXTI firmware
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,8 +16,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_EXTI_H
@@ -38,9 +39,7 @@
   * @{
   */
 
-/** @defgroup EXTI_Exported_Types
-  * @{
-  */
+/* Exported types ------------------------------------------------------------*/
 
 /** 
   * @brief  EXTI mode enumeration  
@@ -75,21 +74,19 @@ typedef enum
 typedef struct
 {
   uint32_t EXTI_Line;               /*!< Specifies the EXTI lines to be enabled or disabled.
-                                         This parameter can be any combination of @ref EXTI_Lines */
+                                         This parameter can be any combination value of @ref EXTI_Lines */
    
   EXTIMode_TypeDef EXTI_Mode;       /*!< Specifies the mode for the EXTI lines.
                                          This parameter can be a value of @ref EXTIMode_TypeDef */
 
   EXTITrigger_TypeDef EXTI_Trigger; /*!< Specifies the trigger signal active edge for the EXTI lines.
-                                         This parameter can be a value of @ref EXTIMode_TypeDef */
+                                         This parameter can be a value of @ref EXTITrigger_TypeDef */
 
   FunctionalState EXTI_LineCmd;     /*!< Specifies the new state of the selected EXTI lines.
                                          This parameter can be set either to ENABLE or DISABLE */ 
 }EXTI_InitTypeDef;
 
-/**
-  * @}
-  */
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup EXTI_Exported_Constants
   * @{
@@ -119,9 +116,9 @@ typedef struct
 #define EXTI_Line17      ((uint32_t)0x20000)     /*!< External interrupt line 17 Connected to the RTC Alarm event */
 #define EXTI_Line18      ((uint32_t)0x40000)     /*!< External interrupt line 18 Connected to the USB OTG FS Wakeup from suspend event */                                    
 #define EXTI_Line19      ((uint32_t)0x80000)     /*!< External interrupt line 19 Connected to the Ethernet Wakeup event */
-#define EXTI_Line20      ((uint32_t)0x00100000)  /* External interrupt line 20 Connected to the USB OTG HS (configured in FS) Wakeup event  */
-#define EXTI_Line21      ((uint32_t)0x00200000)  /* External interrupt line 21 Connected to the RTC Tamper and Time Stamp events */                                               
-#define EXTI_Line22      ((uint32_t)0x00400000)  /* External interrupt line 22 Connected to the RTC Wakeup event */                                               
+#define EXTI_Line20      ((uint32_t)0x00100000)  /*!< External interrupt line 20 Connected to the USB OTG HS (configured in FS) Wakeup event  */
+#define EXTI_Line21      ((uint32_t)0x00200000)  /*!< External interrupt line 21 Connected to the RTC Tamper and Time Stamp events */                                               
+#define EXTI_Line22      ((uint32_t)0x00400000)  /*!< External interrupt line 22 Connected to the RTC Wakeup event */                                               
                                           
 #define IS_EXTI_LINE(LINE) ((((LINE) & (uint32_t)0xFF800000) == 0x00) && ((LINE) != (uint16_t)0x00))
 
@@ -146,22 +143,18 @@ typedef struct
   * @}
   */
 
-/** @defgroup EXTI_Exported_Macros
-  * @{
-  */
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
 
-/**
-  * @}
-  */
-
-/** @defgroup EXTI_Exported_Functions
-  * @{
-  */
-
+/*  Function used to set the EXTI configuration to the default reset state *****/
 void EXTI_DeInit(void);
+
+/* Initialization and Configuration functions *********************************/
 void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct);
 void EXTI_StructInit(EXTI_InitTypeDef* EXTI_InitStruct);
 void EXTI_GenerateSWInterrupt(uint32_t EXTI_Line);
+
+/* Interrupts and flags management functions **********************************/
 FlagStatus EXTI_GetFlagStatus(uint32_t EXTI_Line);
 void EXTI_ClearFlag(uint32_t EXTI_Line);
 ITStatus EXTI_GetITStatus(uint32_t EXTI_Line);
@@ -172,9 +165,6 @@ void EXTI_ClearITPendingBit(uint32_t EXTI_Line);
 #endif
 
 #endif /* __STM32F2xx_EXTI_H */
-/**
-  * @}
-  */
 
 /**
   * @}
@@ -184,4 +174,4 @@ void EXTI_ClearITPendingBit(uint32_t EXTI_Line);
   * @}
   */
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

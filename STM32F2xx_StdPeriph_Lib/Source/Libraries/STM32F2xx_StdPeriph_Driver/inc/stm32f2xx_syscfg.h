@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_syscfg.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the SYSCFG firmware
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,25 +16,37 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_SYSCFG_H
 #define __STM32F2xx_SYSCFG_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx.h"
 
-/** @defgroup Exported_types 
+/** @addtogroup STM32F2xx_StdPeriph_Driver
+  * @{
+  */
+
+/** @addtogroup SYSCFG
   * @{
   */ 
-/**
-  * @}
+
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
+  
+/** @defgroup SYSCFG_Exported_Constants 
+  * @{
   */ 
 
-
-/** @defgroup _EXTI_Port_Sources 
+/** @defgroup SYSCFG_EXTI_Port_Sources 
   * @{
   */ 
 #define EXTI_PortSourceGPIOA       ((uint8_t)0x00)
@@ -61,7 +73,7 @@
   */ 
 
 
-/** @defgroup EXTI_Pin_sources 
+/** @defgroup SYSCFG_EXTI_Pin_Sources 
   * @{
   */ 
 #define EXTI_PinSource0            ((uint8_t)0x00)
@@ -101,7 +113,7 @@
   */ 
 
 
-/** @defgroup SYSCFG_Memory_Remap_Config_ 
+/** @defgroup SYSCFG_Memory_Remap_Config 
   * @{
   */ 
 #define SYSCFG_MemoryRemap_Flash       ((uint8_t)0x00)
@@ -118,54 +130,44 @@
   */ 
 
 
-/** @defgroup ETHERNET_Media_Interface 
+/** @defgroup SYSCFG_ETHERNET_Media_Interface 
   * @{
   */ 
 #define SYSCFG_ETH_MediaInterface_MII    ((uint32_t)0x00000000) 
 #define SYSCFG_ETH_MediaInterface_RMII   ((uint32_t)0x00000001)                                       
+
 #define IS_SYSCFG_ETH_MEDIA_INTERFACE(INTERFACE) (((INTERFACE) == SYSCFG_ETH_MediaInterface_MII) || \
                                                 ((INTERFACE) == SYSCFG_ETH_MediaInterface_RMII))
 /**
   * @}
   */ 
 
-
 /**
   * @}
   */ 
 
-
-
-/** @defgroup SYSCFG_Exported_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-
-/** @defgroup SYSCFG_Exported_Functions
-  * @{
-  */ 
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
+ 
 void SYSCFG_DeInit(void);
 void SYSCFG_MemoryRemapConfig(uint8_t SYSCFG_MemoryRemap);
-void SYSCFG_EXTILineConfig(uint8_t SYSCFG_PortSource, uint8_t SYSCFG_PinSource);
+void SYSCFG_EXTILineConfig(uint8_t EXTI_PortSourceGPIOx, uint8_t EXTI_PinSourcex);
 void SYSCFG_ETH_MediaInterfaceConfig(uint32_t SYSCFG_ETH_MediaInterface); 
+void SYSCFG_CompensationCellCmd(FunctionalState NewState); 
+FlagStatus SYSCFG_GetCompensationCellStatus(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /*__STM32F2xx_SYSCFG_H */
-/**
-  * @}
-  */ 
-
 
 /**
   * @}
   */ 
 
-
 /**
   * @}
   */ 
 
-
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

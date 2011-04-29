@@ -2,11 +2,11 @@
   ******************************************************************************
   * @file    stm32f2xx_dbgmcu.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the DBGMCU firmware library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -15,12 +15,17 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_DBGMCU_H
 #define __STM32F2xx_DBGMCU_H
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx.h"
@@ -29,21 +34,12 @@
   * @{
   */
 
-
-
 /** @addtogroup DBGMCU
   * @{
   */ 
 
-
-/** @defgroup DBGMCU_Exported_Types
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup DBGMCU_Exported_Constants
   * @{
@@ -78,49 +74,30 @@
 #define DBGMCU_TIM10_STOP            ((uint32_t)0x00020000)
 #define DBGMCU_TIM11_STOP            ((uint32_t)0x00040000)
 #define IS_DBGMCU_APB2PERIPH(PERIPH) ((((PERIPH) & 0xFFF8FFFC) == 0x00) && ((PERIPH) != 0x00))
-                                           
 /**
   * @}
   */ 
 
-
-/**
-  * @}
-  */ 
-
-
-
-/** @defgroup DBGMCU_Exported_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-
-/** @defgroup DBGMCU_Exported_Functions
-  * @{
-  */ 
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
 uint32_t DBGMCU_GetREVID(void);
 uint32_t DBGMCU_GetDEVID(void);
 void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState);
 void DBGMCU_APB1PeriphConfig(uint32_t DBGMCU_Periph, FunctionalState NewState);
 void DBGMCU_APB2PeriphConfig(uint32_t DBGMCU_Periph, FunctionalState NewState);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* __STM32F2xx_DBGMCU_H */
-/**
-  * @}
-  */ 
-
 
 /**
   * @}
   */ 
 
-
 /**
   * @}
   */ 
 
-
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

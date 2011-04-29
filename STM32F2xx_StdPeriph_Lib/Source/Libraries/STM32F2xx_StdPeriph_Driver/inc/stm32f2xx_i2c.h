@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_i2c.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the I2C firmware 
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,7 +16,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -38,9 +39,7 @@
   * @{
   */
 
-/** @defgroup I2C_Exported_Types
-  * @{
-  */
+/* Exported types ------------------------------------------------------------*/
 
 /** 
   * @brief  I2C Init structure definition  
@@ -67,9 +66,7 @@ typedef struct
                                          This parameter can be a value of @ref I2C_acknowledged_address */
 }I2C_InitTypeDef;
 
-/**
-  * @}
-  */ 
+/* Exported constants --------------------------------------------------------*/
 
 
 /** @defgroup I2C_Exported_Constants
@@ -77,8 +74,7 @@ typedef struct
   */
 
 #define IS_I2C_ALL_PERIPH(PERIPH) (((PERIPH) == I2C1) || \
-                                   ((PERIPH) == I2C2) || \
-                                   ((PERIPH) == I2C3))
+                                   ((PERIPH) == I2C2))
 /** @defgroup I2C_mode 
   * @{
   */
@@ -166,6 +162,18 @@ typedef struct
 /**
   * @}
   */
+
+/** @defgroup I2C_NACK_position 
+  * @{
+  */
+
+#define I2C_NACKPosition_Next           ((uint16_t)0x0800)
+#define I2C_NACKPosition_Current        ((uint16_t)0xF7FF)
+#define IS_I2C_NACK_POSITION(POSITION)  (((POSITION) == I2C_NACKPosition_Next) || \
+                                         ((POSITION) == I2C_NACKPosition_Current))
+/**
+  * @}
+  */ 
 
 /** @defgroup I2C_SMBus_alert_pin_level 
   * @{
@@ -291,10 +299,12 @@ typedef struct
   * @{
   */
 
-/*========================================
-     
-                     I2C Master Events (Events grouped in order of communication)
-                                                        ==========================================*/
+/**
+ ===============================================================================
+               I2C Master Events (Events grouped in order of communication)
+ ===============================================================================
+ */
+
 /** 
   * @brief  Communication start
   * 
@@ -360,9 +370,9 @@ typedef struct
   *     (before Stop condition generation).
   *     
   *  @note In case the  user software does not guarantee that this event EV7 is 
-  *  managed before the current byte end of transfer, then user may check on EV7 
-  *  and BTF flag at the same time (ie. (I2C_EVENT_MASTER_BYTE_RECEIVED | I2C_FLAG_BTF)).
-  *  In this case the communication may be slower.
+  *        managed before the current byte end of transfer, then user may check on EV7 
+  *        and BTF flag at the same time (ie. (I2C_EVENT_MASTER_BYTE_RECEIVED | I2C_FLAG_BTF)).
+  *        In this case the communication may be slower.
   * 
   */
 
@@ -377,10 +387,12 @@ typedef struct
 #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */
 
 
-/*========================================
-     
-                     I2C Slave Events (Events grouped in order of communication)
-                                                        ==========================================*/
+/**
+ ===============================================================================
+               I2C Slave Events (Events grouped in order of communication)
+ ===============================================================================
+ */
+
 
 /** 
   * @brief  Communication start events
@@ -434,15 +446,15 @@ typedef struct
   *      the end of the byte transmission. The two events I2C_EVENT_SLAVE_BYTE_TRANSMITTED and
   *      I2C_EVENT_SLAVE_BYTE_TRANSMITTING are similar. The second one can optionally be 
   *      used when the user software doesn't guarantee the EV3 is managed before the
-  *      current byte end of tranfer.
+  *      current byte end of transfer.
   *    - EV3_2: When the master sends a NACK in order to tell slave that data transmission 
   *      shall end (before sending the STOP condition). In this case slave has to stop sending 
   *      data bytes and expect a Stop condition on the bus.
   *      
   *  @note In case the  user software does not guarantee that the event EV2 is 
-  *  managed before the current byte end of transfer, then user may check on EV2 
-  *  and BTF flag at the same time (ie. (I2C_EVENT_SLAVE_BYTE_RECEIVED | I2C_FLAG_BTF)).
-  * In this case the communication may be slower.
+  *        managed before the current byte end of transfer, then user may check on EV2 
+  *        and BTF flag at the same time (ie. (I2C_EVENT_SLAVE_BYTE_RECEIVED | I2C_FLAG_BTF)).
+  *        In this case the communication may be slower.
   *
   */
 
@@ -459,7 +471,11 @@ typedef struct
 /* --EV3_2 */
 #define  I2C_EVENT_SLAVE_ACK_FAILURE                       ((uint32_t)0x00000400)  /* AF flag */
 
-/*===========================      End of Events Description           ==========================================*/
+/*
+ ===============================================================================
+                          End of Events Description
+ ===============================================================================
+ */
 
 #define IS_I2C_EVENT(EVENT) (((EVENT) == I2C_EVENT_SLAVE_TRANSMITTER_ADDRESS_MATCHED) || \
                              ((EVENT) == I2C_EVENT_SLAVE_RECEIVER_ADDRESS_MATCHED) || \
@@ -507,145 +523,152 @@ typedef struct
   * @}
   */
 
-/** @defgroup I2C_Exported_Macros
-  * @{
-  */
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
 
-/**
-  * @}
-  */
-
-/** @defgroup I2C_Exported_Functions
-  * @{
-  */
-
+/*  Function used to set the I2C configuration to the default reset state *****/
 void I2C_DeInit(I2C_TypeDef* I2Cx);
+
+/* Initialization and Configuration functions *********************************/
 void I2C_Init(I2C_TypeDef* I2Cx, I2C_InitTypeDef* I2C_InitStruct);
 void I2C_StructInit(I2C_InitTypeDef* I2C_InitStruct);
 void I2C_Cmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void I2C_DMALastTransferCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
 void I2C_GenerateSTART(I2C_TypeDef* I2Cx, FunctionalState NewState);
 void I2C_GenerateSTOP(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_Send7bitAddress(I2C_TypeDef* I2Cx, uint8_t Address, uint8_t I2C_Direction);
 void I2C_AcknowledgeConfig(I2C_TypeDef* I2Cx, FunctionalState NewState);
 void I2C_OwnAddress2Config(I2C_TypeDef* I2Cx, uint8_t Address);
 void I2C_DualAddressCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
 void I2C_GeneralCallCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void I2C_ITConfig(I2C_TypeDef* I2Cx, uint16_t I2C_IT, FunctionalState NewState);
+void I2C_SoftwareResetCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_StretchClockCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_FastModeDutyCycleConfig(I2C_TypeDef* I2Cx, uint16_t I2C_DutyCycle);
+void I2C_NACKPositionConfig(I2C_TypeDef* I2Cx, uint16_t I2C_NACKPosition);
+void I2C_SMBusAlertConfig(I2C_TypeDef* I2Cx, uint16_t I2C_SMBusAlert);
+void I2C_ARPCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+
+/* Data transfers functions ***************************************************/ 
 void I2C_SendData(I2C_TypeDef* I2Cx, uint8_t Data);
 uint8_t I2C_ReceiveData(I2C_TypeDef* I2Cx);
-void I2C_Send7bitAddress(I2C_TypeDef* I2Cx, uint8_t Address, uint8_t I2C_Direction);
-uint16_t I2C_ReadRegister(I2C_TypeDef* I2Cx, uint8_t I2C_Register);
-void I2C_SoftwareResetCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void I2C_SMBusAlertConfig(I2C_TypeDef* I2Cx, uint16_t I2C_SMBusAlert);
+
+/* PEC management functions ***************************************************/ 
 void I2C_TransmitPEC(I2C_TypeDef* I2Cx, FunctionalState NewState);
 void I2C_PECPositionConfig(I2C_TypeDef* I2Cx, uint16_t I2C_PECPosition);
 void I2C_CalculatePEC(I2C_TypeDef* I2Cx, FunctionalState NewState);
 uint8_t I2C_GetPEC(I2C_TypeDef* I2Cx);
-void I2C_ARPCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void I2C_StretchClockCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void I2C_FastModeDutyCycleConfig(I2C_TypeDef* I2Cx, uint16_t I2C_DutyCycle);
 
-/**
- * @brief
- ****************************************************************************************
- *
- *                         I2C State Monitoring Functions
- *                       
- ****************************************************************************************   
- * This I2C driver provides three different ways for I2C state monitoring
- *  depending on the application requirements and constraints:
- *        
- *  
- * 1) Basic state monitoring:
- *    Using I2C_CheckEvent() function:
- *    It compares the status registers (SR1 and SR2) content to a given event
- *    (can be the combination of one or more flags).
- *    It returns SUCCESS if the current status includes the given flags 
- *    and returns ERROR if one or more flags are missing in the current status.
- *    - When to use:
- *      - This function is suitable for most applications as well as for startup 
- *      activity since the events are fully described in the product reference manual 
- *      (RM0008).
- *      - It is also suitable for users who need to define their own events.
- *    - Limitations:
- *      - If an error occurs (ie. error flags are set besides to the monitored flags),
- *        the I2C_CheckEvent() function may return SUCCESS despite the communication
- *        hold or corrupted real state. 
- *        In this case, it is advised to use error interrupts to monitor the error
- *        events and handle them in the interrupt IRQ handler.
- *        
- *        @note 
- *        For error management, it is advised to use the following functions:
- *          - I2C_ITConfig() to configure and enable the error interrupts (I2C_IT_ERR).
- *          - I2Cx_ER_IRQHandler() which is called when the error interurpt occurs.
- *            Where x is the peripheral instance (I2C1, I2C2 ...)
- *          - I2C_GetFlagStatus() or I2C_GetITStatus() to be called into I2Cx_ER_IRQHandler()
- *            in order to determine which error occured.
- *          - I2C_ClearFlag() or I2C_ClearITPendingBit() and/or I2C_SoftwareResetCmd()
- *            and/or I2C_GenerateStop() in order to clear the error flag and source,
- *            and return to correct communication status.
- *            
- *
- *  2) Advanced state monitoring:
- *     Using the function I2C_GetLastEvent() which returns the image of both status 
- *     registers in a single word (uint32_t) (Status Register 2 value is shifted left 
- *     by 16 bits and concatenated to Status Register 1).
- *     - When to use:
- *       - This function is suitable for the same applications above but it allows to
- *         overcome the limitations of I2C_GetFlagStatus() function (see below).
- *         The returned value could be compared to events already defined in the 
- *         library (stm32f2xx_i2c.h) or to custom values defined by user.
- *       - This function is suitable when multiple flags are monitored at the same time.
- *       - At the opposite of I2C_CheckEvent() function, this function allows user to
- *         choose when an event is accepted (when all events flags are set and no 
- *         other flags are set or just when the needed flags are set like 
- *         I2C_CheckEvent() function).
- *     - Limitations:
- *       - User may need to define his own events.
- *       - Same remark concerning the error management is applicable for this 
- *         function if user decides to check only regular communication flags (and 
- *         ignores error flags).
- *     
- *
- *  3) Flag-based state monitoring:
- *     Using the function I2C_GetFlagStatus() which simply returns the status of 
- *     one single flag (ie. I2C_FLAG_RXNE ...). 
- *     - When to use:
- *        - This function could be used for specific applications or in debug phase.
- *        - It is suitable when only one flag checking is needed (most I2C events 
- *          are monitored through multiple flags).
- *     - Limitations: 
- *        - When calling this function, the Status register is accessed. Some flags are
- *          cleared when the status register is accessed. So checking the status
- *          of one Flag, may clear other ones.
- *        - Function may need to be called twice or more in order to monitor one 
- *          single event.
- *            
+/* DMA transfers management functions *****************************************/
+void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_DMALastTransferCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+
+/* Interrupts, events and flags management functions **************************/
+uint16_t I2C_ReadRegister(I2C_TypeDef* I2Cx, uint8_t I2C_Register);
+void I2C_ITConfig(I2C_TypeDef* I2Cx, uint16_t I2C_IT, FunctionalState NewState);
+
+/* 
+ ===============================================================================
+                          I2C State Monitoring Functions
+ ===============================================================================
+  This I2C driver provides three different ways for I2C state monitoring
+  depending on the application requirements and constraints:
+         
+   
+     1. Basic state monitoring (Using I2C_CheckEvent() function)
+     -----------------------------------------------------------
+        It compares the status registers (SR1 and SR2) content to a given event
+        (can be the combination of one or more flags).
+        It returns SUCCESS if the current status includes the given flags 
+        and returns ERROR if one or more flags are missing in the current status.
+
+          - When to use
+             - This function is suitable for most applications as well as for startup 
+               activity since the events are fully described in the product reference 
+               manual (RM0033).
+             - It is also suitable for users who need to define their own events.
+
+          - Limitations
+             - If an error occurs (ie. error flags are set besides to the monitored 
+               flags), the I2C_CheckEvent() function may return SUCCESS despite 
+               the communication hold or corrupted real state. 
+               In this case, it is advised to use error interrupts to monitor 
+               the error events and handle them in the interrupt IRQ handler.
+         
+     Note 
+         For error management, it is advised to use the following functions:
+           - I2C_ITConfig() to configure and enable the error interrupts (I2C_IT_ERR).
+           - I2Cx_ER_IRQHandler() which is called when the error interrupt occurs.
+             Where x is the peripheral instance (I2C1, I2C2 ...)
+           - I2C_GetFlagStatus() or I2C_GetITStatus()  to be called into the 
+             I2Cx_ER_IRQHandler() function in order to determine which error occurred.
+           - I2C_ClearFlag() or I2C_ClearITPendingBit() and/or I2C_SoftwareResetCmd() 
+             and/or I2C_GenerateStop() in order to clear the error flag and source 
+             and return to correct  communication status.
+             
+ 
+     2. Advanced state monitoring (Using the function I2C_GetLastEvent())
+     -------------------------------------------------------------------- 
+        Using the function I2C_GetLastEvent() which returns the image of both status 
+        registers in a single word (uint32_t) (Status Register 2 value is shifted left 
+        by 16 bits and concatenated to Status Register 1).
+
+          - When to use
+             - This function is suitable for the same applications above but it 
+               allows to overcome the mentioned limitation of I2C_GetFlagStatus() 
+               function.
+             - The returned value could be compared to events already defined in 
+               this file or to custom values defined by user.
+               This function is suitable when multiple flags are monitored at the 
+               same time.
+             - At the opposite of I2C_CheckEvent() function, this function allows 
+               user to choose when an event is accepted (when all events flags are 
+               set and no other flags are set or just when the needed flags are set 
+               like I2C_CheckEvent() function.
+
+          - Limitations
+             - User may need to define his own events.
+             - Same remark concerning the error management is applicable for this 
+               function if user decides to check only regular communication flags 
+               (and ignores error flags).
+      
+ 
+     3. Flag-based state monitoring (Using the function I2C_GetFlagStatus())
+     -----------------------------------------------------------------------
+     
+      Using the function I2C_GetFlagStatus() which simply returns the status of 
+      one single flag (ie. I2C_FLAG_RXNE ...). 
+
+          - When to use
+             - This function could be used for specific applications or in debug 
+               phase.
+             - It is suitable when only one flag checking is needed (most I2C 
+               events are monitored through multiple flags).
+          - Limitations: 
+             - When calling this function, the Status register is accessed. 
+               Some flags are cleared when the status register is accessed. 
+               So checking the status of one Flag, may clear other ones.
+             - Function may need to be called twice or more in order to monitor 
+               one single event.           
  */
 
-/**
- * 
- *  1) Basic state monitoring
- *******************************************************************************
+/*
+ ===============================================================================
+                          1. Basic state monitoring
+ ===============================================================================
  */
 ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT);
-/**
- * 
- *  2) Advanced state monitoring
- *******************************************************************************
+/*
+ ===============================================================================
+                          2. Advanced state monitoring
+ ===============================================================================
  */
 uint32_t I2C_GetLastEvent(I2C_TypeDef* I2Cx);
-/**
- * 
- *  3) Flag-based state monitoring
- *******************************************************************************
+/*
+ ===============================================================================
+                          3. Flag-based state monitoring
+ ===============================================================================
  */
 FlagStatus I2C_GetFlagStatus(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG);
-/**
- *
- *******************************************************************************
- */
+
 
 void I2C_ClearFlag(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG);
 ITStatus I2C_GetITStatus(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
@@ -656,9 +679,6 @@ void I2C_ClearITPendingBit(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
 #endif
 
 #endif /*__STM32F2xx_I2C_H */
-/**
-  * @}
-  */ 
 
 /**
   * @}
@@ -668,4 +688,4 @@ void I2C_ClearITPendingBit(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
   * @}
   */ 
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

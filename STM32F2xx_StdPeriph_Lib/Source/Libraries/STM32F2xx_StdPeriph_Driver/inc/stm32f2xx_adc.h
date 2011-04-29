@@ -2,11 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_adc.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
-  * @brief   This file contains all the functions prototypes for the ADC firmware library.
+  * @version V1.0.0
+  * @date    18-April-2011
+  * @brief   This file contains all the functions prototypes for the ADC firmware 
+  *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -15,12 +16,17 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_ADC_H
 #define __STM32F2xx_ADC_H
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx.h"
@@ -29,66 +35,66 @@
   * @{
   */
 
-
-
 /** @addtogroup ADC
   * @{
   */ 
 
+/* Exported types ------------------------------------------------------------*/
 
-/** @defgroup ADC_Exported_Types
-  * @{
-  */ 
 /** 
   * @brief   ADC Init structure definition  
   */ 
 typedef struct
 {
-  uint32_t ADC_Resolution;                /*!< Configures the ADC resolution                                               dual mode. 
+  uint32_t ADC_Resolution;                /*!< Configures the ADC resolution dual mode. 
                                                This parameter can be a value of @ref ADC_resolution */                                   
-  FunctionalState ADC_ScanConvMode;       /*!< Specifies whether the conversion is performed in
-                                               Scan (multichannels) or Single (one channel) mode.
+  FunctionalState ADC_ScanConvMode;       /*!< Specifies whether the conversion 
+                                               is performed in Scan (multichannels) 
+                                               or Single (one channel) mode.
                                                This parameter can be set to ENABLE or DISABLE */ 
-  FunctionalState ADC_ContinuousConvMode; /*!< Specifies whether the conversion is performed in
-                                               Continuous or Single mode.
+  FunctionalState ADC_ContinuousConvMode; /*!< Specifies whether the conversion 
+                                               is performed in Continuous or Single mode.
                                                This parameter can be set to ENABLE or DISABLE. */
-  uint32_t ADC_ExternalTrigConvEdge;  /*!< Select the external trigger edge and enable 
-                                               the trigger of a regular group.
+  uint32_t ADC_ExternalTrigConvEdge;      /*!< Select the external trigger edge and
+                                               enable the trigger of a regular group. 
                                                This parameter can be a value of 
                                                @ref ADC_external_trigger_edge_for_regular_channels_conversion */
-  uint32_t ADC_ExternalTrigConv;          /*!< Select the external event used to trigger the start 
-                                               of conversion of a regular group.
+  uint32_t ADC_ExternalTrigConv;          /*!< Select the external event used to trigger 
+                                               the start of conversion of a regular group.
                                                This parameter can be a value of 
                                                @ref ADC_extrenal_trigger_sources_for_regular_channels_conversion */
-  uint32_t ADC_DataAlign;                 /*!< Specifies whether the ADC data alignment is left or right.
-                                               This parameter can be a value of @ref ADC_data_align */
-  uint8_t  ADC_NbrOfConversion;              /*!< Specifies the number of ADC conversions that will be done
-                                               using the sequencer for regular channel group.
+  uint32_t ADC_DataAlign;                 /*!< Specifies whether the ADC data  alignment
+                                               is left or right. This parameter can be 
+                                               a value of @ref ADC_data_align */
+  uint8_t  ADC_NbrOfConversion;           /*!< Specifies the number of ADC conversions
+                                               that will be done using the sequencer for
+                                               regular channel group.
                                                This parameter must range from 1 to 16. */
 }ADC_InitTypeDef;
-
+  
+/** 
+  * @brief   ADC Common Init structure definition  
+  */ 
 typedef struct 
 {
-  uint32_t ADC_Mode;                       /*!< Configures the ADC to operate in independent or
-                                               multi mode. 
+  uint32_t ADC_Mode;                      /*!< Configures the ADC to operate in 
+                                               independent or multi mode. 
                                                This parameter can be a value of @ref ADC_Common_mode */                                              
-  uint32_t ADC_Prescaler;                 /*!< Select the frequency of the clock to the ADC. The clock is
-                                               common for all the ADCs.
-                                               This parameter can be a value of 
-                                               @ref ADC_Prescaler */
-  uint32_t ADC_DMAAccessMode;              /*!< Configures the Direct memory access mode for multi ADC mode
+  uint32_t ADC_Prescaler;                 /*!< Select the frequency of the clock 
+                                               to the ADC. The clock is common for all the ADCs.
+                                               This parameter can be a value of @ref ADC_Prescaler */
+  uint32_t ADC_DMAAccessMode;             /*!< Configures the Direct memory access 
+                                              mode for multi ADC mode.
                                                This parameter can be a value of 
                                                @ref ADC_Direct_memory_access_mode_for_multi_mode */
-  uint32_t ADC_TwoSamplingDelay;          /*!< Configures the Delay between 2 sampling phases
+  uint32_t ADC_TwoSamplingDelay;          /*!< Configures the Delay between 2 sampling phases.
                                                This parameter can be a value of 
-                                               @ref ADC_delay_betwen_2_sampling_phases */
+                                               @ref ADC_delay_between_2_sampling_phases */
   
 }ADC_CommonInitTypeDef;
-/**
-  * @}
-  */ 
 
 
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup ADC_Exported_Constants
   * @{
@@ -96,11 +102,6 @@ typedef struct
 #define IS_ADC_ALL_PERIPH(PERIPH) (((PERIPH) == ADC1) || \
                                    ((PERIPH) == ADC2) || \
                                    ((PERIPH) == ADC3))  
-                                
-/**
-  * @}
-  */ 
-
 
 /** @defgroup ADC_Common_mode 
   * @{
@@ -155,21 +156,21 @@ typedef struct
 /** @defgroup ADC_Direct_memory_access_mode_for_multi_mode 
   * @{
   */ 
-#define ADC_DMAAccessMode_Disabled                 ((uint32_t)0x00000000)
-#define ADC_DMAAccessMode_HalfWord                 ((uint32_t)0x00004000)
-#define ADC_DMAAccessMode_TwoHalfWords             ((uint32_t)0x00008000)
-#define ADC_DMAAccessMode_TwoBytes                 ((uint32_t)0x0000C000)
+#define ADC_DMAAccessMode_Disabled      ((uint32_t)0x00000000)     /* DMA mode disabled */
+#define ADC_DMAAccessMode_1             ((uint32_t)0x00004000)     /* DMA mode 1 enabled (2 / 3 half-words one by one - 1 then 2 then 3)*/
+#define ADC_DMAAccessMode_2             ((uint32_t)0x00008000)     /* DMA mode 2 enabled (2 / 3 half-words by pairs - 2&1 then 1&3 then 3&2)*/
+#define ADC_DMAAccessMode_3             ((uint32_t)0x0000C000)     /* DMA mode 3 enabled (2 / 3 bytes by pairs - 2&1 then 1&3 then 3&2) */
 #define IS_ADC_DMA_ACCESS_MODE(MODE) (((MODE) == ADC_DMAAccessMode_Disabled) || \
-                                      ((MODE) == ADC_DMAAccessMode_HalfWord) || \
-                                      ((MODE) == ADC_DMAAccessMode_TwoHalfWords) || \
-                                      ((MODE) == ADC_DMAAccessMode_TwoBytes))
+                                      ((MODE) == ADC_DMAAccessMode_1) || \
+                                      ((MODE) == ADC_DMAAccessMode_2) || \
+                                      ((MODE) == ADC_DMAAccessMode_3))
                                      
 /**
   * @}
   */ 
 
 
-/** @defgroup ADC_delay_betwen_2_sampling_phases 
+/** @defgroup ADC_delay_between_2_sampling_phases 
   * @{
   */ 
 #define ADC_TwoSamplingDelay_5Cycles               ((uint32_t)0x00000000)
@@ -235,9 +236,9 @@ typedef struct
 #define ADC_ExternalTrigConvEdge_Falling       ((uint32_t)0x20000000)
 #define ADC_ExternalTrigConvEdge_RisingFalling ((uint32_t)0x30000000)
 #define IS_ADC_EXT_TRIG_EDGE(EDGE) (((EDGE) == ADC_ExternalTrigConvEdge_None) || \
-                                            ((EDGE) == ADC_ExternalTrigConvEdge_Rising) || \
-                                            ((EDGE) == ADC_ExternalTrigConvEdge_Falling) || \
-                                            ((EDGE) == ADC_ExternalTrigConvEdge_RisingFalling))
+                             ((EDGE) == ADC_ExternalTrigConvEdge_Rising) || \
+                             ((EDGE) == ADC_ExternalTrigConvEdge_Falling) || \
+                             ((EDGE) == ADC_ExternalTrigConvEdge_RisingFalling))
 /**
   * @}
   */ 
@@ -322,15 +323,24 @@ typedef struct
 #define ADC_Channel_Vrefint                         ((uint8_t)ADC_Channel_17)
 #define ADC_Channel_Vbat                            ((uint8_t)ADC_Channel_18)
 
-#define IS_ADC_CHANNEL(CHANNEL) (((CHANNEL) == ADC_Channel_0) || ((CHANNEL) == ADC_Channel_1) || \
-                                 ((CHANNEL) == ADC_Channel_2) || ((CHANNEL) == ADC_Channel_3) || \
-                                 ((CHANNEL) == ADC_Channel_4) || ((CHANNEL) == ADC_Channel_5) || \
-                                 ((CHANNEL) == ADC_Channel_6) || ((CHANNEL) == ADC_Channel_7) || \
-                                 ((CHANNEL) == ADC_Channel_8) || ((CHANNEL) == ADC_Channel_9) || \
-                                 ((CHANNEL) == ADC_Channel_10) || ((CHANNEL) == ADC_Channel_11) || \
-                                 ((CHANNEL) == ADC_Channel_12) || ((CHANNEL) == ADC_Channel_13) || \
-                                 ((CHANNEL) == ADC_Channel_14) || ((CHANNEL) == ADC_Channel_15) || \
-                                 ((CHANNEL) == ADC_Channel_16) || ((CHANNEL) == ADC_Channel_17) || \
+#define IS_ADC_CHANNEL(CHANNEL) (((CHANNEL) == ADC_Channel_0) || \
+                                 ((CHANNEL) == ADC_Channel_1) || \
+                                 ((CHANNEL) == ADC_Channel_2) || \
+                                 ((CHANNEL) == ADC_Channel_3) || \
+                                 ((CHANNEL) == ADC_Channel_4) || \
+                                 ((CHANNEL) == ADC_Channel_5) || \
+                                 ((CHANNEL) == ADC_Channel_6) || \
+                                 ((CHANNEL) == ADC_Channel_7) || \
+                                 ((CHANNEL) == ADC_Channel_8) || \
+                                 ((CHANNEL) == ADC_Channel_9) || \
+                                 ((CHANNEL) == ADC_Channel_10) || \
+                                 ((CHANNEL) == ADC_Channel_11) || \
+                                 ((CHANNEL) == ADC_Channel_12) || \
+                                 ((CHANNEL) == ADC_Channel_13) || \
+                                 ((CHANNEL) == ADC_Channel_14) || \
+                                 ((CHANNEL) == ADC_Channel_15) || \
+                                 ((CHANNEL) == ADC_Channel_16) || \
+                                 ((CHANNEL) == ADC_Channel_17) || \
                                  ((CHANNEL) == ADC_Channel_18))
 /**
   * @}
@@ -369,9 +379,9 @@ typedef struct
 #define ADC_ExternalTrigInjecConvEdge_Falling       ((uint32_t)0x00200000)
 #define ADC_ExternalTrigInjecConvEdge_RisingFalling ((uint32_t)0x00300000)
 #define IS_ADC_EXT_INJEC_TRIG_EDGE(EDGE) (((EDGE) == ADC_ExternalTrigInjecConvEdge_None) || \
-                                                  ((EDGE) == ADC_ExternalTrigInjecConvEdge_Rising) || \
-                                                  ((EDGE) == ADC_ExternalTrigInjecConvEdge_Falling) || \
-                                                  ((EDGE) == ADC_ExternalTrigInjecConvEdge_RisingFalling))
+                                          ((EDGE) == ADC_ExternalTrigInjecConvEdge_Rising) || \
+                                          ((EDGE) == ADC_ExternalTrigInjecConvEdge_Falling) || \
+                                          ((EDGE) == ADC_ExternalTrigInjecConvEdge_RisingFalling))
                                             
 /**
   * @}
@@ -481,9 +491,12 @@ typedef struct
 #define ADC_FLAG_OVR                               ((uint8_t)0x20)   
   
 #define IS_ADC_CLEAR_FLAG(FLAG) ((((FLAG) & (uint8_t)0xC0) == 0x00) && ((FLAG) != 0x00))   
-#define IS_ADC_GET_FLAG(FLAG) (((FLAG) == ADC_FLAG_AWD) || ((FLAG) == ADC_FLAG_EOC) || \
-                               ((FLAG) == ADC_FLAG_JEOC) || ((FLAG)== ADC_FLAG_JSTRT) || \
-                               ((FLAG) == ADC_FLAG_STRT) || ((FLAG)== ADC_FLAG_OVR))     
+#define IS_ADC_GET_FLAG(FLAG) (((FLAG) == ADC_FLAG_AWD) || \
+                               ((FLAG) == ADC_FLAG_EOC) || \
+                               ((FLAG) == ADC_FLAG_JEOC) || \
+                               ((FLAG)== ADC_FLAG_JSTRT) || \
+                               ((FLAG) == ADC_FLAG_STRT) || \
+                               ((FLAG)== ADC_FLAG_OVR))     
 /**
   * @}
   */ 
@@ -556,70 +569,75 @@ typedef struct
   * @}
   */ 
 
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/  
 
-
-/** @defgroup ADC_Exported_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-/** @defgroup ADC_Exported_Functions
-  * @{
-  */ 
+/*  Function used to set the ADC configuration to the default reset state *****/  
 void ADC_DeInit(void);
-void ADC_CommonInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);
+
+/* Initialization and Configuration functions *********************************/
 void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);
-void ADC_CommonStructInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);
 void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);
+void ADC_CommonInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);
+void ADC_CommonStructInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);
 void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void ADC_ITConfig(ADC_TypeDef* ADCx, uint16_t ADC_IT, FunctionalState NewState);
+
+/* Analog Watchdog configuration functions ************************************/
+void ADC_AnalogWatchdogCmd(ADC_TypeDef* ADCx, uint32_t ADC_AnalogWatchdog);
+void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef* ADCx, uint16_t HighThreshold,uint16_t LowThreshold);
+void ADC_AnalogWatchdogSingleChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel);
+
+/* Temperature Sensor, Vrefint and VBAT management functions ******************/
+void ADC_TempSensorVrefintCmd(FunctionalState NewState);
+void ADC_VBATCmd(FunctionalState NewState);
+
+/* Regular Channels Configuration functions ***********************************/
+void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);
 void ADC_SoftwareStartConv(ADC_TypeDef* ADCx);
 FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef* ADCx);
-void ADC_ContinuousModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
 void ADC_EOCOnEachRegularChannelCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void ADC_DMARequestAfterLastTransferCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void ADC_MultiModeDMARequestAfterLastTransferCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_ContinuousModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
 void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, uint8_t Number);
 void ADC_DiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);
 uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx);
 uint32_t ADC_GetMultiModeConversionValue(void);
-void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void ADC_InjectedDiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+
+/* Regular Channels DMA Configuration functions *******************************/
+void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_DMARequestAfterLastTransferCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_MultiModeDMARequestAfterLastTransferCmd(FunctionalState NewState);
+
+/* Injected channels Configuration functions **********************************/
+void ADC_InjectedChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);
+void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, uint8_t Length);
+void ADC_SetInjectedOffset(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel, uint16_t Offset);
 void ADC_ExternalTrigInjectedConvConfig(ADC_TypeDef* ADCx, uint32_t ADC_ExternalTrigInjecConv);
 void ADC_ExternalTrigInjectedConvEdgeConfig(ADC_TypeDef* ADCx, uint32_t ADC_ExternalTrigInjecConvEdge);
 void ADC_SoftwareStartInjectedConv(ADC_TypeDef* ADCx);
 FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus(ADC_TypeDef* ADCx);
-void ADC_InjectedChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);
-void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, uint8_t Length);
-void ADC_SetInjectedOffset(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel, uint16_t Offset);
+void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_InjectedDiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
 uint16_t ADC_GetInjectedConversionValue(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel);
-void ADC_AnalogWatchdogCmd(ADC_TypeDef* ADCx, uint32_t ADC_AnalogWatchdog);
-void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef* ADCx, uint16_t HighThreshold,uint16_t LowThreshold);
-void ADC_AnalogWatchdogSingleChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel);
-void ADC_TempSensorVrefintCmd(FunctionalState NewState);
-void ADC_VBATCmd(FunctionalState NewState);
+
+/* Interrupts and flags management functions **********************************/
+void ADC_ITConfig(ADC_TypeDef* ADCx, uint16_t ADC_IT, FunctionalState NewState);
 FlagStatus ADC_GetFlagStatus(ADC_TypeDef* ADCx, uint8_t ADC_FLAG);
 void ADC_ClearFlag(ADC_TypeDef* ADCx, uint8_t ADC_FLAG);
 ITStatus ADC_GetITStatus(ADC_TypeDef* ADCx, uint16_t ADC_IT);
 void ADC_ClearITPendingBit(ADC_TypeDef* ADCx, uint16_t ADC_IT);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /*__STM32F2xx_ADC_H */
-/**
-  * @}
-  */ 
-
 
 /**
   * @}
   */ 
 
-
 /**
   * @}
   */ 
 
-
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

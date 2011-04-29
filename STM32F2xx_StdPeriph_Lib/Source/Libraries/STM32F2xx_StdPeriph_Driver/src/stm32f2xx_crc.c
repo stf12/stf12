@@ -2,11 +2,11 @@
   ******************************************************************************
   * @file    stm32f2xx_crc.c
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file provides all the CRC firmware functions.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -15,8 +15,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx_crc.h"
@@ -30,49 +31,12 @@
   * @{
   */
 
-/** @defgroup CRC_Private_TypesDefinitions
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup CRC_Private_Defines
-  * @{
-  */
-
-/* CR register bit mask */
-
-#define CR_RESET_Set    ((uint32_t)0x00000001)
-
-/**
-  * @}
-  */
-
-/** @defgroup CRC_Private_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup CRC_Private_Variables
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup CRC_Private_FunctionPrototypes
-  * @{
-  */
-
-/**
-  * @}
-  */
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
 
 /** @defgroup CRC_Private_Functions
   * @{
@@ -86,7 +50,7 @@
 void CRC_ResetDR(void)
 {
   /* Reset CRC generator */
-  CRC->CR = CR_RESET_Set;
+  CRC->CR = CRC_CR_RESET;
 }
 
 /**
@@ -160,4 +124,4 @@ uint8_t CRC_GetIDRegister(void)
   * @}
   */
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

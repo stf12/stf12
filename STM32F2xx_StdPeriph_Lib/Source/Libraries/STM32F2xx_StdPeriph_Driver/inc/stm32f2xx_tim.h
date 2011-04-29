@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_tim.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the TIM firmware 
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,17 +16,22 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_TIM_H
 #define __STM32F2xx_TIM_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F2xx_StdPeriph_Driver
   * @{
   */
 
@@ -34,12 +39,11 @@
   * @{
   */ 
 
-/** @defgroup TIM_Exported_Types
-  * @{
-  */ 
+/* Exported types ------------------------------------------------------------*/
 
 /** 
   * @brief  TIM Time Base Init structure definition  
+  * @note   This structure is used with all TIMx except for TIM6 and TIM7.  
   */
 
 typedef struct
@@ -77,10 +81,10 @@ typedef struct
                                    This parameter can be a value of @ref TIM_Output_Compare_and_PWM_modes */
 
   uint16_t TIM_OutputState;   /*!< Specifies the TIM Output Compare state.
-                                   This parameter can be a value of @ref TIM_Output_Compare_state */
+                                   This parameter can be a value of @ref TIM_Output_Compare_State */
 
   uint16_t TIM_OutputNState;  /*!< Specifies the TIM complementary Output Compare state.
-                                   This parameter can be a value of @ref TIM_Output_Compare_N_state
+                                   This parameter can be a value of @ref TIM_Output_Compare_N_State
                                    @note This parameter is valid only for TIM1 and TIM8. */
 
   uint32_t TIM_Pulse;         /*!< Specifies the pulse value to be loaded into the Capture Compare Register. 
@@ -126,34 +130,37 @@ typedef struct
 } TIM_ICInitTypeDef;
 
 /** 
-  * @brief  BDTR structure definition  
+  * @brief  BDTR structure definition 
+  * @note   This structure is used only with TIM1 and TIM8.    
   */
 
 typedef struct
 {
 
   uint16_t TIM_OSSRState;        /*!< Specifies the Off-State selection used in Run mode.
-                                      This parameter can be a value of @ref OSSR_Off_State_Selection_for_Run_mode_state */
+                                      This parameter can be a value of @ref TIM_OSSR_Off_State_Selection_for_Run_mode_state */
 
   uint16_t TIM_OSSIState;        /*!< Specifies the Off-State used in Idle state.
-                                      This parameter can be a value of @ref OSSI_Off_State_Selection_for_Idle_mode_state */
+                                      This parameter can be a value of @ref TIM_OSSI_Off_State_Selection_for_Idle_mode_state */
 
   uint16_t TIM_LOCKLevel;        /*!< Specifies the LOCK level parameters.
-                                      This parameter can be a value of @ref Lock_level */ 
+                                      This parameter can be a value of @ref TIM_Lock_level */ 
 
   uint16_t TIM_DeadTime;         /*!< Specifies the delay time between the switching-off and the
                                       switching-on of the outputs.
                                       This parameter can be a number between 0x00 and 0xFF  */
 
   uint16_t TIM_Break;            /*!< Specifies whether the TIM Break input is enabled or not. 
-                                      This parameter can be a value of @ref Break_Input_enable_disable */
+                                      This parameter can be a value of @ref TIM_Break_Input_enable_disable */
 
   uint16_t TIM_BreakPolarity;    /*!< Specifies the TIM Break Input pin polarity.
-                                      This parameter can be a value of @ref Break_Polarity */
+                                      This parameter can be a value of @ref TIM_Break_Polarity */
 
   uint16_t TIM_AutomaticOutput;  /*!< Specifies whether the TIM Automatic Output feature is enabled or not. 
                                       This parameter can be a value of @ref TIM_AOE_Bit_Set_Reset */
 } TIM_BDTRInitTypeDef;
+
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup TIM_Exported_constants 
   * @{
@@ -219,9 +226,6 @@ typedef struct
 #define IS_TIM_LIST6_PERIPH(TIMx)(((TIMx) == TIM2) || \
                                  ((TIMx) == TIM5) || \
                                  ((TIMx) == TIM11))
-/**
-  * @}
-  */ 
 
 /** @defgroup TIM_Output_Compare_and_PWM_modes 
   * @{
@@ -342,7 +346,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup TIM_Output_Compare_states 
+/** @defgroup TIM_Output_Compare_State 
   * @{
   */
 
@@ -354,7 +358,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup TIM_Output_Compare_N_States 
+/** @defgroup TIM_Output_Compare_N_State
   * @{
   */
 
@@ -366,7 +370,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup TIM_Capture_Compare_States 
+/** @defgroup TIM_Capture_Compare_State
   * @{
   */
 
@@ -378,7 +382,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup TIM_Capture_Compare_N_States 
+/** @defgroup TIM_Capture_Compare_N_State
   * @{
   */
 
@@ -390,7 +394,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup Break_Input_enable_disable 
+/** @defgroup TIM_Break_Input_enable_disable 
   * @{
   */
 
@@ -402,7 +406,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup Break_Polarity 
+/** @defgroup TIM_Break_Polarity 
   * @{
   */
 
@@ -426,7 +430,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup Lock_levels 
+/** @defgroup TIM_Lock_level
   * @{
   */
 
@@ -442,7 +446,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup OSSI:_Off-State_Selection_for_Idle_mode_states 
+/** @defgroup TIM_OSSI_Off_State_Selection_for_Idle_mode_state 
   * @{
   */
 
@@ -454,7 +458,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup OSSR:_Off-State_Selection_for_Run_mode_states 
+/** @defgroup TIM_OSSR_Off_State_Selection_for_Run_mode_state
   * @{
   */
 
@@ -508,9 +512,11 @@ typedef struct
   * @{
   */
 
-#define TIM_ICSelection_DirectTI           ((uint16_t)0x0001)
-#define TIM_ICSelection_IndirectTI         ((uint16_t)0x0002)
-#define TIM_ICSelection_TRC                ((uint16_t)0x0003)
+#define TIM_ICSelection_DirectTI           ((uint16_t)0x0001) /*!< TIM Input 1, 2, 3 or 4 is selected to be 
+                                                                   connected to IC1, IC2, IC3 or IC4, respectively */
+#define TIM_ICSelection_IndirectTI         ((uint16_t)0x0002) /*!< TIM Input 1, 2, 3 or 4 is selected to be
+                                                                   connected to IC2, IC1, IC4 or IC3, respectively. */
+#define TIM_ICSelection_TRC                ((uint16_t)0x0003) /*!< TIM Input 1, 2, 3 or 4 is selected to be connected to TRC. */
 #define IS_TIM_IC_SELECTION(SELECTION) (((SELECTION) == TIM_ICSelection_DirectTI) || \
                                         ((SELECTION) == TIM_ICSelection_IndirectTI) || \
                                         ((SELECTION) == TIM_ICSelection_TRC))
@@ -522,10 +528,10 @@ typedef struct
   * @{
   */
 
-#define TIM_ICPSC_DIV1                     ((uint16_t)0x0000)
-#define TIM_ICPSC_DIV2                     ((uint16_t)0x0004)
-#define TIM_ICPSC_DIV4                     ((uint16_t)0x0008)
-#define TIM_ICPSC_DIV8                     ((uint16_t)0x000C)
+#define TIM_ICPSC_DIV1                     ((uint16_t)0x0000) /*!< Capture performed each time an edge is detected on the capture input. */
+#define TIM_ICPSC_DIV2                     ((uint16_t)0x0004) /*!< Capture performed once every 2 events. */
+#define TIM_ICPSC_DIV4                     ((uint16_t)0x0008) /*!< Capture performed once every 4 events. */
+#define TIM_ICPSC_DIV8                     ((uint16_t)0x000C) /*!< Capture performed once every 8 events. */
 #define IS_TIM_IC_PRESCALER(PRESCALER) (((PRESCALER) == TIM_ICPSC_DIV1) || \
                                         ((PRESCALER) == TIM_ICPSC_DIV2) || \
                                         ((PRESCALER) == TIM_ICPSC_DIV4) || \
@@ -612,42 +618,42 @@ typedef struct
   * @{
   */
 
-#define TIM_DMABurstLength_1Byte           ((uint16_t)0x0000)
-#define TIM_DMABurstLength_2Bytes          ((uint16_t)0x0100)
-#define TIM_DMABurstLength_3Bytes          ((uint16_t)0x0200)
-#define TIM_DMABurstLength_4Bytes          ((uint16_t)0x0300)
-#define TIM_DMABurstLength_5Bytes          ((uint16_t)0x0400)
-#define TIM_DMABurstLength_6Bytes          ((uint16_t)0x0500)
-#define TIM_DMABurstLength_7Bytes          ((uint16_t)0x0600)
-#define TIM_DMABurstLength_8Bytes          ((uint16_t)0x0700)
-#define TIM_DMABurstLength_9Bytes          ((uint16_t)0x0800)
-#define TIM_DMABurstLength_10Bytes         ((uint16_t)0x0900)
-#define TIM_DMABurstLength_11Bytes         ((uint16_t)0x0A00)
-#define TIM_DMABurstLength_12Bytes         ((uint16_t)0x0B00)
-#define TIM_DMABurstLength_13Bytes         ((uint16_t)0x0C00)
-#define TIM_DMABurstLength_14Bytes         ((uint16_t)0x0D00)
-#define TIM_DMABurstLength_15Bytes         ((uint16_t)0x0E00)
-#define TIM_DMABurstLength_16Bytes         ((uint16_t)0x0F00)
-#define TIM_DMABurstLength_17Bytes         ((uint16_t)0x1000)
-#define TIM_DMABurstLength_18Bytes         ((uint16_t)0x1100)
-#define IS_TIM_DMA_LENGTH(LENGTH) (((LENGTH) == TIM_DMABurstLength_1Byte) || \
-                                   ((LENGTH) == TIM_DMABurstLength_2Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_3Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_4Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_5Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_6Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_7Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_8Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_9Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_10Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_11Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_12Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_13Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_14Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_15Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_16Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_17Bytes) || \
-                                   ((LENGTH) == TIM_DMABurstLength_18Bytes))
+#define TIM_DMABurstLength_1Transfer           ((uint16_t)0x0000)
+#define TIM_DMABurstLength_2Transfers          ((uint16_t)0x0100)
+#define TIM_DMABurstLength_3Transfers          ((uint16_t)0x0200)
+#define TIM_DMABurstLength_4Transfers          ((uint16_t)0x0300)
+#define TIM_DMABurstLength_5Transfers          ((uint16_t)0x0400)
+#define TIM_DMABurstLength_6Transfers          ((uint16_t)0x0500)
+#define TIM_DMABurstLength_7Transfers          ((uint16_t)0x0600)
+#define TIM_DMABurstLength_8Transfers          ((uint16_t)0x0700)
+#define TIM_DMABurstLength_9Transfers          ((uint16_t)0x0800)
+#define TIM_DMABurstLength_10Transfers         ((uint16_t)0x0900)
+#define TIM_DMABurstLength_11Transfers         ((uint16_t)0x0A00)
+#define TIM_DMABurstLength_12Transfers         ((uint16_t)0x0B00)
+#define TIM_DMABurstLength_13Transfers         ((uint16_t)0x0C00)
+#define TIM_DMABurstLength_14Transfers         ((uint16_t)0x0D00)
+#define TIM_DMABurstLength_15Transfers         ((uint16_t)0x0E00)
+#define TIM_DMABurstLength_16Transfers         ((uint16_t)0x0F00)
+#define TIM_DMABurstLength_17Transfers         ((uint16_t)0x1000)
+#define TIM_DMABurstLength_18Transfers         ((uint16_t)0x1100)
+#define IS_TIM_DMA_LENGTH(LENGTH) (((LENGTH) == TIM_DMABurstLength_1Transfer) || \
+                                   ((LENGTH) == TIM_DMABurstLength_2Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_3Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_4Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_5Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_6Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_7Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_8Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_9Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_10Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_11Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_12Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_13Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_14Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_15Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_16Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_17Transfers) || \
+                                   ((LENGTH) == TIM_DMABurstLength_18Transfers))
 /**
   * @}
   */ 
@@ -797,15 +803,17 @@ typedef struct
   * @{
   */
 
-#define TIM_UpdateSource_Global            ((uint16_t)0x0000)
-#define TIM_UpdateSource_Regular           ((uint16_t)0x0001)
+#define TIM_UpdateSource_Global            ((uint16_t)0x0000) /*!< Source of update is the counter overflow/underflow
+                                                                   or the setting of UG bit, or an update generation
+                                                                   through the slave mode controller. */
+#define TIM_UpdateSource_Regular           ((uint16_t)0x0001) /*!< Source of update is counter overflow/underflow. */
 #define IS_TIM_UPDATE_SOURCE(SOURCE) (((SOURCE) == TIM_UpdateSource_Global) || \
                                       ((SOURCE) == TIM_UpdateSource_Regular))
 /**
   * @}
   */ 
 
-/** @defgroup TIM_Ouput_Compare_Preload_State 
+/** @defgroup TIM_Output_Compare_Preload_State 
   * @{
   */
 
@@ -817,7 +825,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup TIM_Ouput_Compare_Fast_State 
+/** @defgroup TIM_Output_Compare_Fast_State 
   * @{
   */
 
@@ -830,7 +838,7 @@ typedef struct
   * @}
   */ 
 
-/** @defgroup TIM_Ouput_Compare_Clear_State 
+/** @defgroup TIM_Output_Compare_Clear_State 
   * @{
   */
 
@@ -975,64 +983,71 @@ typedef struct
   * @}
   */ 
 
+/** @defgroup TIM_Legacy 
+  * @{
+  */
+
+#define TIM_DMABurstLength_1Byte           TIM_DMABurstLength_1Transfer
+#define TIM_DMABurstLength_2Bytes          TIM_DMABurstLength_2Transfers
+#define TIM_DMABurstLength_3Bytes          TIM_DMABurstLength_3Transfers
+#define TIM_DMABurstLength_4Bytes          TIM_DMABurstLength_4Transfers
+#define TIM_DMABurstLength_5Bytes          TIM_DMABurstLength_5Transfers
+#define TIM_DMABurstLength_6Bytes          TIM_DMABurstLength_6Transfers
+#define TIM_DMABurstLength_7Bytes          TIM_DMABurstLength_7Transfers
+#define TIM_DMABurstLength_8Bytes          TIM_DMABurstLength_8Transfers
+#define TIM_DMABurstLength_9Bytes          TIM_DMABurstLength_9Transfers
+#define TIM_DMABurstLength_10Bytes         TIM_DMABurstLength_10Transfers
+#define TIM_DMABurstLength_11Bytes         TIM_DMABurstLength_11Transfers
+#define TIM_DMABurstLength_12Bytes         TIM_DMABurstLength_12Transfers
+#define TIM_DMABurstLength_13Bytes         TIM_DMABurstLength_13Transfers
+#define TIM_DMABurstLength_14Bytes         TIM_DMABurstLength_14Transfers
+#define TIM_DMABurstLength_15Bytes         TIM_DMABurstLength_15Transfers
+#define TIM_DMABurstLength_16Bytes         TIM_DMABurstLength_16Transfers
+#define TIM_DMABurstLength_17Bytes         TIM_DMABurstLength_17Transfers
+#define TIM_DMABurstLength_18Bytes         TIM_DMABurstLength_18Transfers
 /**
   * @}
   */
 
-/** @defgroup TIM_Exported_Macros
-  * @{
-  */
-
 /**
   * @}
-  */ 
-
-/** @defgroup TIM_Exported_Functions
-  * @{
   */
 
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
+
+/* TimeBase management ********************************************************/
 void TIM_DeInit(TIM_TypeDef* TIMx);
 void TIM_TimeBaseInit(TIM_TypeDef* TIMx, TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+void TIM_TimeBaseStructInit(TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+void TIM_PrescalerConfig(TIM_TypeDef* TIMx, uint16_t Prescaler, uint16_t TIM_PSCReloadMode);
+void TIM_CounterModeConfig(TIM_TypeDef* TIMx, uint16_t TIM_CounterMode);
+void TIM_SetCounter(TIM_TypeDef* TIMx, uint32_t Counter);
+void TIM_SetAutoreload(TIM_TypeDef* TIMx, uint32_t Autoreload);
+uint32_t TIM_GetCounter(TIM_TypeDef* TIMx);
+uint16_t TIM_GetPrescaler(TIM_TypeDef* TIMx);
+void TIM_UpdateDisableConfig(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_UpdateRequestConfig(TIM_TypeDef* TIMx, uint16_t TIM_UpdateSource);
+void TIM_ARRPreloadConfig(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_SelectOnePulseMode(TIM_TypeDef* TIMx, uint16_t TIM_OPMode);
+void TIM_SetClockDivision(TIM_TypeDef* TIMx, uint16_t TIM_CKD);
+void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
+
+/* Output Compare management **************************************************/
 void TIM_OC1Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
 void TIM_OC2Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
 void TIM_OC3Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
 void TIM_OC4Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
-void TIM_ICInit(TIM_TypeDef* TIMx, TIM_ICInitTypeDef* TIM_ICInitStruct);
-void TIM_PWMIConfig(TIM_TypeDef* TIMx, TIM_ICInitTypeDef* TIM_ICInitStruct);
-void TIM_BDTRConfig(TIM_TypeDef* TIMx, TIM_BDTRInitTypeDef *TIM_BDTRInitStruct);
-void TIM_TimeBaseStructInit(TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
 void TIM_OCStructInit(TIM_OCInitTypeDef* TIM_OCInitStruct);
-void TIM_ICStructInit(TIM_ICInitTypeDef* TIM_ICInitStruct);
-void TIM_BDTRStructInit(TIM_BDTRInitTypeDef* TIM_BDTRInitStruct);
-void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_CtrlPWMOutputs(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_ITConfig(TIM_TypeDef* TIMx, uint16_t TIM_IT, FunctionalState NewState);
-void TIM_GenerateEvent(TIM_TypeDef* TIMx, uint16_t TIM_EventSource);
-void TIM_DMAConfig(TIM_TypeDef* TIMx, uint16_t TIM_DMABase, uint16_t TIM_DMABurstLength);
-void TIM_DMACmd(TIM_TypeDef* TIMx, uint16_t TIM_DMASource, FunctionalState NewState);
-void TIM_InternalClockConfig(TIM_TypeDef* TIMx);
-void TIM_ITRxExternalClockConfig(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);
-void TIM_TIxExternalClockConfig(TIM_TypeDef* TIMx, uint16_t TIM_TIxExternalCLKSource,
-                                uint16_t TIM_ICPolarity, uint16_t ICFilter);
-void TIM_ETRClockMode1Config(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
-                             uint16_t ExtTRGFilter);
-void TIM_ETRClockMode2Config(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, 
-                             uint16_t TIM_ExtTRGPolarity, uint16_t ExtTRGFilter);
-void TIM_ETRConfig(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
-                   uint16_t ExtTRGFilter);
-void TIM_PrescalerConfig(TIM_TypeDef* TIMx, uint16_t Prescaler, uint16_t TIM_PSCReloadMode);
-void TIM_CounterModeConfig(TIM_TypeDef* TIMx, uint16_t TIM_CounterMode);
-void TIM_SelectInputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);
-void TIM_EncoderInterfaceConfig(TIM_TypeDef* TIMx, uint16_t TIM_EncoderMode,
-                                uint16_t TIM_IC1Polarity, uint16_t TIM_IC2Polarity);
+void TIM_SelectOCxM(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode);
+void TIM_SetCompare1(TIM_TypeDef* TIMx, uint32_t Compare1);
+void TIM_SetCompare2(TIM_TypeDef* TIMx, uint32_t Compare2);
+void TIM_SetCompare3(TIM_TypeDef* TIMx, uint32_t Compare3);
+void TIM_SetCompare4(TIM_TypeDef* TIMx, uint32_t Compare4);
 void TIM_ForcedOC1Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
 void TIM_ForcedOC2Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
 void TIM_ForcedOC3Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
 void TIM_ForcedOC4Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
-void TIM_ARRPreloadConfig(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_SelectCOM(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_SelectCCDMA(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_CCPreloadControl(TIM_TypeDef* TIMx, FunctionalState NewState);
 void TIM_OC1PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
 void TIM_OC2PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
 void TIM_OC3PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
@@ -1054,41 +1069,69 @@ void TIM_OC3NPolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCNPolarity);
 void TIM_OC4PolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPolarity);
 void TIM_CCxCmd(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_CCx);
 void TIM_CCxNCmd(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_CCxN);
-void TIM_SelectOCxM(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode);
-void TIM_UpdateDisableConfig(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_UpdateRequestConfig(TIM_TypeDef* TIMx, uint16_t TIM_UpdateSource);
-void TIM_SelectHallSensor(TIM_TypeDef* TIMx, FunctionalState NewState);
-void TIM_SelectOnePulseMode(TIM_TypeDef* TIMx, uint16_t TIM_OPMode);
-void TIM_SelectOutputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_TRGOSource);
-void TIM_SelectSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_SlaveMode);
-void TIM_SelectMasterSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_MasterSlaveMode);
-void TIM_SetCounter(TIM_TypeDef* TIMx, uint32_t Counter);
-void TIM_SetAutoreload(TIM_TypeDef* TIMx, uint32_t Autoreload);
-void TIM_SetCompare1(TIM_TypeDef* TIMx, uint32_t Compare1);
-void TIM_SetCompare2(TIM_TypeDef* TIMx, uint32_t Compare2);
-void TIM_SetCompare3(TIM_TypeDef* TIMx, uint32_t Compare3);
-void TIM_SetCompare4(TIM_TypeDef* TIMx, uint32_t Compare4);
-void TIM_SetIC1Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
-void TIM_SetIC2Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
-void TIM_SetIC3Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
-void TIM_SetIC4Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
-void TIM_SetClockDivision(TIM_TypeDef* TIMx, uint16_t TIM_CKD);
+
+/* Input Capture management ***************************************************/
+void TIM_ICInit(TIM_TypeDef* TIMx, TIM_ICInitTypeDef* TIM_ICInitStruct);
+void TIM_ICStructInit(TIM_ICInitTypeDef* TIM_ICInitStruct);
+void TIM_PWMIConfig(TIM_TypeDef* TIMx, TIM_ICInitTypeDef* TIM_ICInitStruct);
 uint32_t TIM_GetCapture1(TIM_TypeDef* TIMx);
 uint32_t TIM_GetCapture2(TIM_TypeDef* TIMx);
 uint32_t TIM_GetCapture3(TIM_TypeDef* TIMx);
 uint32_t TIM_GetCapture4(TIM_TypeDef* TIMx);
-uint32_t TIM_GetCounter(TIM_TypeDef* TIMx);
-uint16_t TIM_GetPrescaler(TIM_TypeDef* TIMx);
-void TIM_RemapConfig(TIM_TypeDef* TIMx, uint16_t TIM_Remap);
+void TIM_SetIC1Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetIC2Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetIC3Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetIC4Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+
+/* Advanced-control timers (TIM1 and TIM8) specific features ******************/
+void TIM_BDTRConfig(TIM_TypeDef* TIMx, TIM_BDTRInitTypeDef *TIM_BDTRInitStruct);
+void TIM_BDTRStructInit(TIM_BDTRInitTypeDef* TIM_BDTRInitStruct);
+void TIM_CtrlPWMOutputs(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_SelectCOM(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_CCPreloadControl(TIM_TypeDef* TIMx, FunctionalState NewState);
+
+/* Interrupts, DMA and flags management ***************************************/
+void TIM_ITConfig(TIM_TypeDef* TIMx, uint16_t TIM_IT, FunctionalState NewState);
+void TIM_GenerateEvent(TIM_TypeDef* TIMx, uint16_t TIM_EventSource);
 FlagStatus TIM_GetFlagStatus(TIM_TypeDef* TIMx, uint16_t TIM_FLAG);
 void TIM_ClearFlag(TIM_TypeDef* TIMx, uint16_t TIM_FLAG);
 ITStatus TIM_GetITStatus(TIM_TypeDef* TIMx, uint16_t TIM_IT);
 void TIM_ClearITPendingBit(TIM_TypeDef* TIMx, uint16_t TIM_IT);
+void TIM_DMAConfig(TIM_TypeDef* TIMx, uint16_t TIM_DMABase, uint16_t TIM_DMABurstLength);
+void TIM_DMACmd(TIM_TypeDef* TIMx, uint16_t TIM_DMASource, FunctionalState NewState);
+void TIM_SelectCCDMA(TIM_TypeDef* TIMx, FunctionalState NewState);
+
+/* Clocks management **********************************************************/
+void TIM_InternalClockConfig(TIM_TypeDef* TIMx);
+void TIM_ITRxExternalClockConfig(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);
+void TIM_TIxExternalClockConfig(TIM_TypeDef* TIMx, uint16_t TIM_TIxExternalCLKSource,
+                                uint16_t TIM_ICPolarity, uint16_t ICFilter);
+void TIM_ETRClockMode1Config(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
+                             uint16_t ExtTRGFilter);
+void TIM_ETRClockMode2Config(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, 
+                             uint16_t TIM_ExtTRGPolarity, uint16_t ExtTRGFilter);
+
+/* Synchronization management *************************************************/
+void TIM_SelectInputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);
+void TIM_SelectOutputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_TRGOSource);
+void TIM_SelectSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_SlaveMode);
+void TIM_SelectMasterSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_MasterSlaveMode);
+void TIM_ETRConfig(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
+                   uint16_t ExtTRGFilter);
+
+/* Specific interface management **********************************************/   
+void TIM_EncoderInterfaceConfig(TIM_TypeDef* TIMx, uint16_t TIM_EncoderMode,
+                                uint16_t TIM_IC1Polarity, uint16_t TIM_IC2Polarity);
+void TIM_SelectHallSensor(TIM_TypeDef* TIMx, FunctionalState NewState);
+
+/* Specific remapping management **********************************************/
+void TIM_RemapConfig(TIM_TypeDef* TIMx, uint16_t TIM_Remap);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*__STM32F2xx_TIM_H */
-/**
-  * @}
-  */ 
 
 /**
   * @}
@@ -1098,4 +1141,4 @@ void TIM_ClearITPendingBit(TIM_TypeDef* TIMx, uint16_t TIM_IT);
   * @}
   */
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

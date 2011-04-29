@@ -1,8 +1,8 @@
-;/******************** (C) COPYRIGHT 2010 STMicroelectronics ********************
+;/******************** (C) COPYRIGHT 2011 STMicroelectronics ********************
 ;* File Name          : startup_stm32f2xx.s
 ;* Author             : MCD Application Team
-;* Version            : V0.0.3
-;* Date               : 10/15/2010
+;* Version            : V1.0.0
+;* Date               : 18-April-2011
 ;* Description        : STM32F2xx devices vector table for EWARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
@@ -614,4 +614,4 @@ HASH_RNG_IRQHandler
         B HASH_RNG_IRQHandler
 
         END
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

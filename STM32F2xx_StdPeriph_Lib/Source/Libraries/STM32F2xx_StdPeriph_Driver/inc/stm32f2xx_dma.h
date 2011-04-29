@@ -2,11 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_dma.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
-  * @brief   This file contains all the functions prototypes for the DMA firmware library.
+  * @version V1.0.0
+  * @date    18-April-2011
+  * @brief   This file contains all the functions prototypes for the DMA firmware 
+  *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -15,7 +16,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -35,19 +37,18 @@
 
 /** @addtogroup DMA
   * @{
-  */ 
-
-/** @defgroup DMA_Exported_Types
-  * @{
   */
+
+/* Exported types ------------------------------------------------------------*/
 
 /** 
-  * @brief  DMA Init structure definition  
+  * @brief  DMA Init structure definition
   */
+
 typedef struct
 {
   uint32_t DMA_Channel;            /*!< Specifies the channel used for the specified stream. 
-                                        This parameter can be a value of @ref DMA_channel*/
+                                        This parameter can be a value of @ref DMA_channel */
  
   uint32_t DMA_PeripheralBaseAddr; /*!< Specifies the peripheral base address for DMAy Streamx. */
 
@@ -76,16 +77,16 @@ typedef struct
                                         This parameter can be a value of @ref DMA_memory_data_size */
 
   uint32_t DMA_Mode;               /*!< Specifies the operation mode of the DMAy Streamx.
-                                        This parameter can be a value of @ref DMA_circular_normal_mode.
-                                        @note: The circular buffer mode cannot be used if the memory-to-memory
+                                        This parameter can be a value of @ref DMA_circular_normal_mode
+                                        @note The circular buffer mode cannot be used if the memory-to-memory
                                               data transfer is configured on the selected Stream */
 
   uint32_t DMA_Priority;           /*!< Specifies the software priority for the DMAy Streamx.
                                         This parameter can be a value of @ref DMA_priority_level */
 
   uint32_t DMA_FIFOMode;          /*!< Specifies if the FIFO mode or Direct mode will be used for the specified Stream.
-                                        This parameter can be a value of @ref DMA_fifo_direct_mode.
-                                        @note: The Direct mode (FIFO mode disabled) cannot be used if the 
+                                        This parameter can be a value of @ref DMA_fifo_direct_mode
+                                        @note The Direct mode (FIFO mode disabled) cannot be used if the 
                                                memory-to-memory data transfer is configured on the selected Stream */
 
   uint32_t DMA_FIFOThreshold;      /*!< Specifies the FIFO threshold level.
@@ -94,21 +95,19 @@ typedef struct
   uint32_t DMA_MemoryBurst;        /*!< Specifies the Burst transfer configuration for the memory transfers. 
                                         It specifies the amount of data to be transferred in a single non interruptable 
                                         transaction. This parameter can be a value of @ref DMA_memory_burst 
-                                        @note: The burst mode is possible only if the address Increment mode is enabled. */
+                                        @note The burst mode is possible only if the address Increment mode is enabled. */
 
   uint32_t DMA_PeripheralBurst;    /*!< Specifies the Burst transfer configuration for the peripheral transfers. 
                                         It specifies the amount of data to be transferred in a single non interruptable 
                                         transaction. This parameter can be a value of @ref DMA_peripheral_burst
-                                        @note: The burst mode is possible only if the address Increment mode is enabled. */  
+                                        @note The burst mode is possible only if the address Increment mode is enabled. */  
 }DMA_InitTypeDef;
-/**
-  * @}
-  */
 
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup DMA_Exported_Constants
   * @{
-  */ 
+  */
 
 #define IS_DMA_ALL_PERIPH(PERIPH) (((PERIPH) == DMA1_Stream0) || \
                                    ((PERIPH) == DMA1_Stream1) || \
@@ -268,8 +267,8 @@ typedef struct
 /** @defgroup DMA_fifo_direct_mode 
   * @{
   */ 
-#define DMA_FIFOMode_Enable             ((uint32_t)0x00000000) 
-#define DMA_FIFOMode_Disable            ((uint32_t)0x00000004)
+#define DMA_FIFOMode_Disable              ((uint32_t)0x00000000) 
+#define DMA_FIFOMode_Enable               ((uint32_t)0x00000004)
 
 #define IS_DMA_FIFO_MODE_STATE(STATE) (((STATE) == DMA_FIFOMode_Disable ) || \
                                        ((STATE) == DMA_FIFOMode_Enable)) 
@@ -550,39 +549,39 @@ typedef struct
   * @}
   */ 
 
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
 
-
-/** @defgroup DMA_Exported_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-
-/** @defgroup DMA_Exported_Functions
-  * @{
-  */ 
+/*  Function used to set the DMA configuration to the default reset state *****/ 
 void DMA_DeInit(DMA_Stream_TypeDef* DMAy_Streamx);
+
+/* Initialization and Configuration functions *********************************/
 void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct);
 void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct);
 void DMA_Cmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState);
-FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx);
-void DMA_ITConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT, FunctionalState NewState);
-uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);
-void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
-uint32_t DMA_GetFIFOStatus(DMA_Stream_TypeDef* DMAy_Streamx);	
+
+/* Optional Configuration functions *******************************************/
 void DMA_PeriphIncOffsetSizeConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_Pincos);
 void DMA_FlowControllerConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FlowCtrl);
+
+/* Data Counter functions *****************************************************/
+void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
+uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);
+
+/* Double Buffer mode functions ***********************************************/
 void DMA_DoubleBufferModeConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t Memory1BaseAddr,
                                 uint32_t DMA_CurrentMemory);
 void DMA_DoubleBufferModeCmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState);
 void DMA_MemoryTargetConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t MemoryBaseAddr,
                             uint32_t DMA_MemoryTarget);
 uint32_t DMA_GetCurrentMemoryTarget(DMA_Stream_TypeDef* DMAy_Streamx);
+
+/* Interrupts and flags management functions **********************************/
+FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx);
+uint32_t DMA_GetFIFOStatus(DMA_Stream_TypeDef* DMAy_Streamx);
 FlagStatus DMA_GetFlagStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
 void DMA_ClearFlag(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+void DMA_ITConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT, FunctionalState NewState);
 ITStatus DMA_GetITStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
 void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
 
@@ -591,9 +590,6 @@ void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
 #endif
 
 #endif /*__STM32F2xx_DMA_H */
-/**
-  * @}
-  */
 
 /**
   * @}
@@ -604,4 +600,4 @@ void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
   */
 
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

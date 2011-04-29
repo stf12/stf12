@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_dac.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the DAC firmware 
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,8 +16,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_DAC_H
@@ -38,9 +39,7 @@
   * @{
   */
 
-/** @defgroup DAC_Exported_Types
-  * @{
-  */
+/* Exported types ------------------------------------------------------------*/
 
 /** 
   * @brief  DAC Init structure definition
@@ -63,9 +62,7 @@ typedef struct
                                                   This parameter can be a value of @ref DAC_output_buffer */
 }DAC_InitTypeDef;
 
-/**
-  * @}
-  */
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup DAC_Exported_Constants
   * @{
@@ -77,12 +74,13 @@ typedef struct
 
 #define DAC_Trigger_None                   ((uint32_t)0x00000000) /*!< Conversion is automatic once the DAC1_DHRxxxx register 
                                                                        has been loaded, and not by external trigger */
-#define DAC_Trigger_T6_TRGO                ((uint32_t)0x00000004) /*!< TIM6 TRGO selected as external conversion trigger for DAC channel */
-#define DAC_Trigger_T8_TRGO                ((uint32_t)0x0000000C) /*!< TIM8 TRGO selected as external conversion trigger for DAC channel */                                                                       
-#define DAC_Trigger_T7_TRGO                ((uint32_t)0x00000014) /*!< TIM7 TRGO selected as external conversion trigger for DAC channel */
-#define DAC_Trigger_T5_TRGO                ((uint32_t)0x0000001C) /*!< TIM5 TRGO selected as external conversion trigger for DAC channel */
 #define DAC_Trigger_T2_TRGO                ((uint32_t)0x00000024) /*!< TIM2 TRGO selected as external conversion trigger for DAC channel */
 #define DAC_Trigger_T4_TRGO                ((uint32_t)0x0000002C) /*!< TIM4 TRGO selected as external conversion trigger for DAC channel */
+#define DAC_Trigger_T5_TRGO                ((uint32_t)0x0000001C) /*!< TIM5 TRGO selected as external conversion trigger for DAC channel */
+#define DAC_Trigger_T6_TRGO                ((uint32_t)0x00000004) /*!< TIM6 TRGO selected as external conversion trigger for DAC channel */
+#define DAC_Trigger_T7_TRGO                ((uint32_t)0x00000014) /*!< TIM7 TRGO selected as external conversion trigger for DAC channel */
+#define DAC_Trigger_T8_TRGO                ((uint32_t)0x0000000C) /*!< TIM8 TRGO selected as external conversion trigger for DAC channel */                                                                       
+
 #define DAC_Trigger_Ext_IT9                ((uint32_t)0x00000034) /*!< EXTI Line9 event selected as external conversion trigger for DAC channel */
 #define DAC_Trigger_Software               ((uint32_t)0x0000003C) /*!< Conversion started by software trigger for DAC channel */
 
@@ -255,24 +253,16 @@ typedef struct
   * @}
   */
 
-/** @defgroup DAC_Exported_Macros
-  * @{
-  */
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/  
 
-/**
-  * @}
-  */
-
-/** @defgroup DAC_Exported_Functions
-  * @{
-  */
-
+/*  Function used to set the DAC configuration to the default reset state *****/  
 void DAC_DeInit(void);
+
+/*  DAC channels configuration: trigger, output buffer, data format functions */
 void DAC_Init(uint32_t DAC_Channel, DAC_InitTypeDef* DAC_InitStruct);
 void DAC_StructInit(DAC_InitTypeDef* DAC_InitStruct);
 void DAC_Cmd(uint32_t DAC_Channel, FunctionalState NewState);
-void DAC_ITConfig(uint32_t DAC_Channel, uint32_t DAC_IT, FunctionalState NewState);
-void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState);
 void DAC_SoftwareTriggerCmd(uint32_t DAC_Channel, FunctionalState NewState);
 void DAC_DualSoftwareTriggerCmd(FunctionalState NewState);
 void DAC_WaveGenerationCmd(uint32_t DAC_Channel, uint32_t DAC_Wave, FunctionalState NewState);
@@ -280,6 +270,12 @@ void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data);
 void DAC_SetChannel2Data(uint32_t DAC_Align, uint16_t Data);
 void DAC_SetDualChannelData(uint32_t DAC_Align, uint16_t Data2, uint16_t Data1);
 uint16_t DAC_GetDataOutputValue(uint32_t DAC_Channel);
+
+/* DMA management functions ***************************************************/
+void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState);
+
+/* Interrupts and flags management functions **********************************/
+void DAC_ITConfig(uint32_t DAC_Channel, uint32_t DAC_IT, FunctionalState NewState);
 FlagStatus DAC_GetFlagStatus(uint32_t DAC_Channel, uint32_t DAC_FLAG);
 void DAC_ClearFlag(uint32_t DAC_Channel, uint32_t DAC_FLAG);
 ITStatus DAC_GetITStatus(uint32_t DAC_Channel, uint32_t DAC_IT);
@@ -290,9 +286,6 @@ void DAC_ClearITPendingBit(uint32_t DAC_Channel, uint32_t DAC_IT);
 #endif
 
 #endif /*__STM32F2xx_DAC_H */
-/**
-  * @}
-  */
 
 /**
   * @}
@@ -302,4 +295,4 @@ void DAC_ClearITPendingBit(uint32_t DAC_Channel, uint32_t DAC_IT);
   * @}
   */
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

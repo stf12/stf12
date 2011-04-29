@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32f2xx_crc.h
   * @author  MCD Application Team
-  * @version V0.0.3
-  * @date    10/15/2010
+  * @version V1.0.0
+  * @date    18-April-2011
   * @brief   This file contains all the functions prototypes for the CRC firmware 
   *          library.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,8 +16,9 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F2xx_CRC_H
@@ -38,13 +39,8 @@
   * @{
   */
 
-/** @defgroup CRC_Exported_Types
-  * @{
-  */
-
-/**
-  * @}
-  */
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup CRC_Exported_Constants
   * @{
@@ -54,17 +50,8 @@
   * @}
   */
 
-/** @defgroup CRC_Exported_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup CRC_Exported_Functions
-  * @{
-  */
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/  
 
 void CRC_ResetDR(void);
 uint32_t CRC_CalcCRC(uint32_t Data);
@@ -78,9 +65,6 @@ uint8_t CRC_GetIDRegister(void);
 #endif
 
 #endif /* __STM32F2xx_CRC_H */
-/**
-  * @}
-  */
 
 /**
   * @}
@@ -90,4 +74,4 @@ uint8_t CRC_GetIDRegister(void);
   * @}
   */
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
