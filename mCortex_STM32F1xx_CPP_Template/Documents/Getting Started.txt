@@ -1,4 +1,0 @@
-Getting Started with a new C++ project
---------------------------------------
-
-TO DO !!!
