@@ -1,9 +1,12 @@
 /**
- * @file CTimer.h
- * @class CTimer
+ * @file ATimer.h
+ * @class ATimer
  * @ingroup FreeRTOS_Wrapper
  *
- * The CTimer class wraps a native FreeRTOS timer handle (xTimerHandle).
+ * The ATimer class wraps a native FreeRTOS timer handle (xTimerHandle). The application must subclass this class and
+ * implements the pure virtual method ATimer::OnExpired. The ATimer::OnExpired method is called when the timer period expires.
+ * This class conforms to the iFreeRTOSProtocol protocol, so the application has to call the object ATimer::Create
+ * method in order to allocate the underling FreeRTOS resource before using it.
  *
  * \sa <a href="http://www.freertos.org/RTOS-software-timer.html">Software Timer documentation</a> in the FreeRTOS web site.
  *
@@ -20,12 +23,20 @@
 #include "task.h"
 #include "IFreeRTOSProtocol.h"
 
-class CTimer: public IFreeRTOSObj {
+class ATimer: public IFreeRTOSObj {
 
 	/**
 	 * Specifies the native FreeRTOS handle managed by an instance of this class.
 	 */
 	xTimerHandle m_handleTimer;
+
+	/**
+	 * Default timer callback. It gets the timer identifier, that is a pointer to the
+	 * ATimer application derived object, and call the OnExpired method on that object.
+	 *
+	 * @param xTimer handle to the expired timer.
+	 */
+	static void Callback(xTimerHandle xTimer);
 
 public:
 
@@ -33,19 +44,19 @@ public:
 	 * The default constructor. It initializes the object without attaching it to a native FreeRTOS handle.
 	 * Call the Create method to allocate a timer handle and attach it to the object.
 	 */
-	CTimer();
+	ATimer();
 
 	/**
-	 * Create a CTimer instance and attach it to a valid handle.
+	 * Create a ATimer instance and attach it to a valid handle.
 	 *
 	 * @param handleTimer a valid timer handle.
 	 */
-	CTimer(xTimerHandle handleTimer);
+	ATimer(xTimerHandle handleTimer);
 
 	/**
 	 * Delete the native FreeRTOS timer.
 	 */
-	virtual ~CTimer();
+	virtual ~ATimer();
 
 	/**
 	 * Retrieve the native FreeRTOS timer handle attached to this object.
@@ -55,12 +66,17 @@ public:
 	inline operator xTimerHandle() const { return m_handleTimer; }
 
 	/**
+	 * Allocate the FreeRTOS timer object. The timer identifier of the wrapped xTimerCreate function
+	 * is used to pass a pointer to this object.
+	 *
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerCreate.html">xTimerCreate</a> FreeRTOS API function.
 	 */
-	CTimer &Create(const signed char *pcTimerName, portTickType xTimerPeriod, unsigned portBASE_TYPE uxAutoReload);//, void * pvTimerID, tmrTIMER_CALLBACK pxCallbackFunction);
+	ATimer &Create(const signed char *pcTimerName, portTickType xTimerPeriod, unsigned portBASE_TYPE uxAutoReload);
 
+	/**
+	 * Application defined callback called when the timer expire.
+	 */
 	virtual void OnExpired() =0;
-	static void Callback(xTimerHandle xTimer);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerIsTimerActive.html">xTimerIsTimerActive</a>  FreeRTOS API function.
@@ -130,57 +146,57 @@ public:
 #if ( configUSE_TIMERS == 1 )
 
 inline
-portBASE_TYPE CTimer::IsTimerActive() const {
+portBASE_TYPE ATimer::IsTimerActive() const {
 	return xTimerIsTimerActive(m_handleTimer);
 }
 
 inline
-portBASE_TYPE CTimer::Start(portTickType xBlockTime) {
+portBASE_TYPE ATimer::Start(portTickType xBlockTime) {
 	return xTimerStart(m_handleTimer, xBlockTime);
 }
 
 inline
-portBASE_TYPE CTimer::Stop(portTickType xBlockTime) {
+portBASE_TYPE ATimer::Stop(portTickType xBlockTime) {
 	return xTimerStop(m_handleTimer, xBlockTime);
 }
 
 inline
-portBASE_TYPE CTimer::ChangePeriod(portTickType xNewPeriod, portTickType xBlockTime) {
+portBASE_TYPE ATimer::ChangePeriod(portTickType xNewPeriod, portTickType xBlockTime) {
 	return xTimerChangePeriod(m_handleTimer, xNewPeriod, xBlockTime);
 }
 
 inline
-portBASE_TYPE CTimer::Reset(portTickType xBlockTime) {
+portBASE_TYPE ATimer::Reset(portTickType xBlockTime) {
 	return xTimerReset(m_handleTimer, xBlockTime);
 }
 
 inline
-portBASE_TYPE CTimer::StartFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken) {
+portBASE_TYPE ATimer::StartFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken) {
 	return xTimerStartFromISR(m_handleTimer, pxHigherPriorityTaskWoken);
 }
 
 inline
-portBASE_TYPE CTimer::ChangePeriodFromISR(portTickType xNewPeriod, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+portBASE_TYPE ATimer::ChangePeriodFromISR(portTickType xNewPeriod, portBASE_TYPE *pxHigherPriorityTaskWoken) {
 	return xTimerChangePeriodFromISR(m_handleTimer, xNewPeriod, pxHigherPriorityTaskWoken);
 }
 
 inline
-portBASE_TYPE CTimer::ResetFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken) {
+portBASE_TYPE ATimer::ResetFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken) {
 	return xTimerResetFromISR(m_handleTimer, pxHigherPriorityTaskWoken);
 }
 
 inline
-void *CTimer::GetTimerID() const {
+void *ATimer::GetTimerID() const {
 	return pvTimerGetTimerID(m_handleTimer);
 }
 
 inline
-bool CTimer::IsValid() const{
+bool ATimer::IsValid() const{
 	return m_handleTimer != NULL;
 }
 
 inline
-xGenericHandle CTimer::Detach() {
+xGenericHandle ATimer::Detach() {
 	xTimerHandle res = m_handleTimer;
 	m_handleTimer = NULL;
 	return res;
