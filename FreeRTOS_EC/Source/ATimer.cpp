@@ -6,7 +6,7 @@
  *         E-Mail: software@stf12.net
  */
 
-#include "CTimer.h"
+#include "ATimer.h"
 #include <assert.h>
 
 #if ( configUSE_TIMERS == 1 )
