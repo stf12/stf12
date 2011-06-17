@@ -21,7 +21,7 @@
  *
  * \sa <a href="http://www.freertos.org/taskandcr.html">task documentation</a> in the FreeRTOS web site.
  *
- * @file Jul 5, 2010
+ * @date Jul 5, 2010
  * @author Stefano Oliveri (STF12.net)
  *         E-Mail: software@stf12.net
  */

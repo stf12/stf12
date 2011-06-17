@@ -61,6 +61,8 @@ void CTask::Delete() {
 	if (m_handleTask != NULL) {
 #if ( INCLUDE_vTaskDelete == 1 )
 		vTaskDelete(m_handleTask);
+#else
+		vTaskSuspend(m_handleTask);
 #endif
 		m_handleTask = NULL;
 	}

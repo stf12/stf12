@@ -197,7 +197,7 @@ public:
 	 * \sa SendMessage
 	 *
 	 * @param pMsg specifies the message to send.
-	 * @param nTicksToWait specifies the maximum amount of time the calling task should block.
+	 * @param pxHigherPriorityTaskWoken specifies the maximum amount of time the calling task should block.
 	 * @return <code>true</code> if the message was sent, <code>false</code> otherwise.
 	 */
 	bool SenfFromISR(CMessage *pMsg, portBASE_TYPE * pxHigherPriorityTaskWoken);
