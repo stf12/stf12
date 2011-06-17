@@ -9,14 +9,20 @@
 #define CTIMERTESTTASK_H_
 
 #include <AManagedTask.h>
-#include <CTimer.h>
+#include <ATimer.h>
 
-class CMyOneShotTimer: public CTimer {
+/**
+ * One Shot timer class.
+ */
+class CMyOneShotTimer: public ATimer {
 public:
 	void OnExpired();
 };
 
-class CMyAutoReloadTimer: public CTimer {
+/**
+ * Auto Reload timer class
+ */
+class CMyAutoReloadTimer: public ATimer {
 public:
 	void OnExpired();
 };

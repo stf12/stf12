@@ -38,6 +38,7 @@
 #define mainINTEGER_TASK_PRIORITY           ( tskIDLE_PRIORITY )
 #define mainQUEUE_POLL_PRIORITY				( tskIDLE_PRIORITY + 2 )
 #define mainSEM_TEST_PRIORITY				( tskIDLE_PRIORITY + 1 )
+#define mainTIMER_TEST_PRIORITY				( configMAX_PRIORITIES - 2 )
 
 
 
@@ -97,7 +98,7 @@ int main() {
 	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
 
 	static CTimerTestTask s_timerTask;
-	s_timerTask.Create("TimerT", configMINIMAL_STACK_SIZE*2, configMAX_PRIORITIES-2);
+	s_timerTask.Create("timer_t", configMINIMAL_STACK_SIZE*2, mainTIMER_TEST_PRIORITY);
 
 
 	CFreeRTOS::InitHardwareForManagedTasks();
