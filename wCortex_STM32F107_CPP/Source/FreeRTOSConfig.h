@@ -76,6 +76,10 @@
 #define configUSE_TRACE_FACILITY	0
 #define configUSE_16_BIT_TICKS		0
 #define configIDLE_SHOULD_YIELD		1
+#define configUSE_TIMERS			1
+#define configTIMER_TASK_PRIORITY	1
+#define configTIMER_QUEUE_LENGTH	3
+#define configTIMER_TASK_STACK_DEPTH ( 2*configMINIMAL_STACK_SIZE )
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0
@@ -89,12 +93,17 @@
 #define configQUEUE_REGISTRY_SIZE		0
 #define configGENERATE_RUN_TIME_STATS	0
 
+//#define configUSE_TIMERS 				0
+//#define configTIMER_QUEUE_LENGTH		0
+//#define configTIMER_TASK_STACK_DEPTH 	0
+//#define configTIMER_TASK_PRIORITY		0
+
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
 
 #define INCLUDE_vTaskPrioritySet			1
 #define INCLUDE_uxTaskPriorityGet			1
-#define INCLUDE_vTaskDelete					0
+#define INCLUDE_vTaskDelete					1
 #define INCLUDE_vTaskCleanUpResources		0
 #define INCLUDE_vTaskSuspend				1
 #define INCLUDE_xTaskResumeFromISR			1

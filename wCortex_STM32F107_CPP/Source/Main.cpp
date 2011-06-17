@@ -28,8 +28,8 @@
 #include "CLcdTask2.h"
 #include "CGuardTestTask.h"
 #include "CMessageTestTask.h"
-
 #include "CHeapTestTask.h"
+#include "CTimerTestTask.h"
 
 
 /* Task priorities. */
@@ -64,7 +64,7 @@ CHeapTestTaskMonitor g_HeapTestMonitorTask;
 CMessageTestTask g_MessageTestTask;
 
 /**
- * @brief: Main programma.
+ * @brief: Main program.
  */
 int main() {
 
@@ -95,6 +95,9 @@ int main() {
 	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
 	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
 	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
+
+	static CTimerTestTask s_timerTask;
+	s_timerTask.Create("TimerT", configMINIMAL_STACK_SIZE*2, configMAX_PRIORITIES-2);
 
 
 	CFreeRTOS::InitHardwareForManagedTasks();
