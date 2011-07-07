@@ -2,8 +2,8 @@
  * @file NOR_flash.c
  * @ingroup LOW_LEVEL_API
  *
- * @version V4.3.0
- * @date October 15, 2010
+ * @version V4.3.1
+ * @date July 7, 2011
  * @author MCD Application Team
  * @note Module: Ext Mem Lib
  *
@@ -39,8 +39,17 @@
 
 #define ADDR_SHIFT(B,A) (B + (2 * (A)))
 #define NOR_WRITE(nAddress, xData)  (*(volatile uint16_t *)(nAddress) = (xData))
-#define NOR_IS_READY() (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_6) != RESET)
-#define NOR_IS_BUSY() (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_6) == RESET)
+#define NOR_IS_READY() (GPIO_ReadInputDataBit(FSMC_NWAIT_GPIO_PORT, FSMC_NWAIT_GPIO_PIN) != RESET)
+#define NOR_IS_BUSY() (GPIO_ReadInputDataBit(FSMC_NWAIT_GPIO_PORT, FSMC_NWAIT_GPIO_PIN) == RESET)
+
+
+
+//	static uint16_t nTemp2,nTemp2a,nTemp2b;
+//	static uint32_t s_nTimeout = NOR_BUFFERED_PROGRAM_TIMEOUT;
+
+
+
+
 
 void NorInit()
 {
@@ -48,54 +57,154 @@ void NorInit()
 	FSMC_NORSRAMTimingInitTypeDef  p;
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE |
-			RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOG, ENABLE);
+	RCC_APB2PeriphClockCmd(FSMC_GPIO_RCC, ENABLE);
 
 	/*-- GPIO Configuration ------------------------------------------------------*/
 	/* NOR Data lines configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_8 | GPIO_Pin_9 |
-			GPIO_Pin_10 | GPIO_Pin_14 | GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA0_GPIO_PIN;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	GPIO_Init(FSMC_DATA0_GPIO_PORT, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 |
-			GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 |
-			GPIO_Pin_14 | GPIO_Pin_15;
-	GPIO_Init(GPIOE, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA1_GPIO_PIN;
+	GPIO_Init(FSMC_DATA1_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA2_GPIO_PIN;
+	GPIO_Init(FSMC_DATA2_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA3_GPIO_PIN;
+	GPIO_Init(FSMC_DATA3_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA4_GPIO_PIN;
+	GPIO_Init(FSMC_DATA4_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA5_GPIO_PIN;
+	GPIO_Init(FSMC_DATA5_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA6_GPIO_PIN;
+	GPIO_Init(FSMC_DATA6_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA7_GPIO_PIN;
+	GPIO_Init(FSMC_DATA7_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA8_GPIO_PIN;
+	GPIO_Init(FSMC_DATA8_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA9_GPIO_PIN;
+	GPIO_Init(FSMC_DATA9_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA10_GPIO_PIN;
+	GPIO_Init(FSMC_DATA10_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA11_GPIO_PIN;
+	GPIO_Init(FSMC_DATA11_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA12_GPIO_PIN;
+	GPIO_Init(FSMC_DATA12_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA13_GPIO_PIN;
+	GPIO_Init(FSMC_DATA13_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA14_GPIO_PIN;
+	GPIO_Init(FSMC_DATA14_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_DATA15_GPIO_PIN;
+	GPIO_Init(FSMC_DATA15_GPIO_PORT, &GPIO_InitStructure);
 
 	/* NOR Address lines configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
-			GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_12 | GPIO_Pin_13 |
-			GPIO_Pin_14 | GPIO_Pin_15;
-	GPIO_Init(GPIOF, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR0_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR0_GPIO_PORT, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 |
-			GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
-	GPIO_Init(GPIOG, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR1_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR1_GPIO_PORT, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR2_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR2_GPIO_PORT, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6;
-	GPIO_Init(GPIOE, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR3_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR3_GPIO_PORT, &GPIO_InitStructure);
 
-	/* NOE and NWE configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR4_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR4_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR5_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR5_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR6_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR6_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR7_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR7_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR8_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR8_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR9_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR9_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR10_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR10_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR11_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR11_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR12_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR12_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR13_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR13_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR14_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR14_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR15_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR15_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR16_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR16_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR17_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR17_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR18_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR18_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR19_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR19_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR20_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR20_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR21_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR21_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR22_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR22_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = FSMC_ADDR23_GPIO_PIN;
+	GPIO_Init(FSMC_ADDR23_GPIO_PORT, &GPIO_InitStructure);
+
+
+	/* NOE configuration */
+	GPIO_InitStructure.GPIO_Pin = FSMC_NOE_GPIO_PIN;
+	GPIO_Init(FSMC_NOE_GPIO_PORT, &GPIO_InitStructure);
+
+	/* NWE configuration */
+	GPIO_InitStructure.GPIO_Pin = FSMC_NWE_GPIO_PIN;
+	GPIO_Init(FSMC_NWE_GPIO_PORT, &GPIO_InitStructure);
 
 	//  /* NE1 configuration */  // for future implementation with 2 flash Banks
-	//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-	//  GPIO_Init(GPIOD, &GPIO_InitStructure);
+	//  GPIO_InitStructure.GPIO_Pin = FSMC_NE1_GPIO_PIN;
+	//  GPIO_Init(FSMC_NE1_GPIO_PORT, &GPIO_InitStructure);
 
 	/* NE2 configuration */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-	GPIO_Init(GPIOG, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = FSMC_NE2_GPIO_PIN;
+	GPIO_Init(FSMC_NE2_GPIO_PORT, &GPIO_InitStructure);
 
 	/* Configure PD6 for NOR memory Ready/Busy signal */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+	GPIO_InitStructure.GPIO_Pin = FSMC_NWAIT_GPIO_PIN;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	GPIO_Init(FSMC_NWAIT_GPIO_PORT, &GPIO_InitStructure);
 
 	/*-- FSMC Configuration ----------------------------------------------------*/
 	p.FSMC_AddressSetupTime = 0x02;
@@ -124,12 +233,8 @@ void NorInit()
 
 	FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);
 
-	//  HexComPrintf(NorIsFsmcEnabled(FSMC_Bank1_NORSRAM2),DEBUG_COM);
-
 	/* Enable FSMC Bank1_NOR Bank */
 	FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM2, ENABLE);
-
-	//  HexComPrintf(NorIsFsmcEnabled(FSMC_Bank1_NORSRAM2),DEBUG_COM);
 }
 
 uint8_t NorIsFsmcEnabled(uint32_t nBank)
@@ -150,7 +255,7 @@ void NorReadID(uint32_t nBankAddr, NorId* pxNorId)
 }
 
 
-gts_error_t NorEraseBlock(uint32_t nBankAddr, uint32_t nBlockAddr)
+sys_error_t NorEraseBlock(uint32_t nBankAddr, uint32_t nBlockAddr)
 {
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x0555), 0x00AA);
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x02AA), 0x0055);
@@ -163,7 +268,7 @@ gts_error_t NorEraseBlock(uint32_t nBankAddr, uint32_t nBlockAddr)
 }
 
 
-gts_error_t NorEraseChip(uint32_t nBankAddr)
+sys_error_t NorEraseChip(uint32_t nBankAddr)
 {
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x0555), 0x00AA);
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x02AA), 0x0055);
@@ -176,7 +281,7 @@ gts_error_t NorEraseChip(uint32_t nBankAddr)
 }
 
 
-gts_error_t NorWriteHalfWord(uint32_t nBankAddr, uint32_t nWriteAddr, uint16_t nData)
+sys_error_t NorWriteHalfWord(uint32_t nBankAddr, uint32_t nWriteAddr, uint16_t nData)
 {
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x0555), 0x00AA);
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x02AA), 0x0055);
@@ -187,9 +292,9 @@ gts_error_t NorWriteHalfWord(uint32_t nBankAddr, uint32_t nWriteAddr, uint16_t n
 }
 
 
-gts_error_t NorWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite)
+sys_error_t NorWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite)
 {
-	gts_error_code_t xStatus = SYS_NOR_FLASH_ONGOING_ERROR_CODE;
+	sys_error_code_t xStatus = SYS_NOR_FLASH_ONGOING_ERROR_CODE;
 
 	do
 	{
@@ -235,7 +340,7 @@ void NorReadBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nReadAddr, u
 }
 
 
-gts_error_t NorReturnToReadMode(uint32_t nBankAddr)
+sys_error_t NorReturnToReadMode(uint32_t nBankAddr)
 {
 	NOR_WRITE(nBankAddr, 0x00F0);
 
@@ -243,7 +348,7 @@ gts_error_t NorReturnToReadMode(uint32_t nBankAddr)
 }
 
 
-gts_error_t NorReset(uint32_t nBankAddr)
+sys_error_t NorReset(uint32_t nBankAddr)
 {
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x00555), 0x00AA);
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x002AA), 0x0055);
@@ -253,21 +358,21 @@ gts_error_t NorReset(uint32_t nBankAddr)
 }
 
 
-gts_error_t NorGetStatus(uint32_t nBankAddr, uint32_t nTimeout)
+sys_error_t NorGetStatus(uint32_t nBankAddr, uint32_t nTimeout)
 {
 	uint16_t nVal1 = 0x00, nVal2 = 0x00;
-	gts_error_code_t xStatus = SYS_NOR_FLASH_ONGOING_ERROR_CODE;
+	sys_error_code_t xStatus = SYS_NOR_FLASH_ONGOING_ERROR_CODE;
 	uint32_t nTimeoutTemp = nTimeout;
 
 	/* Poll on NOR memory Ready/Busy signal (FSMC_NWAIT) ---------------------*/
-	while((GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_6) != RESET) && (nTimeoutTemp > 0))
+	while((GPIO_ReadInputDataBit(FSMC_NWAIT_GPIO_PORT, FSMC_NWAIT_GPIO_PIN) != RESET) && (nTimeoutTemp > 0))
 	{
 		nTimeoutTemp--;
 	}
 
 	nTimeoutTemp = nTimeout;
 
-	while((GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_6) == RESET) && (nTimeoutTemp > 0))
+	while((GPIO_ReadInputDataBit(FSMC_NWAIT_GPIO_PORT, FSMC_NWAIT_GPIO_PIN) == RESET) && (nTimeoutTemp > 0))
 	{
 		nTimeoutTemp--;
 	}
@@ -317,7 +422,7 @@ gts_error_t NorGetStatus(uint32_t nBankAddr, uint32_t nTimeout)
 	return SYS_NO_ERROR;
 }
 
-gts_error_t NorWriteToBufferAndProgramAbort(uint32_t nBankAddr)
+sys_error_t NorWriteToBufferAndProgramAbort(uint32_t nBankAddr)
 {
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x00555), 0x00AA);
 	NOR_WRITE(ADDR_SHIFT(nBankAddr,0x002AA), 0x0055);
@@ -327,16 +432,14 @@ gts_error_t NorWriteToBufferAndProgramAbort(uint32_t nBankAddr)
 }
 
 
-gts_error_t NorWriteToBufferAndProgram(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite)
+sys_error_t NorWriteToBufferAndProgram(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite)
 {
-	uint16_t nTemp2;//,nTemp1;
-	//  NorWriteToBufferAndProgramAbort();
-	//  NorReset();
+	uint16_t nTemp2 = 0xA5A5;
+	uint32_t s_nTimeout = NOR_BUFFERED_PROGRAM_TIMEOUT;
 
 	uint32_t nWriteBufferLocation = nWriteAddr;
 
 	uint32_t nHalfwordToWrite = nNumHalfwordToWrite;
-	//  int status = SYS_NOR_FLASH_ONGOING_ERROR_CODE;
 	if((nHalfwordToWrite > FLASH_PAGE_SIZE /2) || (nHalfwordToWrite > (FLASH_PAGE_SIZE - (nWriteAddr & FLASH_PAGE_SIZE_MASK)) /2 ))  //must have page aligned data
 	{
 		SYS_SET_LOW_LEVEL_ERROR_CODE(SYS_NOR_FLASH_CANNOT_USE_WRITE_TO_BUFFER);
@@ -350,7 +453,6 @@ gts_error_t NorWriteToBufferAndProgram(uint32_t nBankAddr, uint16_t* pnBuffer, u
 
 	do
 	{
-		//	if( nHalfwordToWrite != 1 )nTemp1 = *pnBuffer;
 		/* Transfer data to the write buffer */
 		NOR_WRITE((nBankAddr + nWriteAddr ), *pnBuffer++);
 		nWriteAddr += 2;
@@ -361,16 +463,13 @@ gts_error_t NorWriteToBufferAndProgram(uint32_t nBankAddr, uint16_t* pnBuffer, u
 	NOR_WRITE((nBankAddr + nWriteBufferLocation), 0x0029);  //write to buffer and program command confirm
 
 	pnBuffer--;
-	//  nTemp1 = *pnBuffer;  //
 	nWriteAddr -= 2;
-	uint32_t nTimeout = NOR_BUFFERED_PROGRAM_TIMEOUT;
 
-	nTemp2 = 0x00CC;  //TODO: FS - ????????????????????? chiedere
-
-	while (nTimeout--)
+	while (s_nTimeout--)
 	{
-		if(NOR_IS_BUSY())
+		if(NOR_IS_BUSY()){
 			nTemp2 = *(volatile uint16_t *)(nBankAddr + nWriteAddr);  //read status register at last loaded address
+		}
 
 		if(NOR_IS_READY())
 		{
@@ -380,27 +479,24 @@ gts_error_t NorWriteToBufferAndProgram(uint32_t nBankAddr, uint16_t* pnBuffer, u
 			}
 			if((nTemp2 & 0x0080) != ((*pnBuffer) & 0x0080))  //DQ7 = !DATA -> OK
 			{
-				//		  nTimeout = 0x1000;
-				//		  while (nTimeout --);
 				return SYS_NO_ERROR;
 			}
 
-			if((nTemp2 & 0x0020) == 1)
+			else if((nTemp2 & 0x0020) == 0x0020)
 			{
 				break;
 			}
-			else
+			else if((nTemp2 & 0x0002) == 0x0002)
 			{
-				if((nTemp2 & 0x0002) == 1)
-					break;
+				break;
 			}
+			break;
 		}
-
 	}
 
 	nTemp2 = *(volatile uint16_t *)(nBankAddr + nWriteAddr);  //read status register at last loaded address
 
-	if((!NOR_IS_BUSY()) && ((nTemp2 & 0x0080) == !((*pnBuffer) & 0x0080)))  //DQ7 = !DATA -> OK
+	if(NOR_IS_READY() && (nTemp2 == (*pnBuffer) ))  //DQ7 = !DATA -> OK
 		return SYS_NO_ERROR;
 	else
 	{
@@ -408,19 +504,10 @@ gts_error_t NorWriteToBufferAndProgram(uint32_t nBankAddr, uint16_t* pnBuffer, u
 		SYS_SET_LOW_LEVEL_ERROR_CODE(SYS_NOR_FLASH_WRITE_TO_BUFFER_FAILED);
 		return SYS_GET_LAST_ERROR();
 	}
-
-	//  status = SYS_GET_LOW_LEVEL_ERROR_CODE(NorGetStatus(NOR_PROGRAM_TIMEOUT));
-	//  if(status == SYS_NO_ERROR_CODE)
-	//	return SYS_NO_ERROR;
-	//  else
-	//  {
-	//	SYS_SET_LOW_LEVEL_ERROR_CODE(status);
-	//	return SYS_GET_LAST_ERROR();
-	//  }
 }
 
 
-gts_error_t NorFastWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite, uint32_t* nHalfWordActuallyWritten)
+sys_error_t NorFastWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite, uint32_t* nHalfWordActuallyWritten)
 {
 	*nHalfWordActuallyWritten = 0;
 	if(((nWriteAddr & FLASH_PAGE_SIZE_MASK)!=0) && (nNumHalfwordToWrite < (FLASH_PAGE_SIZE - (nWriteAddr & FLASH_PAGE_SIZE_MASK)) /2 ))  //not aligned data
@@ -458,8 +545,17 @@ gts_error_t NorFastWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t 
 		}
 		else
 		{
-			if(SYS_GET_LOW_LEVEL_ERROR_CODE(NorWriteToBufferAndProgram(nBankAddr,pnBuffer,nWriteAddr,FLASH_PAGE_SIZE/2))!=0)
-				return SYS_GET_LAST_ERROR();
+
+			for (uint8_t nTryProgram = 0;nTryProgram<3;nTryProgram++)
+			{
+				if(SYS_GET_LOW_LEVEL_ERROR_CODE(NorWriteToBufferAndProgram(nBankAddr,pnBuffer,nWriteAddr,FLASH_PAGE_SIZE/2))!=0)
+				{
+					if(nTryProgram==3)
+					  return SYS_GET_LAST_ERROR();
+				}
+				else
+				  break;
+			}
 
 			*nHalfWordActuallyWritten += FLASH_PAGE_SIZE /2;
 			nNumHalfwordToWrite -= FLASH_PAGE_SIZE /2;
@@ -469,6 +565,5 @@ gts_error_t NorFastWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t 
 	}
 	return SYS_NO_ERROR;
 }
-
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

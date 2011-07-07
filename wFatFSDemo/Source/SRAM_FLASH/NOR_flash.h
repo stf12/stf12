@@ -36,6 +36,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 #include "syserror.h"
+#include "BSP_HAL.h"
 
 typedef struct NorId_t
 {
@@ -65,7 +66,7 @@ typedef struct NorId_t
   * M29W128GL Page size: 64 Bytes
   * Used in NorWriteToBufferAndProgram Function
   */
-#define FLASH_PAGE_SIZE				(0x40) //TODO: FS: Esportare FLASH_PAGE_SIZE oppure no?
+#define FLASH_PAGE_SIZE				(0x40)
 #define FLASH_PAGE_SIZE_MASK		(FLASH_PAGE_SIZE - 1)
 
 /**
@@ -103,7 +104,7 @@ void NorReadID(uint32_t nBankAddr, NorId* pxNorId);
   * @retval The returned value can be one of GTS_NO_ERROR, GTS_NOR_FLASH_ONGOING_ERROR_CODE
   * or GTS_NOR_FLASH_TIMEOUT_ERROR_CODE
   */
-gts_error_t NorEraseBlock(uint32_t nBankAddr, uint32_t nBlockAddr);
+sys_error_t NorEraseBlock(uint32_t nBankAddr, uint32_t nBlockAddr);
 
 /**
   * Erases the entire chip.
@@ -114,7 +115,7 @@ gts_error_t NorEraseBlock(uint32_t nBankAddr, uint32_t nBlockAddr);
   * @retval The returned value can be one of GTS_NO_ERROR, GTS_NOR_FLASH_ONGOING_ERROR_CODE
   * or GTS_NOR_FLASH_TIMEOUT_ERROR_CODE
   */
-gts_error_t NorEraseChip(uint32_t nBankAddr);
+sys_error_t NorEraseChip(uint32_t nBankAddr);
 
 
 /**
@@ -128,7 +129,7 @@ gts_error_t NorEraseChip(uint32_t nBankAddr);
   * @retval The returned value can be one of GTS_NO_ERROR, GTS_NOR_FLASH_ONGOING_ERROR_CODE
   * or GTS_NOR_FLASH_TIMEOUT_ERROR_CODE
   */
-gts_error_t NorWriteHalfWord(uint32_t nBankAddr, uint32_t nWriteAddr, uint16_t nData);
+sys_error_t NorWriteHalfWord(uint32_t nBankAddr, uint32_t nWriteAddr, uint16_t nData);
 
 /**
   * Writes a half-word (16bit) buffer to the FSMC NOR memory.
@@ -142,7 +143,7 @@ gts_error_t NorWriteHalfWord(uint32_t nBankAddr, uint32_t nWriteAddr, uint16_t n
   * @retval The returned value can be: GTS_NO_ERROR, GTS_NOR_FLASH_ONGOING_ERROR_CODE
   * or GTS_NOR_FLASH_TIMEOUT_ERROR_CODE
   */
-gts_error_t NorWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite);
+sys_error_t NorWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite);
 
 
 /**
@@ -157,7 +158,7 @@ gts_error_t NorWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWri
   *
   * @retval The returned value can be one of GTS_NO_ERROR, GTS_NOR_FLASH_ONGOING_ERROR_CODE or GTS_NOR_FLASH_TIMEOUT_ERROR_CODE
   */
-gts_error_t NorFastWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite, uint32_t* pnHalfWordActuallyWritten);
+sys_error_t NorFastWriteBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nWriteAddr, uint32_t nNumHalfwordToWrite, uint32_t* pnHalfWordActuallyWritten);
 
 
 /**
@@ -190,7 +191,7 @@ void NorReadBuffer(uint32_t nBankAddr, uint16_t* pnBuffer, uint32_t nReadAddr, u
   *
   * @retval GTS_NO_ERROR
   */
-gts_error_t NorReturnToReadMode(uint32_t nBankAddr);
+sys_error_t NorReturnToReadMode(uint32_t nBankAddr);
 
 /**
   * Returns the NOR memory to Read mode and resets the errors in the NOR memory Status Register.
@@ -200,7 +201,7 @@ gts_error_t NorReturnToReadMode(uint32_t nBankAddr);
   *
   * @retval GTS_NO_ERROR.
   */
-gts_error_t NorReset(uint32_t nBankAddr);
+sys_error_t NorReset(uint32_t nBankAddr);
 
 /**
   * Returns the NOR operation status.
@@ -211,7 +212,7 @@ gts_error_t NorReset(uint32_t nBankAddr);
   * @retval The returned value can be one of GTS_NO_ERROR, GTS_NOR_FLASH_ONGOING_ERROR_CODE or
   * GTS_NOR_FLASH_TIMEOUT_ERROR_CODE.
   */
-gts_error_t NorGetStatus(uint32_t nBankAddr, uint32_t nTimeout);
+sys_error_t NorGetStatus(uint32_t nBankAddr, uint32_t nTimeout);
 
 #ifdef __cplusplus
 }

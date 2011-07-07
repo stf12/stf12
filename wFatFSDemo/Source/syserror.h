@@ -15,8 +15,8 @@
  * in the most significant 16 bits (bit [16, 31]).
  * The application uses the SYS_GET_LAST_ERROR() macro to retrieve the last error.
  *
- * @todo Code review: to change all functions returning a gts_error_t value in order to
- * return a gts_error_code_t value.
+ * @todo Code review: to change all functions returning a sys_error_t value in order to
+ * return a sys_error_code_t value.
  */
 
 /*
@@ -40,7 +40,7 @@
 
 #include <assert.h>
 
-typedef unsigned short gts_error_code_t;
+typedef unsigned short sys_error_code_t;
 
 typedef union {
 	unsigned long error_code;
@@ -48,32 +48,32 @@ typedef union {
 		unsigned int low_level_e:		16;
 		unsigned int service_level_e:	16;
 	} type;
-}gts_error_t;
+}sys_error_t;
 
-extern gts_error_t g_nGtsError;
+extern sys_error_t g_nSysError;
 
-#define SYS_CLEAR_ERROR() {g_nGtsError.error_code = 0;}
+#define SYS_CLEAR_ERROR() {g_nSysError.error_code = 0;}
 #define SYS_IS_ERROR(e) (e.error_code != 0)
 #define SYS_IS_LOW_LEVEL_ERROR(e) ( (e).type.low_level_e )
 #define SYS_IS_SERVICE_LEVEL_ERROR(e) ( (e).type.service_level_e )
-#define SYS_SET_LOW_LEVEL_ERROR_CODE(e) {g_nGtsError.type.low_level_e = e;}
-#define SYS_SET_SERVICE_LEVEL_ERROR_CODE(e) {g_nGtsError.type.service_level_e = e;}
-#define SYS_GET_LAST_ERROR() g_nGtsError
-#define SYS_GET_LAST_LOW_LEVEL_ERROR_CODE() (g_nGtsError.type.low_level_e)
-#define SYS_GET_LAST_SERVICE_LEVEL_ERROR_CODE() (g_nGtsError.type.service_level_e)
+#define SYS_SET_LOW_LEVEL_ERROR_CODE(e) {g_nSysError.type.low_level_e = e;}
+#define SYS_SET_SERVICE_LEVEL_ERROR_CODE(e) {g_nSysError.type.service_level_e = e;}
+#define SYS_GET_LAST_ERROR() g_nSysError
+#define SYS_GET_LAST_LOW_LEVEL_ERROR_CODE() (g_nSysError.type.low_level_e)
+#define SYS_GET_LAST_SERVICE_LEVEL_ERROR_CODE() (g_nSysError.type.service_level_e)
 #define SYS_GET_LOW_LEVEL_ERROR_CODE(e) (e.type.low_level_e)
 #define SYS_GET_SERVICE_LEVEL_ERROR_CODE(e)	(e.type.service_level_e)
 
-#define SYS_NO_ERROR 									((gts_error_t){0x0})
+#define SYS_NO_ERROR 									((sys_error_t){0x0})
 #define SYS_NO_ERROR_CODE								(0x0)
 #define SYS_GROUP_ERROR_COUNT							(200)
 
 // Low Level API error constants
-#define SYS_BASE_LOW_LEVEL_ERROR						((gts_error_t){0x1})
+#define SYS_BASE_LOW_LEVEL_ERROR						((sys_error_t){0x1})
 #define SYS_BASE_LOW_LEVEL_ERROR_CODE 					(0x1)
 
 // Task Level Service error constants
-#define SYS_BASE_SERVICE_LEVEL_ERROR					((gts_error_t){0x10000})
+#define SYS_BASE_SERVICE_LEVEL_ERROR					((sys_error_t){0x10000})
 #define SYS_BASE_SERVICE_LEVEL_ERROR_CODE 				(0x1)
 
 // Error Code definition

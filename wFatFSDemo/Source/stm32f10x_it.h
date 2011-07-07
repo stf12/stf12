@@ -2,7 +2,7 @@
  * @file stm32f10x_it.h
  * @ingroup OTHERS
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @date January, 2010
  * @author Stefano Oliveri
  * @note Module: Others

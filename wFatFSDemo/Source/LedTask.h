@@ -2,7 +2,7 @@
  * @file LedTask.h
  * @ingroup APPLICATION_TASK
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @date Jun 14, 2011
  * @author Stefano Oliveri
  * @note Module: Application Task

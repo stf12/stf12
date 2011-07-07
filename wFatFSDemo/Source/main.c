@@ -2,7 +2,7 @@
  * @file main.c
  * @ingroup OTHERS
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @date December, 2010
  * @author Stefano Oliveri
  * @note Module: Others

@@ -2,7 +2,7 @@
  * @file diskio_ex.h
  * @ingroup SERVICE_IF
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @date May 23, 2011
  * @author IMS Systems Lab - ART Team
  * @note Module: FAT IF.

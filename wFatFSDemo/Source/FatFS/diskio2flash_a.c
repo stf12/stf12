@@ -2,7 +2,7 @@
  * @file diskio2flash_a.c
  * @ingroup SERVICE_IF
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @date May 9, 2011
  * @author IMS Systems Lab - ART Team
  * @note Module: FAT IF
@@ -303,8 +303,13 @@ static void CopyFlashToSram(uint32_t nFlashStartAddr, uint32_t nFlashEndAddr, ui
  * @param nSramStartAddr [IN] specifies the physical start address of SRAM to read.
  */
 static void CopySramToFlash(uint32_t nFlashStartAddr, uint32_t nFlashEndAddr, uint32_t nSramStartAddr) {
-	for (uint32_t i=nFlashStartAddr, j=nSramStartAddr; i<nFlashEndAddr; i=i+2, j=j+2)
-		NorWriteHalfWord(BANK1_NOR2_ADDR, i, SramReadHalfWord(j)); // Copy data 16 bits at time.
+	// Old slow implementation
+//	for (uint32_t i=nFlashStartAddr, j=nSramStartAddr; i<nFlashEndAddr; i=i+2, j=j+2)
+//		NorWriteHalfWord(BANK1_NOR2_ADDR, i, SramReadHalfWord(j)); // Copy data 16 bits at time.
+
+	// Use the faster block write functionality of the FLASH device.
+	uint32_t n;
+	NorFastWriteBuffer(BANK1_NOR2_ADDR, (uint16_t*)(BANK1_SRAM3_ADDR | nSramStartAddr), nFlashStartAddr, (nFlashEndAddr - nFlashStartAddr) >> 1, &n);
 }
 
 /**

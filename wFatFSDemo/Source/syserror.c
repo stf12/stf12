@@ -8,7 +8,7 @@
 #include "syserror.h"
 #include "stm32f10x.h"
 
-gts_error_t g_nGtsError = {0};
+sys_error_t g_nSysError = {0};
 
 // stm32f10x_conf.h #define  USE_FULL_ASSERT
 #ifdef  USE_FULL_ASSERT
