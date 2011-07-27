@@ -3,6 +3,9 @@
  * @class CSharedResource
  * @ingroup FreeRTOS_Managed
  *
+ * This class implement a simple and generic paradigm to access a given resource T in
+ * a controlled and task safe way.
+ *
  * @date   Aug 23, 2010
  * @author Stefano Oliveri
  *         E-mail: software@stf12.net

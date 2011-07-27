@@ -43,10 +43,26 @@ portBASE_TYPE CTask::Create(pdTASK_CODE pvTaskCode, const portCHAR * const pcNam
 	return res;
 }
 
+portBASE_TYPE CTask::CreateRestricted(xTaskParameters *pxTaskDefinition)
+{
+	portBASE_TYPE res = pdFALSE;
+#if( portUSING_MPU_WRAPPERS == 1 )
+	xTaskHandle handle;
+	res = xTaskCreateRestricted(pxTaskDefinition, &handle);
+	if (res == pdTRUE)
+		Attach(handle);
+#endif
+
+	return res;
+}
+
+
 void CTask::Delete() {
 	if (m_handleTask != NULL) {
 #if ( INCLUDE_vTaskDelete == 1 )
 		vTaskDelete(m_handleTask);
+#else
+		vTaskSuspend(m_handleTask);
 #endif
 		m_handleTask = NULL;
 	}

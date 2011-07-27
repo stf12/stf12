@@ -80,6 +80,10 @@
 #define configUSE_TRACE_FACILITY	0
 #define configUSE_16_BIT_TICKS		0
 #define configIDLE_SHOULD_YIELD		1
+#define configUSE_TIMERS			1
+#define configTIMER_TASK_PRIORITY	1
+#define configTIMER_QUEUE_LENGTH	5
+#define configTIMER_TASK_STACK_DEPTH ( configMINIMAL_STACK_SIZE )
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0

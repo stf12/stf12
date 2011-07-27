@@ -21,7 +21,7 @@
  *
  * \sa <a href="http://www.freertos.org/taskandcr.html">task documentation</a> in the FreeRTOS web site.
  *
- * @file Jul 5, 2010
+ * @date Jul 5, 2010
  * @author Stefano Oliveri (STF12.net)
  *         E-Mail: software@stf12.net
  */
@@ -74,6 +74,13 @@ public:
 	 * \sa <a href="http://www.freertos.org/a00125.html">xTaskCreate</a> FreeRTOS API function.
 	 */
 	portBASE_TYPE Create(pdTASK_CODE pvTaskCode, const portCHAR * const pcName, unsigned portSHORT usStackDepth, void *pvParameters, unsigned portBASE_TYPE uxPriority);
+
+	/**
+	 * Create a Memory Protection Unit (MPU) restricted task and attach its handle to the receiver object.
+	 *
+	 * \sa <a href="http://www.freertos.org/xTaskCreateRestricted.html">xTaskCreateRestricted</a> FreeRTOS API function.
+	 */
+	portBASE_TYPE CreateRestricted(xTaskParameters *pxTaskDefinition);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00126.html">vTaskDelete</a>  FreeRTOS API function.
@@ -179,6 +186,11 @@ public:
      * \sa <a href="http://www.freertos.org/xTaskCallApplicationTaskHook.html">xTaskCallApplicationTaskHook</a>  FreeRTOS API function.
      */
     inline portBASE_TYPE CallApplicationTaskHook(void *pvParameter);
+
+    /**
+     * \sa <a href="http://www.freertos.org/vTaskAllocateMPURegions.html">vTaskAllocateMPURegions</a>  FreeRTOS API function.
+     */
+    inline void AllocateMPURegions(const xMemoryRegion * const xRegions);
 
     // FreeRTOS class extension.
 	inline bool IsValid() const;
@@ -293,6 +305,13 @@ portBASE_TYPE CTask::CallApplicationTaskHook(void *pvParameter) {
 	return xTaskCallApplicationTaskHook(m_handleTask, pvParameter);
 #else
 	return 0;
+#endif
+}
+
+inline
+void CTask::AllocateMPURegions(const xMemoryRegion * const xRegions) {
+#if ( portUSING_MPU_WRAPPERS == 1 )
+	vTaskAllocateMPURegions(m_handleTask, xRegions);
 #endif
 }
 
