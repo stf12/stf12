@@ -1,8 +1,11 @@
 /**
  * @file   CGuardIncrementTask.h
  *
+ * This test shows how to use the CSharedResource template class in order to access a
+ * shared resource in a task safe way.
+ *
  * @date   Aug 23, 2010
- * @author oliveris
+ * @author Stefano Oliveri
  *         E-mail: software@stf12.net
  */
 

@@ -2,14 +2,14 @@
  * @file   CHeapTestTask.cpp
  *
  * @date   Sep 13, 2010
- * @author oliveris
+ * @author Stefano Oliveri
  *         E-mail: software@stf12.net
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "CHeapTestTask.h"
-#include "CLcdTask.h"
+#include "CLcdTask2.h"
 //#include "CFreeRTOS.h"
 
 CHeapTestTask::CHeapTestTask() {
@@ -56,7 +56,7 @@ void CHeapTestTaskMonitor::Run() {
 		//ExitCritical();
 
 		snprintf(msg, 20, "HEAP F=%ld", nFreeHeap);
-		CLcdTask::GetSharedInstance().Println(msg);
+		CLcdTask2::GetSharedInstance().Println(msg);
 		Delay(4000/portTICK_RATE_MS);
 	}
 }

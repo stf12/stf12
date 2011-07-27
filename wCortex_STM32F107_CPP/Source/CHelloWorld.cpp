@@ -8,9 +8,8 @@
 
 #include <stdio.h>
 #include "CHelloWorld.h"
-#include "CLcdTask.h"
 
-extern CLcdTask g_lcdOwnerTask;
+
 
 CHelloWorld::CHelloWorld(GPIO_TypeDef *pPort, uint16_t pin, portTickType nFlashRate) {
 	m_pPort = pPort;

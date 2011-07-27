@@ -2,14 +2,14 @@
  * @file   CGuardIncrementTask.cpp
  *
  * @date   Aug 23, 2010
- * @author oliveris
+ * @author Stefano Oliveri
  *         E-mail: software@stf12.net
  */
 
 #include <stdio.h>
 
 #include "CGuardTestTask.h"
-#include "CLcdTask.h"
+#include "CLcdTask2.h"
 #include "CFreeRTOS.h"
 
 
@@ -93,7 +93,7 @@ void CGuardDecrementTask::Run() {
 		 snprintf(msg, 20, "sr=%d bsr=%d", value.m_nValue, (int)*m_pBasicSharedResource);
 //		 CFreeRTOS::ResumeAllTasks();
 
-		 CLcdTask::GetSharedInstance().Println(msg);
+		 CLcdTask2::GetSharedInstance().Println(msg);
 
 		 Delay(m_nFrequecy);
 	}
