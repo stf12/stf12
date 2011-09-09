@@ -190,9 +190,9 @@ int main( void )
 
 	/* Start the standard demo tasks.  These are just here to exercise the
 	kernel port and provide examples of how the FreeRTOS API can be used. */
-	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
-    vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
-    vStartIntegerMathTasks( mainINTEGER_TASK_PRIORITY );
+//	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
+//    vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
+//    vStartIntegerMathTasks( mainINTEGER_TASK_PRIORITY );
 	vStartLEDFlashTasks( mainFLASH_TASK_PRIORITY );
 
 	/* Create the queue used by the LCD task.  Messages for display on the LCD
@@ -210,7 +210,7 @@ int main( void )
 	jitter time.  When debugging it can be helpful to comment this line out
 	to prevent the debugger repeatedly going into the interrupt service
 	routine. */
-	vSetupHighFrequencyTimer();
+//	vSetupHighFrequencyTimer();
 
     /* Start the scheduler. */
 	vTaskStartScheduler();
@@ -273,7 +273,6 @@ extern unsigned short usMaxJitter;
 
 static void prvSetupHardware( void )
 {
-//	SystemInit();
 
 	/* Enable GPIOA, GPIOB, GPIOC, GPIOD, GPIOE and AFIO clocks */
 	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |RCC_APB2Periph_GPIOC

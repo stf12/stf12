@@ -35,14 +35,17 @@
 #define TCPIP_THREAD_NAME               "tcp/ip"
 #define TCPIP_THREAD_STACKSIZE          600
 #define TCPIP_THREAD_PRIO               3
+#define TCPIP_MBOX_SIZE					6
+#define DEFAULT_RAW_RECVMBOX_SIZE 		6
+#define DEFAULT_TCP_RECVMBOX_SIZE		6
 
 #define DEFAULT_THREAD_STACKSIZE        200
 #define DEFAULT_THREAD_PRIO             1
 
 #define ETH_PAD_SIZE 					2
 
-//#define LWIP_DEBUG
-//#define DBG_TYPES_ON                    0xff
+#define LWIP_DEBUG
+#define DBG_TYPES_ON                    0xff
 
 #define ETHARP_DEBUG                    LWIP_DBG_OFF
 #define NETIF_DEBUG                     LWIP_DBG_ON
@@ -86,6 +89,8 @@
  */
 #define SYS_LIGHTWEIGHT_PROT            1
 
+#define LWIP_COMPAT_MUTEX				1
+
 /*
    ------------------------------------
    ---------- Memory options ----------
@@ -115,7 +120,7 @@
  * MEM_SIZE: the size of the heap memory. If the application will send
  * a lot of data that needs to be copied, this should be set high.
  */
-#define MEM_SIZE                        (15*1024)
+#define MEM_SIZE                        (18*1024)
 
 /*
    ------------------------------------------------

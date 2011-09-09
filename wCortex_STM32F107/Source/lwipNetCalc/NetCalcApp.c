@@ -81,9 +81,9 @@ void NetworkCalculatorLoop( void *pvParameters )
 	for( ;; )
 	{
 		// Wait for a first connection.
-		pNewConnection = netconn_accept(pListener);
+		err_t res = netconn_accept(pListener, &pNewConnection);
 
-		if(pNewConnection != NULL)
+		if(res == pNewConnection)
 		{
 
 #ifdef DEBUG
@@ -105,13 +105,14 @@ void NetworkCalculatorLoop( void *pvParameters )
  */
 void ProcessConnection(struct netconn *conn)
 {
-  struct netbuf *in = NULL;
+	struct netbuf *in = NULL;
 	unsigned char cStatus = 0;
+	err_t res;
 
 	while ( !RC_IS_STATUS_FLAG_ASSERTED(cStatus, RC_STATUS_CLOSE|RC_STATUS_ERROR) ) {
 		// Read data from the connection into the netbuf in
-		in = netconn_recv(conn);
-		if ( in != NULL ) { // in will be NULL when connection on other side is close
+		res = netconn_recv(conn, &in);
+		if ( res == ERR_OK ) { // in will be NULL when connection on other side is close
 
 			char *pBuff = s_out;
 			int nSize = netbuf_len(in);

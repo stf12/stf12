@@ -71,7 +71,7 @@ void vStartEthernetTasks( unsigned portBASE_TYPE uxPriority, void *pvParameters 
   sys_thread_new( "httpd", httpd, ( void * ) NULL, HTTPD_STACK_SIZE, uxPriority );
 
   // Create the Remote Calculator demo task.
-  sys_thread_new( "n_calc", NetworkCalculatorLoop, pvParameters, RC_STACK_SIZE, uxPriority );
+//  sys_thread_new( "n_calc", NetworkCalculatorLoop, pvParameters, RC_STACK_SIZE, uxPriority );
 }
 
 

@@ -29,8 +29,6 @@
  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
  */
 
-#define ETH_IRQHandler vMAC_ISR
-
   .syntax unified
 	.cpu cortex-m3
 	.fpu softvfp

@@ -90,18 +90,27 @@ static void ParseHTMLRequest(struct netconn *pxNetCon);
  */
 portTASK_FUNCTION( httpd, pvParameters ) {
 	struct netconn *pxHTTPListener, *pxNewConnection;
+	err_t res;
 
 	// Create a new tcp connection handle.
 	pxHTTPListener = netconn_new( NETCONN_TCP );
-	netconn_bind(pxHTTPListener, NULL, webHTTP_PORT);
-	netconn_listen( pxHTTPListener );
+//	netconn_bind(pxHTTPListener, NULL, webHTTP_PORT);
+	res = netconn_bind(pxHTTPListener, IP_ADDR_ANY, webHTTP_PORT);
+	if (res != ERR_OK) {
+		while (1);
+	}
+
+	res = netconn_listen( pxHTTPListener );
+	if (res != ERR_OK) {
+		while (1);
+	}
 
 	// Loop forever
 	for (;;) {
 		// Wait for a first connection.
-		pxNewConnection = netconn_accept(pxHTTPListener);
+		res = netconn_accept(pxHTTPListener, &pxNewConnection);
 
-		if (pxNewConnection != NULL) {
+		if (res == ERR_OK) {
 			ParseHTMLRequest(pxNewConnection);
 
 			netconn_close(pxNewConnection);
@@ -123,14 +132,15 @@ static void ParseHTMLRequest(struct netconn *pxNetCon) {
 	struct netbuf *pxRxBuffer;
 	portCHAR *pcRxString;
 	unsigned portSHORT usLength;
+	err_t res;
 	int i;
 	// 0 -> no debug info; 1 -> task stats ; 2 -> rtos strats
 	char debug_info = 0;
 
 	// We expect to immediately get data.
-	pxRxBuffer = netconn_recv(pxNetCon);
+	res = netconn_recv(pxNetCon, &pxRxBuffer);
 
-	if (pxRxBuffer != NULL) {
+	if (res == ERR_OK) {
 		// Where is the data?
 		netbuf_data(pxRxBuffer, (void *) &pcRxString, &usLength);
 
