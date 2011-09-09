@@ -1,0 +1,10 @@
+wCortex_STM32F107
+-----------------
+
+PATH:
+"${workspace_loc:/${ProjName}/lwIP/src/include}"
+"${workspace_loc:/${ProjName}/lwIP/src/include/ipv4}"
+"${workspace_loc:/${ProjName}/lwIP/src/include/ipv4/lwip}"
+"${workspace_loc:/${ProjName}/lwIP/src/include/lwip}"
+"${workspace_loc:/${ProjName}/lwIP/src/include/netif}"
+"${workspace_loc:/${ProjName}/lwIP/contrib/port/FreeRTOS}"

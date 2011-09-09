@@ -40,26 +40,25 @@
 #include "lwip/mem.h"
 #include "lwip/stats.h"
 
-struct timeoutlist
-{
-	struct sys_timeouts timeouts;
-	xTaskHandle pid;
-};
+//struct timeoutlist
+//{
+//	struct sys_timeouts timeouts;
+//	xTaskHandle pid;
+//};
 
 /* This is the number of threads that can be started with sys_thread_new() */
 #define SYS_THREAD_MAX 4
 
-static struct timeoutlist s_timeoutlist[SYS_THREAD_MAX];
+//static struct timeoutlist s_timeoutlist[SYS_THREAD_MAX];
 static u16_t s_nextthread = 0;
 
 
 /*-----------------------------------------------------------------------------------*/
 //  Creates an empty mailbox.
-sys_mbox_t sys_mbox_new(int size)
+err_t sys_mbox_new(sys_mbox_t *mbox, int size)
+//sys_mbox_t sys_mbox_new(int size)
 {
-	xQueueHandle mbox;
-
-	mbox = xQueueCreate( archMESG_QUEUE_LENGTH, sizeof( void * ) );
+	*mbox = xQueueCreate( size, sizeof( void * ) );
 
 #if SYS_STATS
       ++lwip_stats.sys.mbox.used;
@@ -68,7 +67,7 @@ sys_mbox_t sys_mbox_new(int size)
 	  }
 #endif /* SYS_STATS */
 
-	return mbox;
+	return *mbox == NULL ? ERR_MEM : ERR_OK;
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -77,9 +76,10 @@ sys_mbox_t sys_mbox_new(int size)
   mailbox when the mailbox is deallocated, it is an indication of a
   programming error in lwIP and the developer should be notified.
 */
-void sys_mbox_free(sys_mbox_t mbox)
+void sys_mbox_free(sys_mbox_t *mbox)
+//void sys_mbox_free(sys_mbox_t mbox)
 {
-	if( uxQueueMessagesWaiting( mbox ) )
+	if( uxQueueMessagesWaiting( *mbox ) )
 	{
 		/* Line for breakpoint.  Should never break here! */
 		portNOP();
@@ -87,10 +87,9 @@ void sys_mbox_free(sys_mbox_t mbox)
 	    lwip_stats.sys.mbox.err++;
 #endif /* SYS_STATS */
 
-		// TODO notify the user of failure.
 	}
 
-	vQueueDelete( mbox );
+	vQueueDelete( *mbox );
 
 #if SYS_STATS
      --lwip_stats.sys.mbox.used;
@@ -99,19 +98,21 @@ void sys_mbox_free(sys_mbox_t mbox)
 
 /*-----------------------------------------------------------------------------------*/
 //   Posts the "msg" to the mailbox.
-void sys_mbox_post(sys_mbox_t mbox, void *data)
+void sys_mbox_post(sys_mbox_t *mbox, void *msg)
+//void sys_mbox_post(sys_mbox_t mbox, void *data)
 {
-	while ( xQueueSendToBack(mbox, &data, portMAX_DELAY ) != pdTRUE );
+	while ( xQueueSendToBack(*mbox, &msg, portMAX_DELAY ) != pdTRUE );
 }
 
 
 /*-----------------------------------------------------------------------------------*/
 //   Try to post the "msg" to the mailbox.
-err_t sys_mbox_trypost(sys_mbox_t mbox, void *msg)
+err_t sys_mbox_trypost(sys_mbox_t *mbox, void *msg)
+//err_t sys_mbox_trypost(sys_mbox_t mbox, void *msg)
 {
 err_t result;
 
-   if ( xQueueSend( mbox, &msg, 0 ) == pdPASS )
+   if ( xQueueSend( *mbox, &msg, 0 ) == pdPASS )
    {
       result = ERR_OK;
    }
@@ -126,6 +127,27 @@ err_t result;
    }
 
    return result;
+}
+
+/**
+ * Check if an mbox is valid/allocated.
+ *
+ * @param mbox pointer to the mbox to check.
+ * @return 1 for valid, 0 for invalid.
+ */
+int sys_mbox_valid(sys_mbox_t *mbox)
+{
+	return *mbox == SYS_MBOX_NULL ? 0 : 1;
+}
+
+/**
+ * Set an mbox invalid so that sys_mbox_valid returns 0
+ *
+ * @param mbox pointer to the mbox to set.
+ */
+void sys_mbox_set_invalid(sys_mbox_t *mbox)
+{
+	*mbox = SYS_MBOX_NULL;
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -144,7 +166,8 @@ err_t result;
   Note that a function with a similar name, sys_mbox_fetch(), is
   implemented by lwIP.
 */
-u32_t sys_arch_mbox_fetch(sys_mbox_t mbox, void **msg, u32_t timeout)
+u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
+//u32_t sys_arch_mbox_fetch(sys_mbox_t mbox, void **msg, u32_t timeout)
 {
 void *dummyptr;
 portTickType StartTime, EndTime, Elapsed;
@@ -158,7 +181,7 @@ portTickType StartTime, EndTime, Elapsed;
 
 	if ( timeout != 0 )
 	{
-		if ( pdTRUE == xQueueReceive( mbox, &(*msg), timeout / portTICK_RATE_MS ) )
+		if ( pdTRUE == xQueueReceive( *mbox, &(*msg), timeout / portTICK_RATE_MS ) )
 		{
 			EndTime = xTaskGetTickCount();
 			Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
@@ -174,7 +197,7 @@ portTickType StartTime, EndTime, Elapsed;
 	}
 	else // block forever for a message.
 	{
-		while( pdTRUE != xQueueReceive( mbox, &(*msg), portMAX_DELAY ) ); // time is arbitrary
+		while( pdTRUE != xQueueReceive( *mbox, &(*msg), portMAX_DELAY ) ); // time is arbitrary
 		EndTime = xTaskGetTickCount();
 		Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
 
@@ -187,7 +210,8 @@ portTickType StartTime, EndTime, Elapsed;
   Similar to sys_arch_mbox_fetch, but if message is not ready immediately, we'll
   return with SYS_MBOX_EMPTY.  On success, 0 is returned.
 */
-u32_t sys_arch_mbox_tryfetch(sys_mbox_t mbox, void **msg)
+u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg)
+//u32_t sys_arch_mbox_tryfetch(sys_mbox_t mbox, void **msg)
 {
 void *dummyptr;
 
@@ -196,7 +220,7 @@ void *dummyptr;
 		msg = &dummyptr;
 	}
 
-   if ( pdTRUE == xQueueReceive( mbox, &(*msg), 0 ) )
+   if ( pdTRUE == xQueueReceive( *mbox, &(*msg), 0 ) )
    {
       return ERR_OK;
    }
@@ -206,28 +230,49 @@ void *dummyptr;
    }
 }
 
+/**
+ * Check if a sempahore is valid/allocated.
+ *
+ * @param sem pointer to the sem to check.
+ * @return 1 for valid, 0 for invalid.
+ */
+int sys_sem_valid(sys_sem_t *sem)
+{
+	return *sem == SYS_SEM_NULL ? 0 : 1;
+}
+
+/**
+ * Set a semaphore invalid so that sys_sem_valid returns 0
+ *
+ * @param sem pointer to the sem to check.
+ */
+void sys_sem_set_invalid(sys_sem_t *sem)
+{
+	*sem = SYS_SEM_NULL;
+}
+
 /*-----------------------------------------------------------------------------------*/
 //  Creates and returns a new semaphore. The "count" argument specifies
 //  the initial state of the semaphore.
-sys_sem_t sys_sem_new(u8_t count)
+// TODO: STF - why not using counting semaphore?
+err_t sys_sem_new(sys_sem_t *sem, u8_t count)
+//sys_sem_t sys_sem_new(u8_t count)
 {
-	xSemaphoreHandle  xSemaphore;
+	vSemaphoreCreateBinary( *sem );
 
-	vSemaphoreCreateBinary( xSemaphore );
-
-	if( xSemaphore == NULL )
+	if( *sem == NULL )
 	{
 
 #if SYS_STATS
       ++lwip_stats.sys.sem.err;
 #endif /* SYS_STATS */
 
-		return SYS_SEM_NULL;	// TODO need assert
+		return ERR_MEM;
 	}
 
 	if(count == 0)	// Means it can't be taken
 	{
-		xSemaphoreTake(xSemaphore,1);
+		xSemaphoreTake(*sem,1);
 	}
 
 #if SYS_STATS
@@ -237,7 +282,7 @@ sys_sem_t sys_sem_new(u8_t count)
 	}
 #endif /* SYS_STATS */
 
-	return xSemaphore;
+	return ERR_OK;
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -256,7 +301,8 @@ sys_sem_t sys_sem_new(u8_t count)
   Notice that lwIP implements a function with a similar name,
   sys_sem_wait(), that uses the sys_arch_sem_wait() function.
 */
-u32_t sys_arch_sem_wait(sys_sem_t sem, u32_t timeout)
+u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout)
+//u32_t sys_arch_sem_wait(sys_sem_t sem, u32_t timeout)
 {
 portTickType StartTime, EndTime, Elapsed;
 
@@ -264,7 +310,7 @@ portTickType StartTime, EndTime, Elapsed;
 
 	if(	timeout != 0)
 	{
-		if( xSemaphoreTake( sem, timeout / portTICK_RATE_MS ) == pdTRUE )
+		if( xSemaphoreTake( *sem, timeout / portTICK_RATE_MS ) == pdTRUE )
 		{
 			EndTime = xTaskGetTickCount();
 			Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
@@ -278,7 +324,7 @@ portTickType StartTime, EndTime, Elapsed;
 	}
 	else // must block without a timeout
 	{
-		while( xSemaphoreTake( sem, portMAX_DELAY ) != pdTRUE );
+		while( xSemaphoreTake( *sem, portMAX_DELAY ) != pdTRUE );
 		EndTime = xTaskGetTickCount();
 		Elapsed = (EndTime - StartTime) * portTICK_RATE_MS;
 
@@ -289,20 +335,22 @@ portTickType StartTime, EndTime, Elapsed;
 
 /*-----------------------------------------------------------------------------------*/
 // Signals a semaphore
-void sys_sem_signal(sys_sem_t sem)
+void sys_sem_signal(sys_sem_t *sem)
+//void sys_sem_signal(sys_sem_t sem)
 {
-	xSemaphoreGive( sem );
+	xSemaphoreGive( *sem );
 }
 
 /*-----------------------------------------------------------------------------------*/
 // Deallocates a semaphore
-void sys_sem_free(sys_sem_t sem)
+void sys_sem_free(sys_sem_t *sem)
+//void sys_sem_free(sys_sem_t sem)
 {
 #if SYS_STATS
       --lwip_stats.sys.sem.used;
 #endif /* SYS_STATS */
 
-	vQueueDelete( sem );
+	vQueueDelete( *sem );
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -313,11 +361,11 @@ void sys_init(void)
 
 	// Initialize the the per-thread sys_timeouts structures
 	// make sure there are no valid pids in the list
-	for(i = 0; i < SYS_THREAD_MAX; i++)
-	{
-		s_timeoutlist[i].pid = 0;
-		s_timeoutlist[i].timeouts.next = NULL;
-	}
+//	for(i = 0; i < SYS_THREAD_MAX; i++)
+//	{
+//		s_timeoutlist[i].pid = 0;
+//		s_timeoutlist[i].timeouts.next = NULL;
+//	}
 
 	// keep track of how many threads have been created
 	s_nextthread = 0;
@@ -335,26 +383,27 @@ void sys_init(void)
   simply return a pointer to a global sys_timeouts variable stored in
   the sys_arch module.
 */
-struct sys_timeouts *sys_arch_timeouts(void)
-{
-int i;
-xTaskHandle pid;
-struct timeoutlist *tl;
-
-	pid = xTaskGetCurrentTaskHandle( );
-
-	for(i = 0; i < s_nextthread; i++)
-	{
-		tl = &(s_timeoutlist[i]);
-		if(tl->pid == pid)
-		{
-			return &(tl->timeouts);
-		}
-	}
-
-	// Error
-	return NULL;
-}
+// DELETED!!!
+//struct sys_timeouts *sys_arch_timeouts(void)
+//{
+//int i;
+//xTaskHandle pid;
+//struct timeoutlist *tl;
+//
+//	pid = xTaskGetCurrentTaskHandle( );
+//
+//	for(i = 0; i < s_nextthread; i++)
+//	{
+//		tl = &(s_timeoutlist[i]);
+//		if(tl->pid == pid)
+//		{
+//			return &(tl->timeouts);
+//		}
+//	}
+//
+//	// Error
+//	return NULL;
+//}
 
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
@@ -366,7 +415,8 @@ struct timeoutlist *tl;
   thread() function. The id of the new thread is returned. Both the id and
   the priority are system dependent.
 */
-sys_thread_t sys_thread_new(char *name, void (* thread)(void *arg), void *arg, int stacksize, int prio)
+sys_thread_t sys_thread_new(const char *name, lwip_thread_fn thread, void *arg, int stacksize, int prio)
+//sys_thread_t sys_thread_new(char *name, void (* thread)(void *arg), void *arg, int stacksize, int prio)
 {
 xTaskHandle CreatedTask;
 int result;
@@ -377,7 +427,7 @@ int result;
 
 	   // For each task created, store the task handle (pid) in the timers array.
 	   // This scheme doesn't allow for threads to be deleted
-	   s_timeoutlist[s_nextthread++].pid = CreatedTask;
+//	   s_timeoutlist[s_nextthread++].pid = CreatedTask;
 
 	   if(result == pdPASS)
 	   {

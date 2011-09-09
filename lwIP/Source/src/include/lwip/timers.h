@@ -1,9 +1,3 @@
-/**
- * @file
- * Error Management module
- *
- */
-
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
  * All rights reserved. 
@@ -33,43 +27,72 @@
  * This file is part of the lwIP TCP/IP stack.
  * 
  * Author: Adam Dunkels <adam@sics.se>
+ *         Simon Goldschmidt
  *
  */
+#ifndef __LWIP_TIMERS_H__
+#define __LWIP_TIMERS_H__
+
+#include "lwip/opt.h"
+
+/* Timers are not supported when NO_SYS==1 and NO_SYS_NO_TIMERS==1 */
+#define LWIP_TIMERS (!NO_SYS || (NO_SYS && !NO_SYS_NO_TIMERS))
+
+#if LWIP_TIMERS
 
 #include "lwip/err.h"
+#include "lwip/sys.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifndef LWIP_DEBUG_TIMERNAMES
 #ifdef LWIP_DEBUG
+#define LWIP_DEBUG_TIMERNAMES SYS_DEBUG
+#else /* LWIP_DEBUG */
+#define LWIP_DEBUG_TIMERNAMES 0
+#endif /* LWIP_DEBUG*/
+#endif
 
-static const char *err_strerr[] = {
-           "Ok.",                    /* ERR_OK          0  */
-           "Out of memory error.",   /* ERR_MEM        -1  */
-           "Buffer error.",          /* ERR_BUF        -2  */
-           "Timeout.",               /* ERR_TIMEOUT    -3  */
-           "Routing problem.",       /* ERR_RTE        -4  */
-           "Operation in progress.", /* ERR_INPROGRESS -5  */
-           "Illegal value.",         /* ERR_VAL        -6  */
-           "Operation would block.", /* ERR_WOULDBLOCK -7  */
-           "Address in use.",        /* ERR_USE        -8  */
-           "Already connected.",     /* ERR_ISCONN     -9  */
-           "Connection aborted.",    /* ERR_ABRT       -10 */
-           "Connection reset.",      /* ERR_RST        -11 */
-           "Connection closed.",     /* ERR_CLSD       -12 */
-           "Not connected.",         /* ERR_CONN       -13 */
-           "Illegal argument.",      /* ERR_ARG        -14 */
-           "Low-level netif error.", /* ERR_IF         -15 */
+/** Function prototype for a timeout callback function. Register such a function
+ * using sys_timeout().
+ *
+ * @param arg Additional argument to pass to the function - set up by sys_timeout()
+ */
+typedef void (* sys_timeout_handler)(void *arg);
+
+struct sys_timeo {
+  struct sys_timeo *next;
+  u32_t time;
+  sys_timeout_handler h;
+  void *arg;
+#if LWIP_DEBUG_TIMERNAMES
+  const char* handler_name;
+#endif /* LWIP_DEBUG_TIMERNAMES */
 };
 
-/**
- * Convert an lwip internal error to a string representation.
- *
- * @param err an lwip internal err_t
- * @return a string representation for err
- */
-const char *
-lwip_strerr(err_t err)
-{
-  return err_strerr[-err];
+void sys_timeouts_init(void);
 
+#if LWIP_DEBUG_TIMERNAMES
+void sys_timeout_debug(u32_t msecs, sys_timeout_handler handler, void *arg, const char* handler_name);
+#define sys_timeout(msecs, handler, arg) sys_timeout_debug(msecs, handler, arg, #handler)
+#else /* LWIP_DEBUG_TIMERNAMES */
+void sys_timeout(u32_t msecs, sys_timeout_handler handler, void *arg);
+#endif /* LWIP_DEBUG_TIMERNAMES */
+
+void sys_untimeout(sys_timeout_handler handler, void *arg);
+#if NO_SYS
+void sys_check_timeouts(void);
+void sys_restart_timeouts(void);
+#else /* NO_SYS */
+void sys_timeouts_mbox_fetch(sys_mbox_t *mbox, void **msg);
+#endif /* NO_SYS */
+
+
+#ifdef __cplusplus
 }
+#endif
 
-#endif /* LWIP_DEBUG */
+#endif /* LWIP_TIMERS */
+#endif /* __LWIP_TIMERS_H__ */

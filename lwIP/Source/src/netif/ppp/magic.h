@@ -48,15 +48,11 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
- * $Id: magic.h,v 1.1 2010/01/11 11:47:13 oliveris Exp $
+ * $Id: magic.h,v 1.3 2010/01/18 20:49:43 goldsimon Exp $
  */
 
 #ifndef MAGIC_H
 #define MAGIC_H
-
-/*****************************************************************************
-************************** PUBLIC FUNCTIONS **********************************
-*****************************************************************************/
 
 /* Initialize the magic number generator */
 void  magicInit(void);

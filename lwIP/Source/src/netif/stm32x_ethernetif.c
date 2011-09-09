@@ -636,7 +636,7 @@ static unsigned char *prvGetNextBuffer(void) {
 	return ucReturn;
 }
 
-void vMAC_ISR(void) {
+void ETH_IRQHandler(void) {
 	unsigned long ulStatus;
 	long xHigherPriorityTaskWoken = pdFALSE;
 
