@@ -54,7 +54,7 @@ void AManagedTask::RemoveFromManagedTask(AManagedTask *pTaskToRemove) {
 		ExitCritical();
 		CFreeRTOS::SuspendAllTasks();
 		AManagedTask *pTask = s_pManagedTaskListHead;
-		while (pTask != NULL && pTask->m_pNextManagedTask == pTaskToRemove) {
+		while (pTask != NULL && pTask->m_pNextManagedTask != pTaskToRemove) {
 			pTask = pTask->m_pNextManagedTask;
 		}
 		if (pTask != NULL) { // Check to be sure that the task is in the list
