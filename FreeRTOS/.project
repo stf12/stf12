@@ -27,7 +27,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildCommand</key>
-					<value>cs-make</value>
+					<value>make</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
@@ -79,4 +79,27 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Test/ARM_CM3</name>
+			<type>2</type>
+			<locationURI>PROJECT_LOC/Source/portable/GCC/ARM_CM3</locationURI>
+		</link>
+		<link>
+			<name>Test/heap_2.c</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/Source/portable/MemMang/heap_2.c</locationURI>
+		</link>
+	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1320851416444</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-projectRelativePath-matches-false-false-Source/portable</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>
