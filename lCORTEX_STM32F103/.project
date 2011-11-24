@@ -101,4 +101,24 @@
 			<locationURI>WORKSPACE_LOC/FreeRTOS/Source/portable/MemMang/heap_2.c</locationURI>
 		</link>
 	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1322147656099</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-projectRelativePath-matches-false-false-STM32F10x_StdPeriph_Lib/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1322147656106</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-projectRelativePath-matches-false-false-FreeRTOS/portable</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>
