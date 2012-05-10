@@ -731,11 +731,8 @@ uint32_t __LDREXW(uint32_t *addr)
  */
 uint32_t __STREXB(uint8_t value, uint8_t *addr)
 {
-#ifdef STF12_MODULE_TEST
-	uint32_t result=0;
-#else
+	//uint32_t result=0;
 	register uint32_t result asm ("r2");
-#endif
 	__ASM volatile ("strexb %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
 	return(result);
 }
@@ -751,11 +748,8 @@ uint32_t __STREXB(uint8_t value, uint8_t *addr)
  */
 uint32_t __STREXH(uint16_t value, uint16_t *addr)
 {
-#ifdef STF12_MODULE_TEST
-	uint32_t result=0;
-#else
+	//uint32_t result=0;
 	register uint32_t result asm ("r2");
-#endif
 	__ASM volatile ("strexh %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
 	return(result);
 }
