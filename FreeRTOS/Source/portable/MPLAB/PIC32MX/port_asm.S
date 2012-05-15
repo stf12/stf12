@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V7.0.0 - Copyright (C) 2011 Real Time Engineers Ltd.
+    FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
 	
 
     ***************************************************************************
@@ -40,15 +40,28 @@
     FreeRTOS WEB site.
 
     1 tab == 4 spaces!
+    
+    ***************************************************************************
+     *                                                                       *
+     *    Having a problem?  Start by reading the FAQ "My application does   *
+     *    not run, what could be wrong?                                      *
+     *                                                                       *
+     *    http://www.FreeRTOS.org/FAQHelp.html                               *
+     *                                                                       *
+    ***************************************************************************
 
-    http://www.FreeRTOS.org - Documentation, latest information, license and
-    contact details.
+    
+    http://www.FreeRTOS.org - Documentation, training, latest information, 
+    license and contact details.
+    
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool.
 
-    http://www.SafeRTOS.com - A version that is certified for use in safety
-    critical systems.
-
-    http://www.OpenRTOS.com - Commercial support, development, porting,
-    licensing and training services.
+    Real Time Engineers ltd license FreeRTOS to High Integrity Systems, who sell 
+    the code with commercial support, indemnification, and middleware, under 
+    the OpenRTOS brand: http://www.OpenRTOS.com.  High Integrity Systems also
+    provide a safety engineered and independently SIL3 certified version under 
+    the SafeRTOS brand: http://www.SafeRTOS.com.
 */
  
 #include <p32xxxx.h>
@@ -71,7 +84,6 @@
 
 /******************************************************************/
 
- 	.section 	.FreeRTOS, "ax", @progbits
  	.set		noreorder
 	.set 		noat
  	.ent		vT1InterruptHandler
@@ -89,7 +101,6 @@ vT1InterruptHandler:
 
 /******************************************************************/
 
- 	.section 	.FreeRTOS, "ax", @progbits
  	.set		noreorder
 	.set 		noat
  	.ent		xPortStartScheduler
@@ -106,7 +117,6 @@ vPortStartFirstTask:
 
 /*******************************************************************/
 
- 	.section 	.FreeRTOS, "ax", @progbits
  	.set		noreorder
 	.set 		noat
  	.ent		vPortYieldISR
@@ -284,9 +294,9 @@ vPortYieldISR:
 	/* Remove stack frame. */
 	addiu		sp,	sp,	portCONTEXT_SIZE
 
-	mtc0		k1, _CP0_STATUS
-	ehb	
+	mtc0		k1, _CP0_STATUS	
 	mtc0 		k0, _CP0_EPC
+	ehb
 	eret 
 	nop
 

@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V7.0.0 - Copyright (C) 2011 Real Time Engineers Ltd.
+    FreeRTOS V7.1.1 - Copyright (C) 2012 Real Time Engineers Ltd.
 	
 
     ***************************************************************************
@@ -40,15 +40,28 @@
     FreeRTOS WEB site.
 
     1 tab == 4 spaces!
+    
+    ***************************************************************************
+     *                                                                       *
+     *    Having a problem?  Start by reading the FAQ "My application does   *
+     *    not run, what could be wrong?                                      *
+     *                                                                       *
+     *    http://www.FreeRTOS.org/FAQHelp.html                               *
+     *                                                                       *
+    ***************************************************************************
 
-    http://www.FreeRTOS.org - Documentation, latest information, license and
-    contact details.
+    
+    http://www.FreeRTOS.org - Documentation, training, latest information, 
+    license and contact details.
+    
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool.
 
-    http://www.SafeRTOS.com - A version that is certified for use in safety
-    critical systems.
-
-    http://www.OpenRTOS.com - Commercial support, development, porting,
-    licensing and training services.
+    Real Time Engineers ltd license FreeRTOS to High Integrity Systems, who sell 
+    the code with commercial support, indemnification, and middleware, under 
+    the OpenRTOS brand: http://www.OpenRTOS.com.  High Integrity Systems also
+    provide a safety engineered and independently SIL3 certified version under 
+    the SafeRTOS brand: http://www.SafeRTOS.com.
 */
 
 /*-----------------------------------------------------------
@@ -65,11 +78,10 @@
 /* Bits within various registers. */
 #define portIE_BIT					( 0x00000001 )
 #define portEXL_BIT					( 0x00000002 )
-#define portSW0_ENABLE				( 0x00000100 )
 
 /* The EXL bit is set to ensure interrupts do not occur while the context of
 the first task is being restored. */
-#define portINITIAL_SR				( portIE_BIT | portEXL_BIT | portSW0_ENABLE )
+#define portINITIAL_SR				( portIE_BIT | portEXL_BIT )
 
 /* Records the interrupt nesting depth.  This starts at one as it will be
 decremented to 0 when the first task starts. */
@@ -83,7 +95,7 @@ portSTACK_TYPE xISRStack[ configISR_STACK_SIZE ] = { 0 };
 
 /* The top of stack value ensures there is enough space to store 6 registers on 
 the callers stack, as some functions seem to want to do this. */
-const portBASE_TYPE * const xISRStackTop = &( xISRStack[ configISR_STACK_SIZE - 7 ] );
+const portSTACK_TYPE * const xISRStackTop = &( xISRStack[ configISR_STACK_SIZE - 7 ] );
 
 /* 
  * Place the prototype here to ensure the interrupt vector is correctly installed. 
@@ -108,6 +120,9 @@ void __attribute__( (interrupt(ipl1), vector(_CORE_SOFTWARE_0_VECTOR))) vPortYie
  */
 portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE pxCode, void *pvParameters )
 {
+	/* Ensure byte alignment is maintained when leaving this function. */
+	pxTopOfStack--;
+
 	*pxTopOfStack = (portSTACK_TYPE) 0xDEADBEEF;
 	pxTopOfStack--;
 
