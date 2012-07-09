@@ -60,7 +60,9 @@ portBASE_TYPE CTask::CreateRestricted(xTaskParameters *pxTaskDefinition)
 void CTask::Delete() {
 	if (m_handleTask != NULL) {
 #if ( INCLUDE_vTaskDelete == 1 )
-		vTaskDelete(m_handleTask);
+		xTaskHandle handleTaskToDelete = m_handleTask;
+		m_handleTask = NULL;
+		vTaskDelete(handleTaskToDelete);
 #else
 		vTaskSuspend(m_handleTask);
 #endif
