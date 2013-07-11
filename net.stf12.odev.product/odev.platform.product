@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="ODeV" uid="ovev.platform.product" id="net.stf12.odev.odev_ide" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/net.stf12.odev/about.gif"/>
+      <text>
+         The ODeV IDE
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+      <win32>/net.stf12.odev/config.ini</win32>
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/net.stf12.odev/icons/st16.gif" i32="/net.stf12.odev/icons/st32.gif"/>
+
+   <splash
+      location="net.stf12.odev"
+      startupProgressRect="5,319,498,10"
+      startupMessageRect="8,250,496,30"
+      startupForegroundColor="29528D" />
+   <launcher name="ODeV">
+      <solaris/>
+      <win useIco="true">
+         <ico path="/net.stf12.odev/icons/stw.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>ela.html</url>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="net.stf12.odev.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.cdt.cross.arm.gnu" version="0.5.4.qualifier"/>
+      <feature id="org.eclipse.team.svn" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.mylyn" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.nl1" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.resource.ignore.rules.jdt" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.revision.graph" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.source" version="1.1.0.I20130619-1700"/>
+      <feature id="org.polarion.eclipse.team.svn.connector" version="3.0.1.I20130507-1700"/>
+      <feature id="org.polarion.eclipse.team.svn.connector.svnkit17" version="3.0.1.I20130507-1700"/>
+      <feature id="org.eclipse.mylyn.tasks.ide"/>
+      <feature id="org.eclipse.mylyn.discovery"/>
+      <feature id="org.eclipse.mylyn.commons"/>
+      <feature id="org.eclipse.mylyn.team_feature"/>
+      <feature id="org.eclipse.mylyn.ide_feature"/>
+      <feature id="org.eclipse.mylyn.monitor"/>
+      <feature id="org.eclipse.mylyn.commons.notifications"/>
+      <feature id="org.eclipse.mylyn_feature"/>
+      <feature id="org.eclipse.mylyn.bugzilla_feature"/>
+      <feature id="org.eclipse.mylyn.commons.repositories"/>
+      <feature id="org.eclipse.mylyn.commons.identity"/>
+      <feature id="org.eclipse.mylyn.context_feature"/>
+   </features>
+
+
+</product>
