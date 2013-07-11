@@ -46,6 +46,26 @@
    <features>
       <feature id="net.stf12.odev.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.cdt.cross.arm.gnu" version="0.5.4.qualifier"/>
+      <feature id="org.eclipse.team.svn" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.mylyn" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.nl1" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.resource.ignore.rules.jdt" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.revision.graph" version="1.1.0.I20130619-1700"/>
+      <feature id="org.eclipse.team.svn.source" version="1.1.0.I20130619-1700"/>
+      <feature id="org.polarion.eclipse.team.svn.connector" version="3.0.1.I20130507-1700"/>
+      <feature id="org.polarion.eclipse.team.svn.connector.svnkit17" version="3.0.1.I20130507-1700"/>
+      <feature id="org.eclipse.mylyn.tasks.ide"/>
+      <feature id="org.eclipse.mylyn.discovery"/>
+      <feature id="org.eclipse.mylyn.commons"/>
+      <feature id="org.eclipse.mylyn.team_feature"/>
+      <feature id="org.eclipse.mylyn.ide_feature"/>
+      <feature id="org.eclipse.mylyn.monitor"/>
+      <feature id="org.eclipse.mylyn.commons.notifications"/>
+      <feature id="org.eclipse.mylyn_feature"/>
+      <feature id="org.eclipse.mylyn.bugzilla_feature"/>
+      <feature id="org.eclipse.mylyn.commons.repositories"/>
+      <feature id="org.eclipse.mylyn.commons.identity"/>
+      <feature id="org.eclipse.mylyn.context_feature"/>
    </features>
 
 
