@@ -10,7 +10,7 @@
             name="ODeV">
          <property
                name="windowImages"
-               value="icons/st16.gif,icons/st32.gif">
+               value="icons/odev16.gif,icons/odev32.gif,icons/odev48.gif">
          </property>
          <property
                name="aboutImage"
@@ -18,7 +18,7 @@
          </property>
          <property
                name="featureImage"
-               value="icons/stf32.gif">
+               value="icons/odev32.gif">
          </property>
          <property
                name="startupForegroundColor"
@@ -42,7 +42,8 @@
          </property>
          <property
                name="aboutText"
-               value="The ODeV IDE">
+               value="ODeV Platform
+Version: 1.0.0 beta">
          </property>
          <property
                name="cssTheme"
