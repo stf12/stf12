@@ -42,8 +42,7 @@
          </property>
          <property
                name="aboutText"
-               value="ODeV Platform
-Version: 1.0.0 beta">
+               value="ODeV Platform&#x0A;Version: 1.0.0 beta&#x0A;&#x0A;(c) 2013 Stefano Oliveri. All rights reserved.">
          </property>
          <property
                name="cssTheme"
