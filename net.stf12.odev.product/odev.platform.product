@@ -8,6 +8,8 @@
       <text>
          ODeV Platform
 Version: 1.0.0 beta
+
+(c) 2013 Stefano Oliveri. All rights reserved.
       </text>
    </aboutInfo>
 
@@ -16,9 +18,9 @@ Version: 1.0.0 beta
    </configIni>
 
    <launcherArgs>
-      <programArgs>-Xms64m 
+      <vmArgs>-Xms64m 
 -Xmx512m
--XX:MaxPermSize=512m</programArgs>
+-XX:MaxPermSize=512m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -39,6 +41,7 @@ Version: 1.0.0 beta
 
 
    <vm>
+      <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
    </vm>
 
    <license>
