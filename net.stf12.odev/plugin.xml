@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+         id="odev_ide"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            description="The Open Develop Environment for Embedded Application"
+            name="ODeV">
+         <property
+               name="windowImages"
+               value="icons/odev16.gif,icons/odev32.gif,icons/odev48.gif">
+         </property>
+         <property
+               name="aboutImage"
+               value="about.gif">
+         </property>
+         <property
+               name="featureImage"
+               value="icons/odev32.gif">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="29528D">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,319,498,10">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="8,250,496,30">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="appName"
+               value="ODeV">
+         </property>
+         <property
+               name="aboutText"
+               value="ODeV Platform&#x0A;Version: 1.0.0 beta&#x0A;&#x0A;(c) 2013 Stefano Oliveri. All rights reserved.">
+         </property>
+         <property
+               name="cssTheme"
+               value="org.eclipse.e4.ui.css.theme.e4_default">
+         </property>
+         <property
+               name="introTitle"
+               value="Welcome to ODeV">
+         </property>
+         <property
+               name="introBrandingImage"
+               value="product:images/builton.gif">
+         </property>
+         <property
+               name="introBrandingImageText"
+               value="ODeV IDE">
+         </property>
+      </product>
+   </extension>
+  <extension
+        point="org.eclipse.ui.intro">
+     <introProductBinding
+           introId="org.eclipse.ui.intro.universal"
+           productId="net.stf12.odev.odev_ide">
+     </introProductBinding>
+  </extension>
+
+</plugin>
