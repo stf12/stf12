@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="ODeV" id="net.stf12.odev.odev_ide" application="org.eclipse.ui.ide.workbench" version="1.0.0.beta" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/net.stf12.odev/about.gif"/>
+      <text>
+         ODeV Platform
+Version: 1.0.0 beta
+
+(c) 2013 Stefano Oliveri. All rights reserved.
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+      <win32>/net.stf12.odev/config.ini</win32>
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Xms64m 
+-Xmx512m
+-XX:MaxPermSize=512m</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/net.stf12.odev/icons/odev16.gif" i32="/net.stf12.odev/icons/odev32.gif" i48="/net.stf12.odev/icons/odev48.gif"/>
+
+   <splash
+      location="net.stf12.odev"
+      startupProgressRect="5,319,498,10"
+      startupMessageRect="8,250,496,30"
+      startupForegroundColor="29528D" />
+   <launcher name="ODeV">
+      <solaris/>
+      <win useIco="true">
+         <ico path="/net.stf12.odev/icons/odev.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+      <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
+   </vm>
+
+   <license>
+        <url>ela.html</url>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="net.stf12.odev.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.cdt"/>
+      <feature id="org.eclipse.cdt.cross.arm.gnu"/>
+      <feature id="org.eclipse.team.svn"/>
+      <feature id="org.eclipse.team.svn.mylyn"/>
+      <feature id="org.eclipse.team.svn.nl1"/>
+      <feature id="org.eclipse.team.svn.resource.ignore.rules.jdt"/>
+      <feature id="org.eclipse.team.svn.revision.graph"/>
+      <feature id="org.polarion.eclipse.team.svn.connector"/>
+      <feature id="org.polarion.eclipse.team.svn.connector.svnkit17"/>
+      <feature id="org.eclipse.mylyn.tasks.ide"/>
+      <feature id="org.eclipse.mylyn.discovery"/>
+      <feature id="org.eclipse.mylyn.commons"/>
+      <feature id="org.eclipse.mylyn.team_feature"/>
+      <feature id="org.eclipse.mylyn.ide_feature"/>
+      <feature id="org.eclipse.mylyn.monitor"/>
+      <feature id="org.eclipse.mylyn.commons.notifications"/>
+      <feature id="org.eclipse.mylyn_feature"/>
+      <feature id="org.eclipse.mylyn.bugzilla_feature"/>
+      <feature id="org.eclipse.mylyn.commons.repositories"/>
+      <feature id="org.eclipse.cdt.debug.ui.memory"/>
+      <feature id="org.eclipse.mylyn.commons.identity"/>
+      <feature id="org.eclipse.mylyn.context_feature"/>
+      <feature id="AnyEditTools"/>
+      <feature id="org.eclipse.cdt.gdb"/>
+      <feature id="org.eclipse.cvs"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.team.svn.mylyn.source"/>
+      <feature id="org.eclipse.team.svn.resource.ignore.rules.jdt.source"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.team.svn.nl1.sources"/>
+      <feature id="org.eclipse.gef"/>
+      <feature id="org.eclipse.team.svn.sources"/>
+      <feature id="org.eclipse.draw2d"/>
+      <feature id="org.eclipse.team.svn.revision.graph.source"/>
+      <feature id="org.eclipse.cdt.build.crossgcc"/>
+      <feature id="org.eclipse.cdt.launch.remote"/>
+      <feature id="org.eclipse.cdt.mylyn"/>
+      <feature id="org.eclipse.egit"/>
+      <feature id="org.eclipse.egit.mylyn"/>
+      <feature id="org.eclipse.epp.mpc"/>
+      <feature id="org.eclipse.jgit"/>
+      <feature id="org.eclipse.mylyn.wikitext_feature"/>
+      <feature id="org.eclipse.rse"/>
+      <feature id="org.eclipse.rse.core"/>
+      <feature id="org.eclipse.rse.dstore"/>
+      <feature id="org.eclipse.rse.ftp"/>
+      <feature id="org.eclipse.rse.local"/>
+      <feature id="org.eclipse.rse.ssh"/>
+      <feature id="org.eclipse.rse.telnet"/>
+      <feature id="org.eclipse.rse.terminals"/>
+      <feature id="org.eclipse.tm.terminal"/>
+   </features>
+
+
+</product>
