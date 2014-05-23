@@ -507,6 +507,7 @@ void xPortSysTickHandler( void )
 	known. */
 	( void ) portSET_INTERRUPT_MASK_FROM_ISR();
 	{
+		HAL_IncTick();
 		/* Increment the RTOS tick. */
 		if( xTaskIncrementTick() != pdFALSE )
 		{

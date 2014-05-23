@@ -121,7 +121,7 @@
 // Others includes
 #include <stdio.h>
 #include "diag/Trace.h"
-
+#include "LcdTask.h"
 
 /* Priorities for the demo application tasks. */
 #define mainFLASH_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
@@ -130,6 +130,7 @@
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2UL )
 #define mainCREATOR_TASK_PRIORITY			( tskIDLE_PRIORITY + 3UL )
 #define mainFLOP_TASK_PRIORITY				( tskIDLE_PRIORITY )
+#define mainLCD_TASK_PRIORITY				( tskIDLE_PRIORITY + 4UL )
 
 /* The LED used by the check timer. */
 #define mainCHECK_LED 						( LED4 )
@@ -231,6 +232,9 @@ main(int argc, char* argv[])
 	// At this stage the system clock should have already been configured
 	// at high speed.
 	trace_printf("System clock: %uHz\n", SystemCoreClock);
+
+	// Display the Splash Screen Message
+	lcdStartTask(mainLCD_TASK_PRIORITY);
 
 
 	/* Start standard demo/test application flash tasks.  See the comments at
