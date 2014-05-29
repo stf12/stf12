@@ -93,25 +93,16 @@
 // ----------------------------------------------------------------------------
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#include "CFreeRTOS.h"
+#include "CTask.h"
 #include "timers.h"
-#include "semphr.h"
 
 /* Demo application includes. */
-#include "partest.h"
-#include "flash.h"
-#include "integer.h"
-#include "dynamic.h"
-#include "BlockQ.h"
-#include "blocktim.h"
-#include "countsem.h"
-#include "GenQTest.h"
-#include "recmutex.h"
-#include "PollQ.h"
-#include "semtest.h"
-#include "flop.h"
-#include "death.h"
+#include "CCheckTask.h"
+#include "CBlockQ.h"
+#include "CInteger.h"
+#include "CPollQ.h"
+#include "CSemTest.h"
 
 /* Hardware includes. */
 #include "stm32f4xx.h"
@@ -124,13 +115,14 @@
 #include "LcdTask.h"
 
 /* Priorities for the demo application tasks. */
-#define mainFLASH_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
+#define mainLCD_TASK_PRIORITY				( tskIDLE_PRIORITY + 4UL )
+
+#define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2UL )
+#define mainFLASH_TASK_PRIORITY				( tskIDLE_PRIORITY + 2UL )
+#define mainINTEGER_TASK_PRIORITY           ( tskIDLE_PRIORITY )
 #define mainQUEUE_POLL_PRIORITY				( tskIDLE_PRIORITY + 2UL )
 #define mainSEM_TEST_PRIORITY				( tskIDLE_PRIORITY + 1UL )
-#define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2UL )
-#define mainCREATOR_TASK_PRIORITY			( tskIDLE_PRIORITY + 3UL )
-#define mainFLOP_TASK_PRIORITY				( tskIDLE_PRIORITY )
-#define mainLCD_TASK_PRIORITY				( tskIDLE_PRIORITY + 4UL )
+#define mainTIMER_TEST_PRIORITY				( configMAX_PRIORITIES - 2UL )
 
 /* The LED used by the check timer. */
 #define mainCHECK_LED 						( LED4 )
@@ -148,13 +140,6 @@ reported in one of the standard demo tasks.  ms are converted to the equivalent
 in ticks using the portTICK_PERIOD_MS constant. */
 #define mainERROR_CHECK_TIMER_PERIOD_MS 	( 200UL / portTICK_PERIOD_MS )
 
-/* Set mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY to 1 to create a simple demo.
-Set mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY to 0 to create a much more
-comprehensive test application.  See the comments at the top of this file, and
-the documentation page on the http://www.FreeRTOS.org web site for more
-information. */
-#define mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY		0
-
 /**
  * Set up the hardware ready to run this demo.
  */
@@ -167,40 +152,6 @@ static void prvSetupHardware( void );
  */
 static void prvCheckTimerCallback( TimerHandle_t xTimer );
 
-/**
- * Configure the interrupts used to test the interrupt nesting depth as
- * described at the top of this file.
- */
-//static void prvSetupNestedFPUInterruptsTest( void );
-
-/**
- * The task that is synchronised with the button interrupt.  This is done just
- * to demonstrate how to write interrupt service routines, and how to
- * synchronise a task with an interrupt.
- *
- * @param pvParameters
- */
-static void prvButtonTestTask( void *pvParameters );
-
-/**
- * This file can be used to create either a simple LED flasher example, or a
- * comprehensive test/demo application - depending on the setting of the
- * mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY constant defined above.  If
- * mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY is set to 1, then the following
- * function will create a lot of additional tasks and a software timer.  If
- * mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY is set to 0, then the following
- * function will do nothing.
- */
-static void prvOptionallyCreateComprehensveTestApplication( void );
-
-/* The semaphore used to demonstrate a task being synchronised with an
-interrupt. */
-static SemaphoreHandle_t xTestSemaphore = NULL;
-
-/* The variable that is incremented by the task synchronised with the button
-interrupt. */
-volatile unsigned long ulButtonPressCounts = 0UL;
-
 
 // Sample pragmas to cope with warnings. Please note the related line at
 // the end of this function, used to pop the compiler diagnostics status.
@@ -208,6 +159,11 @@ volatile unsigned long ulButtonPressCounts = 0UL;
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
+
+/**
+ * Global task objects.
+ */
+CCheckTask g_checkTask(4000/portTICK_RATE_MS);
 
 int
 main(int argc, char* argv[])
@@ -233,24 +189,20 @@ main(int argc, char* argv[])
 	// at high speed.
 	trace_printf("System clock: %uHz\n", SystemCoreClock);
 
+	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
+	ABlockQ::StartBlockingQueueTasks(&g_checkTask, mainBLOCK_Q_PRIORITY);
+	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
+	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
+	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
+
+
 	// Display the Splash Screen Message
-	lcdStartTask(mainLCD_TASK_PRIORITY);
-
-
-	/* Start standard demo/test application flash tasks.  See the comments at
-	the top of this file.  The LED flash tasks are always created.  The other
-	tasks are only created if mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY is set to
-	0 (at the top of this file).  See the comments at the top of this file for
-	more information. */
-	vStartLEDFlashTasks( mainFLASH_TASK_PRIORITY );
-
-	/* The following function will only create more tasks and timers if
-	mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY is set to 0 (at the top of this
-	file).  See the comments at the top of this file for more information. */
-	prvOptionallyCreateComprehensveTestApplication();
+//	lcdStartTask(mainLCD_TASK_PRIORITY);
 
 	/* Start the scheduler. */
-	vTaskStartScheduler();
+//	vTaskStartScheduler();
+	CFreeRTOS::InitHardwareForManagedTasks();
+	CFreeRTOS::StartScheduler();
 
 	/* If all is well, the scheduler will now be running, and the following line
 	will never be reached.  If the following line does execute, then there was
@@ -270,7 +222,7 @@ static void prvSetupHardware( void )
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
 	/* Setup the LED outputs. */
-	vParTestInitialise();
+//	vParTestInitialise();
 
 	/* Configure the button input.  This configures the interrupt to use the
 	lowest interrupt priority, so it is ok to use the ISR safe FreeRTOS API
@@ -278,209 +230,19 @@ static void prvSetupHardware( void )
 	BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
 }
 
-static void prvOptionallyCreateComprehensveTestApplication( void )
-{
-#if ( mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY == 0 )
-	{
-		TimerHandle_t xCheckTimer = NULL;
-
-		/* Start all the other standard demo/test tasks. */
-		vStartIntegerMathTasks( tskIDLE_PRIORITY );
-		vStartDynamicPriorityTasks();
-		vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
-		vCreateBlockTimeTasks();
-		vStartCountingSemaphoreTasks();
-		vStartGenericQueueTasks( tskIDLE_PRIORITY );
-		vStartRecursiveMutexTasks();
-		vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
-		vStartSemaphoreTasks( mainSEM_TEST_PRIORITY );
-
-		/* Most importantly, start the tasks that use the FPU. */
-		vStartMathTasks( mainFLOP_TASK_PRIORITY );
-
-		/* Create the semaphore that is used to demonstrate a task being
-		synchronised with an interrupt. */
-		vSemaphoreCreateBinary( xTestSemaphore );
-
-		/* Create the task that is unblocked by the demonstration interrupt. */
-		xTaskCreate( prvButtonTestTask, "BtnTest", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
-
-		/* Create the software timer that performs the 'check' functionality,
-		as described at the top of this file. */
-		xCheckTimer = xTimerCreate( "CheckTimer",					/* A text name, purely to help debugging. */
-									( mainCHECK_TIMER_PERIOD_MS ),	/* The timer period, in this case 3000ms (3s). */
-									pdTRUE,							/* This is an auto-reload timer, so xAutoReload is set to pdTRUE. */
-									( void * ) 0,					/* The ID is not used, so can be set to anything. */
-									prvCheckTimerCallback			/* The callback function that inspects the status of all the other tasks. */
-								  );
-
-		if( xCheckTimer != NULL )
-		{
-			xTimerStart( xCheckTimer, mainDONT_BLOCK );
-		}
-
-		/* This task has to be created last as it keeps account of the number of
-		tasks it expects to see running. */
-		vCreateSuicidalTasks( mainCREATOR_TASK_PRIORITY );
-	}
-#endif /* mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY */
-}
-
-/**
- * Task control loop.
- *
- * @param pvParameters
- */
-static void prvButtonTestTask( void *pvParameters )
-{
-	configASSERT( xTestSemaphore );
-
-	/* This is the task used as an example of how to synchronise a task with
-	an interrupt.  Each time the button interrupt gives the semaphore, this task
-	will unblock, increment its execution counter, then return to block
-	again. */
-
-	/* Take the semaphore before started to ensure it is in the correct
-	state. */
-	xSemaphoreTake( xTestSemaphore, mainDONT_BLOCK );
-
-	for( ;; )
-	{
-		xSemaphoreTake( xTestSemaphore, portMAX_DELAY );
-		ulButtonPressCounts++;
-	}
-}
-
 /**
   * @brief  This function handles External lines 15 to 10 interrupt request.
   *
   */
+extern "C"
 void EXTI15_10_IRQHandler(void) {
 	 HAL_GPIO_EXTI_IRQHandler(KEY_BUTTON_PIN);
 }
 
 /**
-  * @brief EXTI line detection callbacks
-  * @param GPIO_Pin: Specifies the pins connected EXTI line
-  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == KEY_BUTTON_PIN)
-	{
-		long lHigherPriorityTaskWoken = pdFALSE;
-
-
-		/* Only one line is enabled, so there is no need to test which line generated
-		 * the interrupt.
-		 */
-		//	EXTI_ClearITPendingBit( EXTI_Line6 );
-		//	HAL_NVIC_ClearPendingIRQ(KEY_BUTTON_EXTI_IRQn);
-
-
-		/* This interrupt does nothing more than demonstrate how to synchronise a
-		 * task with an interrupt.  First the handler releases a semaphore.
-		 * lHigherPriorityTaskWoken has been initialised to zero.
-		 */
-		xSemaphoreGiveFromISR( xTestSemaphore, &lHigherPriorityTaskWoken );
-
-
-		/* If there was a task that was blocked on the semaphore, and giving the
-		 * semaphore caused the task to unblock, and the unblocked task has a priority
-		 * higher than the currently executing task (the task that this interrupt
-		 * interrupted), then lHigherPriorityTaskWoken will have been set to pdTRUE.
-		 * Passing pdTRUE into the following macro call will cause this interrupt to
-		 * return directly to the unblocked, higher priority, task.
-		 */
-		portEND_SWITCHING_ISR( lHigherPriorityTaskWoken );
-	}
-}
-
-static void prvCheckTimerCallback( TimerHandle_t xTimer )
-{
-static long lChangedTimerPeriodAlready = pdFALSE;
-//static unsigned long ulLastRegTest1Value = 0, ulLastRegTest2Value = 0;
-long lErrorFound = pdFALSE;
-
-	/* Check all the demo tasks (other than the flash tasks) to ensure
-	that they are all still running, and that none have detected an error. */
-
-	if( xAreMathsTaskStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if( xAreDynamicPriorityTasksStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if( xAreBlockingQueuesStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if ( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if ( xAreGenericQueueTasksStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if ( xAreRecursiveMutexTasksStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if( xIsCreateTaskStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if( xArePollingQueuesStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	if( xAreSemaphoreTasksStillRunning() != pdTRUE )
-	{
-		lErrorFound = pdTRUE;
-	}
-
-	/* Toggle the check LED to give an indication of the system status.  If
-	the LED toggles every mainCHECK_TIMER_PERIOD_MS milliseconds then
-	everything is ok.  A faster toggle indicates an error. */
-	vParTestToggleLED( mainCHECK_LED );
-
-	/* Have any errors been latch in lErrorFound?  If so, shorten the
-	period of the check timer to mainERROR_CHECK_TIMER_PERIOD_MS milliseconds.
-	This will result in an increase in the rate at which mainCHECK_LED
-	toggles. */
-	if( lErrorFound != pdFALSE )
-	{
-		if( lChangedTimerPeriodAlready == pdFALSE )
-		{
-			lChangedTimerPeriodAlready = pdTRUE;
-
-			/* This call to xTimerChangePeriod() uses a zero block time.
-			Functions called from inside of a timer callback function must
-			*never* attempt	to block. */
-			xTimerChangePeriod( xTimer, ( mainERROR_CHECK_TIMER_PERIOD_MS ), mainDONT_BLOCK );
-		}
-	}
-}
-
-
-/**
  *
  */
+extern "C"
 void vApplicationTickHook( void )
 {
 
@@ -498,6 +260,7 @@ void vApplicationTickHook( void )
  *	to query the size of free heap space that remains (although it does not
  *	provide information on how the remaining heap might be fragmented).
  */
+extern "C"
 void vApplicationMallocFailedHook( void ) {
 	taskDISABLE_INTERRUPTS();
 	for( ;; );
@@ -514,6 +277,7 @@ void vApplicationMallocFailedHook( void ) {
  * 	function, because it is the responsibility of the idle task to clean up
  * 	memory allocated by the kernel to any task that has since been deleted.
  */
+extern "C"
 void vApplicationIdleHook( void ) {
 }
 
@@ -525,6 +289,7 @@ void vApplicationIdleHook( void ) {
  * @param pxTask
  * @param pcTaskName
  */
+extern "C"
 void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 {
 	( void ) pcTaskName;

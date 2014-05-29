@@ -38,11 +38,24 @@ extern "C"
   __attribute__((noreturn))
   __cxa_pure_virtual();
 
+  int
+  __aeabi_atexit(void *object, void (*destructor)(void *), void *dso_handle);
+
   void
   __cxa_pure_virtual()
   {
     trace_puts(__func__);
     abort();
+  }
+
+  /**
+   * Called by runtime when static or global object are destroyed. This happen when main() exits.
+   * Do nothing to prevent the destructors for global an static objects to be called.
+   */
+  int
+  __aeabi_atexit(void *object, void (*destructor)(void *), void *dso_handle)
+  {
+    return 0;
   }
 }
 
