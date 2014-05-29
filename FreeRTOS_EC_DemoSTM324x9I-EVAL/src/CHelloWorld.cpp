@@ -11,7 +11,7 @@
 
 
 
-CHelloWorld::CHelloWorld(GPIO_TypeDef *pPort, uint16_t pin, portTickType nFlashRate) {
+CHelloWorld::CHelloWorld(GPIO_TypeDef *pPort, uint16_t pin, TickType_t nFlashRate) {
 	m_pPort = pPort;
 	m_pin = pin;
 	m_bState = false;
@@ -35,7 +35,7 @@ bool CHelloWorld::HardwareInit() {
 }
 
 void CHelloWorld::Run() {
-	portTickType xLastFlashTime;
+	TickType_t xLastFlashTime;
 	xLastFlashTime = GetTickCount();
 
 	for(;;)
@@ -55,12 +55,12 @@ void CHelloWorld::Run() {
 
 }
 
-void CHelloWorld::SetFlashRate(portTickType nFlashRate) {
+void CHelloWorld::SetFlashRate(TickType_t nFlashRate) {
 	// Compute the tick count.
-	nFlashRate /= portTICK_RATE_MS;
+	nFlashRate /= portTICK_PERIOD_MS;
 	/* We will turn the LED on and off again in the delay period, so each
 	delay is only half the total period. */
-	nFlashRate /= ( portTickType ) 2;
+	nFlashRate /= ( TickType_t ) 2;
 
 	m_nFlashRate = nFlashRate;
 }

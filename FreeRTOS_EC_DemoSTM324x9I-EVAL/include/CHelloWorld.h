@@ -36,7 +36,7 @@ class CHelloWorld: public AManagedTask {
 	/**
 	 * Specifies the LED blinking rate.
 	 */
-	portTickType m_nFlashRate;
+	TickType_t m_nFlashRate;
 
 public:
 	/**
@@ -47,7 +47,7 @@ public:
 	 *            to specify more then one pin.
 	 * @param nFlashRate specifies the LED blinking rate.
 	 */
-	CHelloWorld(GPIO_TypeDef *pPort, uint16_t pin, portTickType nFlashRate);
+	CHelloWorld(GPIO_TypeDef *pPort, uint16_t pin, TickType_t nFlashRate);
 
 	virtual ~CHelloWorld();
 
@@ -68,7 +68,7 @@ public:
 	 *
 	 * @param nFlashRate specifies the new blinking rate.
 	 */
-	void SetFlashRate(portTickType nFlashRate);
+	void SetFlashRate(TickType_t nFlashRate);
 
 	/**
 	 * Get the current LED state.

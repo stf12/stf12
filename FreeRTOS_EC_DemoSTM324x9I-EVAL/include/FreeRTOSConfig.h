@@ -106,6 +106,9 @@
 #define configUSE_COUNTING_SEMAPHORES	1
 #define configGENERATE_RUN_TIME_STATS	0
 
+/* Disable teh backward compatibility with FreeRTOS 7 */
+#define configENABLE_BACKWARD_COMPATIBILITY 0
+
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0
 #define configMAX_CO_ROUTINE_PRIORITIES ( 2 )

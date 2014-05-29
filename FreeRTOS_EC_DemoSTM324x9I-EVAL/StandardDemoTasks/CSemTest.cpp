@@ -65,8 +65,8 @@ void CSemTest::StartSemTestTasks(CCheckTask *pCheckTask, UBaseType_t nPriority )
 		polSem4.m_pSharedVariable = polSem3.m_pSharedVariable;
 		//Initialize the share variable to the value the tasks expect.
 		*polSem3.m_pSharedVariable = semtstBLOCKING_EXPECTED_VALUE;
-		polSem3.m_nBlockTime = xBlockTime / portTICK_RATE_MS;
-		polSem4.m_nBlockTime = xBlockTime / portTICK_RATE_MS;
+		polSem3.m_nBlockTime = xBlockTime / portTICK_PERIOD_MS;
+		polSem4.m_nBlockTime = xBlockTime / portTICK_PERIOD_MS;
 
 		polSem3.Create("BlkSEM1", semtstSTACK_SIZE, nPriority);
 		polSem4.Create("BlkSEM2", semtstSTACK_SIZE, nPriority);

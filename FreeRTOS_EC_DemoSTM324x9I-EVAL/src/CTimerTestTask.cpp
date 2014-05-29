@@ -19,11 +19,11 @@ CTimerTestTask::~CTimerTestTask() {
 
 void CTimerTestTask::Run() {
 	CMyOneShotTimer xOneShotTimer;
-	xOneShotTimer.Create("tim1", 2000/portTICK_RATE_MS, pdFALSE);
+	xOneShotTimer.Create("tim1", 2000/portTICK_PERIOD_MS, pdFALSE);
 	xOneShotTimer.Start(portMAX_DELAY);
 
 	CMyAutoReloadTimer xAutoReloadTimer;
-	xAutoReloadTimer.Create("tim2", 3000/portTICK_RATE_MS, pdTRUE).Start(portMAX_DELAY);
+	xAutoReloadTimer.Create("tim2", 3000/portTICK_PERIOD_MS, pdTRUE).Start(portMAX_DELAY);
 
 	Delete();
 }

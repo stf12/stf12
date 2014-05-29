@@ -139,7 +139,7 @@ CHelloWorld *g_pLed1Task;
  * Global task objects.
  */
 CHelloWorld g_Led2Task(LED2_GPIO_PORT, LED2_PIN, 1000);
-CCheckTask g_checkTask(4000/portTICK_RATE_MS);
+CCheckTask g_checkTask(4000/portTICK_PERIOD_MS);
 
 // Sample pragmas to cope with warnings. Please note the related line at
 // the end of this function, used to pop the compiler diagnostics status.

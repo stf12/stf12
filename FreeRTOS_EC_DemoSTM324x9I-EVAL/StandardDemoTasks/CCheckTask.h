@@ -86,7 +86,7 @@ public:
 	 *
 	 * @param checkFrequency specifies the task frequency.
 	 */
-	CCheckTask(TickType_t checkFrequency=(4000/portTICK_RATE_MS));
+	CCheckTask(TickType_t checkFrequency=(4000/portTICK_PERIOD_MS));
 
 	/**
 	 * Destructor.

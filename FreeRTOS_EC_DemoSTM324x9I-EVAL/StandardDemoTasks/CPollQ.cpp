@@ -11,8 +11,8 @@
 
 #define pollqSTACK_SIZE			configMINIMAL_STACK_SIZE
 #define pollqQUEUE_SIZE			( 10 )
-#define pollqPRODUCER_DELAY		( ( TickType_t ) 200 / portTICK_RATE_MS )
-#define pollqCONSUMER_DELAY		( pollqPRODUCER_DELAY - ( TickType_t ) ( 20 / portTICK_RATE_MS ) )
+#define pollqPRODUCER_DELAY		( ( TickType_t ) 200 / portTICK_PERIOD_MS )
+#define pollqCONSUMER_DELAY		( pollqPRODUCER_DELAY - ( TickType_t ) ( 20 / portTICK_PERIOD_MS ) )
 #define pollqNO_DELAY			( ( TickType_t ) 0 )
 #define pollqVALUES_TO_PRODUCE	( ( signed BaseType_t ) 3 )
 #define pollqINITIAL_VALUE		( ( signed BaseType_t ) 0 )
