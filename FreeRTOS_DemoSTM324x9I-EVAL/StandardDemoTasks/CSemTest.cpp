@@ -14,7 +14,7 @@
 
 #define semtstSTACK_SIZE			configMINIMAL_STACK_SIZE
 #define semtstNUM_TASKS				( 4 )
-#define semtstDELAY_FACTOR			( ( portTickType ) 10 )
+#define semtstDELAY_FACTOR			( ( TickType_t ) 10 )
 
 CSemTest::CSemTest(CCheckTask *pCheckTask): ICommonDemoTask(pCheckTask) {
 	m_pSharedVariable = NULL;
@@ -27,8 +27,8 @@ CSemTest::~CSemTest() {
 	// TODO Auto-generated destructor stub
 }
 
-void CSemTest::StartSemTestTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority ) {
-	const portTickType xBlockTime = ( portTickType ) 100;
+void CSemTest::StartSemTestTasks(CCheckTask *pCheckTask, UBaseType_t nPriority ) {
+	const TickType_t xBlockTime = ( TickType_t ) 100;
 
 
 	/* Create the semaphore and the first two tasks. */
@@ -86,7 +86,7 @@ void CSemTest::Run() {
 
 	/* If we are blocking we use a much higher count to ensure loads of context
 		switches occur during the count. */
-	if( m_nBlockTime > ( portTickType ) 0 )
+	if( m_nBlockTime > ( TickType_t ) 0 )
 	{
 		ulExpectedValue = semtstBLOCKING_EXPECTED_VALUE;
 	}
@@ -141,7 +141,7 @@ void CSemTest::Run() {
 		}
 		else
 		{
-			if( m_nBlockTime == ( portTickType ) 0 )
+			if( m_nBlockTime == ( TickType_t ) 0 )
 			{
 				/* We have not got the semaphore yet, so no point using the
 					processor.  We are not blocking when attempting to obtain the

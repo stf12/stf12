@@ -35,7 +35,7 @@
 
 class CSemTest: public AManagedTask, public ICommonDemoTask {
 	unsigned long *m_pSharedVariable;
-	portTickType m_nBlockTime;
+	TickType_t m_nBlockTime;
 	CBinarySemaphore *m_pSemaphore;
 
 	/**
@@ -53,7 +53,7 @@ public:
 	bool IsStillRunning();
 	const char*GetErrorMessage() { return "ERR:SEM"; }
 
-	static void StartSemTestTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority );
+	static void StartSemTestTasks(CCheckTask *pCheckTask, UBaseType_t nPriority );
 };
 
 #endif /* CSEMTEST_H_ */

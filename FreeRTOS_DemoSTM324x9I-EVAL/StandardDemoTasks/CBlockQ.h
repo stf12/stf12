@@ -50,7 +50,7 @@ protected:
 	/**
 	 * The block time to use on queue reads/writes
 	 */
-	portTickType m_xBlockTime;
+	TickType_t m_xBlockTime;
 
 	/**
 	 * Incremented on each successful cycle to check the task is still running.
@@ -63,24 +63,24 @@ protected:
 	short m_nLastBlockingCount;
 
 public:
-	ABlockQ(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, portTickType xBlockTime);
+	ABlockQ(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, TickType_t xBlockTime);
 	virtual ~ABlockQ();
 
 	bool IsStillRunning();
 	const char*GetErrorMessage();
 
-	static void StartBlockingQueueTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority );
+	static void StartBlockingQueueTasks(CCheckTask *pCheckTask, UBaseType_t nPriority );
 };
 
 class CBlockQProducer: public ABlockQ {
 public:
-	CBlockQProducer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, portTickType xBlockTime);
+	CBlockQProducer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, TickType_t xBlockTime);
 	void Run();
 };
 
 class CBlockQConsumer: public ABlockQ {
 public:
-	CBlockQConsumer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, portTickType xBlockTime);
+	CBlockQConsumer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, TickType_t xBlockTime);
 	void Run();
 };
 

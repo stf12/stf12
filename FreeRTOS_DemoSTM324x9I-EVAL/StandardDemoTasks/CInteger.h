@@ -33,7 +33,7 @@ class CInteger: public AManagedTask, public ICommonDemoTask {
 	 * false, flagging an error if the variable is still false the next time it
 	 * is called.
 	 */
-	signed portBASE_TYPE m_nCheck;
+	BaseType_t m_nCheck;
 
 public:
 	CInteger(CCheckTask *pCheckTask);
@@ -44,7 +44,7 @@ public:
 	bool IsStillRunning();
 	const char*GetErrorMessage();
 
-	static void StartIntegerMathTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority );
+	static void StartIntegerMathTasks(CCheckTask *pCheckTask, UBaseType_t nPriority );
 };
 
 #endif /* CINTEGER_H_ */

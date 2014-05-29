@@ -6,8 +6,6 @@
  */
 
 #include "CCheckTask.h"
-//#include "CLcdTask2.h"
-//#include "diag/Trace.h"
 #include <stdio.h>
 
 
@@ -27,7 +25,7 @@ ICommonDemoTask::~ICommonDemoTask()
 // CCheckTask implementation
 ////////////////////////////
 
-CCheckTask::CCheckTask(portTickType checkFrequency/*=(4000/portTICK_RATE_MS)*/) {
+CCheckTask::CCheckTask(TickType_t checkFrequency/*=(4000/portTICK_RATE_MS)*/) {
 	m_pListCommonDemoTaskHead = NULL;
 	m_checkFrequency = checkFrequency;
 }
@@ -43,7 +41,7 @@ void CCheckTask::AddTask(ICommonDemoTask *pTask) {
 
 void CCheckTask::Run() {
 	const char *pcMsg;
-	portTickType xLastCheckTime;
+	TickType_t xLastCheckTime;
 
 	xLastCheckTime = GetTickCount();
 
@@ -59,9 +57,6 @@ void CCheckTask::Run() {
 		else
 			pcMsg = "Status: PASS";
 
-//		trace_puts(pcMsg);
 		printf("%s\n", pcMsg);
-
-//		CLcdTask2::GetSharedInstance().Println(pcMsg);
 	}
 }

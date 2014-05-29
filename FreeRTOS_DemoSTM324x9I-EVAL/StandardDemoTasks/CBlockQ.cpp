@@ -29,7 +29,7 @@ static short s_sBlockingProducerCount[ blckqNUM_TASK_SETS ] = { ( unsigned short
 // ABlockQ implementation.
 //////////////////////////
 
-ABlockQ::ABlockQ(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable,  portTickType xBlockTime): ICommonDemoTask(pCheckTask) {
+ABlockQ::ABlockQ(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable,  TickType_t xBlockTime): ICommonDemoTask(pCheckTask) {
 	assert(pQueue->IsValid());
 
 	m_pQueue = pQueue;
@@ -42,16 +42,16 @@ ABlockQ::~ABlockQ() {
 	// TODO Auto-generated destructor stub
 }
 
-void ABlockQ::StartBlockingQueueTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority) {
-	const unsigned portBASE_TYPE uxQueueSize1 = 1, uxQueueSize5 = 5;
-	const portTickType xBlockTime = ( portTickType ) 1000 / portTICK_RATE_MS;
-	const portTickType xDontBlock = ( portTickType ) 0;
+void ABlockQ::StartBlockingQueueTasks(CCheckTask *pCheckTask, UBaseType_t nPriority) {
+	const UBaseType_t uxQueueSize1 = 1, uxQueueSize5 = 5;
+	const TickType_t xBlockTime = ( TickType_t ) 1000 / portTICK_RATE_MS;
+	const TickType_t xDontBlock = ( TickType_t ) 0;
 
 	// Create the first two tasks as described at the top of the file.
 
 	// Create the queue used by the first two tasks to pass the incrementing number.
 	static CQueue queue1;
-	queue1.Create(uxQueueSize1, (unsigned portBASE_TYPE) sizeof(unsigned short));
+	queue1.Create(uxQueueSize1, (UBaseType_t) sizeof(unsigned short));
 	static CBlockQConsumer consumer1Task(pCheckTask, &queue1, &s_sBlockingConsumerCount[0], xBlockTime);
 	static CBlockQProducer producer1Task(pCheckTask, &queue1, &s_sBlockingProducerCount[0], xDontBlock);
 
@@ -62,7 +62,7 @@ void ABlockQ::StartBlockingQueueTasks(CCheckTask *pCheckTask, unsigned portBASE_
 	// Create the second two tasks as described at the top of the file. This uses
 	// the same mechanism but reverses the task priorities.
 	static CQueue queue2;
-	queue2.Create(uxQueueSize1, (unsigned portBASE_TYPE) sizeof(unsigned short));
+	queue2.Create(uxQueueSize1, (UBaseType_t) sizeof(unsigned short));
 	static CBlockQConsumer consumer2Task(pCheckTask, &queue2, &s_sBlockingConsumerCount[1], xDontBlock);
 	static CBlockQProducer producer2Task(pCheckTask, &queue2, &s_sBlockingProducerCount[1], xBlockTime);
 	consumer2Task.Create("QProdB3", blckqSTACK_SIZE, tskIDLE_PRIORITY);
@@ -71,7 +71,7 @@ void ABlockQ::StartBlockingQueueTasks(CCheckTask *pCheckTask, unsigned portBASE_
 	// Create the last two tasks as described above.  The mechanism is again just
 	// the same.  This time both parameter structures are given a block time.
 	static CQueue queue3;
-	queue3.Create(uxQueueSize5, (unsigned portBASE_TYPE) sizeof(unsigned short));
+	queue3.Create(uxQueueSize5, (UBaseType_t) sizeof(unsigned short));
 	static CBlockQProducer producer3Task(pCheckTask, &queue3, &s_sBlockingProducerCount[2], xBlockTime);
 	static CBlockQConsumer consumer3Task(pCheckTask, &queue3, &s_sBlockingConsumerCount[2], xBlockTime);
 	producer3Task.Create("QProdB5", blckqSTACK_SIZE, tskIDLE_PRIORITY);
@@ -101,7 +101,7 @@ const char*ABlockQ::GetErrorMessage() {
 // CBlockQProducer implementation.
 //////////////////////////////////
 
-CBlockQProducer::CBlockQProducer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, portTickType xBlockTime):
+CBlockQProducer::CBlockQProducer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, TickType_t xBlockTime):
 		ABlockQ(pCheckTask, pQueue, psCheckVariable, xBlockTime) {
 }
 
@@ -135,7 +135,7 @@ void CBlockQProducer::Run() {
 // CBlockQConsumer implementation.
 //////////////////////////////////
 
-CBlockQConsumer::CBlockQConsumer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, portTickType xBlockTime):
+CBlockQConsumer::CBlockQConsumer(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable, TickType_t xBlockTime):
 		ABlockQ(pCheckTask, pQueue, psCheckVariable, xBlockTime) {
 
 }

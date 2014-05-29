@@ -24,7 +24,7 @@ class CCheckTask;
 
 /**
  * Base interface for each Common Demo Class. It declares the methods needed by the CCheckTask
- * to implemet the software watchdog feature.
+ * to implement the software watchdog feature.
  */
 class ICommonDemoTask {
 	friend class CCheckTask;
@@ -77,7 +77,7 @@ class CCheckTask: public AManagedTask {
 	/**
 	 * Specifies the frequency of the task. The default value is 4s.
 	 */
-	portTickType m_checkFrequency;
+	TickType_t m_checkFrequency;
 
 public:
 
@@ -86,7 +86,7 @@ public:
 	 *
 	 * @param checkFrequency specifies the task frequency.
 	 */
-	CCheckTask(portTickType checkFrequency=(4000/portTICK_RATE_MS));
+	CCheckTask(TickType_t checkFrequency=(4000/portTICK_RATE_MS));
 
 	/**
 	 * Destructor.

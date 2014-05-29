@@ -102,7 +102,7 @@ const char*CInteger::GetErrorMessage() {
 	return "Error:IntMath";
 }
 
-void CInteger::StartIntegerMathTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority ) {
+void CInteger::StartIntegerMathTasks(CCheckTask *pCheckTask, UBaseType_t nPriority ) {
 	for (int i=0; i<intgNUMBER_OF_TASKS; ++i) {
 		CInteger *pTask = new CInteger(pCheckTask);
 		pTask->Create("IntMath", intgSTACK_SIZE, nPriority);

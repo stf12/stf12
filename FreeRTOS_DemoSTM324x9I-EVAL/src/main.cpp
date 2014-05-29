@@ -104,6 +104,10 @@
 #include "CPollQ.h"
 #include "CSemTest.h"
 
+#include "CHelloWorld.h"
+#include "CLcdTask2.h"
+#include "CTimerTestTask.h"
+
 /* Hardware includes. */
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal_conf.h"
@@ -112,10 +116,6 @@
 // Others includes
 #include <stdio.h>
 #include "diag/Trace.h"
-#include "LcdTask.h"
-
-/* Priorities for the demo application tasks. */
-#define mainLCD_TASK_PRIORITY				( tskIDLE_PRIORITY + 4UL )
 
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2UL )
 #define mainFLASH_TASK_PRIORITY				( tskIDLE_PRIORITY + 2UL )
@@ -124,21 +124,6 @@
 #define mainSEM_TEST_PRIORITY				( tskIDLE_PRIORITY + 1UL )
 #define mainTIMER_TEST_PRIORITY				( configMAX_PRIORITIES - 2UL )
 
-/* The LED used by the check timer. */
-#define mainCHECK_LED 						( LED4 )
-
-/* A block time of zero simply means "don't block". */
-#define mainDONT_BLOCK						( 0UL )
-
-/* The period after which the check timer will expire, in ms, provided no errors
-have been reported by any of the standard demo tasks.  ms are converted to the
-equivalent in ticks using the portTICK_PERIOD_MS constant. */
-#define mainCHECK_TIMER_PERIOD_MS			( 3000UL / portTICK_PERIOD_MS )
-
-/* The period at which the check timer will expire, in ms, if an error has been
-reported in one of the standard demo tasks.  ms are converted to the equivalent
-in ticks using the portTICK_PERIOD_MS constant. */
-#define mainERROR_CHECK_TIMER_PERIOD_MS 	( 200UL / portTICK_PERIOD_MS )
 
 /**
  * Set up the hardware ready to run this demo.
@@ -146,12 +131,15 @@ in ticks using the portTICK_PERIOD_MS constant. */
 static void prvSetupHardware( void );
 
 /**
- * The check timer callback function, as described at the top of this file.
- *
- * @param xTimer
+ * Heap allocated task object
  */
-static void prvCheckTimerCallback( TimerHandle_t xTimer );
+CHelloWorld *g_pLed1Task;
 
+/**
+ * Global task objects.
+ */
+CHelloWorld g_Led2Task(LED2_GPIO_PORT, LED2_PIN, 1000);
+CCheckTask g_checkTask(4000/portTICK_RATE_MS);
 
 // Sample pragmas to cope with warnings. Please note the related line at
 // the end of this function, used to pop the compiler diagnostics status.
@@ -159,11 +147,6 @@ static void prvCheckTimerCallback( TimerHandle_t xTimer );
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
-
-/**
- * Global task objects.
- */
-CCheckTask g_checkTask(4000/portTICK_RATE_MS);
 
 int
 main(int argc, char* argv[])
@@ -189,18 +172,34 @@ main(int argc, char* argv[])
 	// at high speed.
 	trace_printf("System clock: %uHz\n", SystemCoreClock);
 
+	// Create the task objects.
+
+	// While usually dynamic memory is not a good practice in an embedded program,
+	// this task is allocated on the heap only to test if the low level layer works fine.
+	// (linker script and runtime support)
+	g_pLed1Task = new CHelloWorld(LED1_GPIO_PORT, LED1_PIN, 2000);
+	g_pLed1Task->Create("Led1", configMINIMAL_STACK_SIZE, mainFLASH_TASK_PRIORITY);
+
+	g_Led2Task.Create("Led2", configMINIMAL_STACK_SIZE, 0);//mainFLASH_TASK_PRIORITY);
+
+	// Static task object
+	static CHelloWorld led3Task(LED3_GPIO_PORT, LED3_PIN, 3000);
+	led3Task.Create("Led3", configMINIMAL_STACK_SIZE, mainFLASH_TASK_PRIORITY);
+
 	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
 	ABlockQ::StartBlockingQueueTasks(&g_checkTask, mainBLOCK_Q_PRIORITY);
 	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
 	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
 	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
 
+	static CTimerTestTask s_timerTask;
+	s_timerTask.Create("timer_t", configMINIMAL_STACK_SIZE*2, mainTIMER_TEST_PRIORITY);
 
-	// Display the Splash Screen Message
-//	lcdStartTask(mainLCD_TASK_PRIORITY);
+
+	// Instantiate the shared LCD task object
+	CLcdTask2::GetSharedInstance();
 
 	/* Start the scheduler. */
-//	vTaskStartScheduler();
 	CFreeRTOS::InitHardwareForManagedTasks();
 	CFreeRTOS::StartScheduler();
 
@@ -221,13 +220,15 @@ static void prvSetupHardware( void )
 	/* Ensure all priority bits are assigned as preemption priority bits. */
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
-	/* Setup the LED outputs. */
-//	vParTestInitialise();
-
 	/* Configure the button input.  This configures the interrupt to use the
 	lowest interrupt priority, so it is ok to use the ISR safe FreeRTOS API
 	from the button interrupt handler. */
 	BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
+
+	// LED clock initialization
+	LEDx_GPIO_CLK_ENABLE(LED1);
+	LEDx_GPIO_CLK_ENABLE(LED2);
+	LEDx_GPIO_CLK_ENABLE(LED3);
 }
 
 /**

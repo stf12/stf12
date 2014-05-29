@@ -43,7 +43,7 @@ protected:
 	/**
 	 * Variable that are used to check that the task is still running with no errors.
 	 */
-	signed portBASE_TYPE m_nPollingCount;
+	BaseType_t m_nPollingCount;
 
 public:
 	APollQ(CCheckTask *pCheckTask, CQueue *pQueue);
@@ -52,7 +52,7 @@ public:
 	bool IsStillRunning();
 	const char*GetErrorMessage();
 
-	static void StartPolledQueueTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority );
+	static void StartPolledQueueTasks(CCheckTask *pCheckTask, UBaseType_t nPriority );
 };
 
 class CPollQProducer : public APollQ {

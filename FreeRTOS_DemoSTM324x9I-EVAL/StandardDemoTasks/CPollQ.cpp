@@ -11,11 +11,11 @@
 
 #define pollqSTACK_SIZE			configMINIMAL_STACK_SIZE
 #define pollqQUEUE_SIZE			( 10 )
-#define pollqPRODUCER_DELAY		( ( portTickType ) 200 / portTICK_RATE_MS )
-#define pollqCONSUMER_DELAY		( pollqPRODUCER_DELAY - ( portTickType ) ( 20 / portTICK_RATE_MS ) )
-#define pollqNO_DELAY			( ( portTickType ) 0 )
-#define pollqVALUES_TO_PRODUCE	( ( signed portBASE_TYPE ) 3 )
-#define pollqINITIAL_VALUE		( ( signed portBASE_TYPE ) 0 )
+#define pollqPRODUCER_DELAY		( ( TickType_t ) 200 / portTICK_RATE_MS )
+#define pollqCONSUMER_DELAY		( pollqPRODUCER_DELAY - ( TickType_t ) ( 20 / portTICK_RATE_MS ) )
+#define pollqNO_DELAY			( ( TickType_t ) 0 )
+#define pollqVALUES_TO_PRODUCE	( ( signed BaseType_t ) 3 )
+#define pollqINITIAL_VALUE		( ( signed BaseType_t ) 0 )
 
 
 // APollQ implementation
@@ -59,11 +59,11 @@ const char*APollQ::GetErrorMessage() {
 	return "ERROR:PollQ";
 }
 
-void APollQ::StartPolledQueueTasks(CCheckTask *pCheckTask, unsigned portBASE_TYPE nPriority ) {
+void APollQ::StartPolledQueueTasks(CCheckTask *pCheckTask, UBaseType_t nPriority ) {
 	static CQueue queue;
 
 	/* Create the queue used by the producer and consumer. */
-	queue.Create(pollqQUEUE_SIZE, (unsigned portBASE_TYPE) sizeof(unsigned short));
+	queue.Create(pollqQUEUE_SIZE, (UBaseType_t) sizeof(unsigned short));
 
 	/* vQueueAddToRegistry() adds the queue to the queue registry, if one is
 	in use.  The queue registry is provided as a means for kernel aware
@@ -89,7 +89,7 @@ CPollQProducer::CPollQProducer(CCheckTask *pCheckTask, CQueue *pQueue): APollQ(p
 
 void CPollQProducer::Run() {
 	unsigned short usValue = ( unsigned short ) 0;
-	signed portBASE_TYPE xError = pdFALSE, xLoop;
+	BaseType_t xError = pdFALSE, xLoop;
 
 	for( ;; )
 	{
@@ -132,7 +132,7 @@ CPollQConsumer::CPollQConsumer(CCheckTask *pCheckTask, CQueue *pQueue): APollQ(p
 
 void CPollQConsumer::Run() {
 	unsigned short usData, usExpectedValue = ( unsigned short ) 0;
-	signed portBASE_TYPE xError = pdFALSE;
+	BaseType_t xError = pdFALSE;
 
 	for( ;; )
 	{
