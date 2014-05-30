@@ -223,11 +223,6 @@ static void prvSetupHardware( void )
 	/* Ensure all priority bits are assigned as preemption priority bits. */
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
-	/* Configure the button input.  This configures the interrupt to use the
-	lowest interrupt priority, so it is ok to use the ISR safe FreeRTOS API
-	from the button interrupt handler. */
-//	BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
-
 	// LED clock initialization
 	LEDx_GPIO_CLK_ENABLE(LED1);
 	LEDx_GPIO_CLK_ENABLE(LED2);
