@@ -63,6 +63,15 @@ public:
 	 */
 	static BaseType_t ResumeAllTasks() { return xTaskResumeAll(); }
 
+	/**
+	 * \sa <a href="http://www.freertos.org/vTaskStepTick.html">vTaskStepTick</a> FreeRTOS API function.
+	 */
+	static void StepTick(TickType_t xTicksToJump) {
+#if ( configUSE_TICKLESS_IDLE == 1 )
+		vTaskStepTick(xTicksToJump);
+#endif
+		}
+
 	// Managed FreeRTOS Extension
 	/**
 	 * Call the AManagedTask::InitHardwareForManagedTasks() method for all managed task. When this method is

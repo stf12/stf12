@@ -19,6 +19,8 @@
  * Usually the application subclass this class to create an application specific task object.
  * See the CHelloWorld class for an example.
  *
+ * Note: the API vTaskStartTrace, ulTaskEndTrace are not supported because they are deprecated.
+ *
  * \sa <a href="http://www.freertos.org/taskandcr.html">task documentation</a> in the FreeRTOS web site.
  *
  * @date Jul 5, 2010
@@ -192,6 +194,56 @@ public:
      */
     inline void AllocateMPURegions(const MemoryRegion_t * const xRegions);
 
+    /* Since FreeRTOS v8 and FreeRTOS_EC v2.0.0*/
+
+    /**
+     * \sa <a href="http://www.freertos.org/uxTaskGetSystemState.html">uxTaskGetSystemState</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline static UBaseType_t GetSystemState(TaskStatus_t * const pxTaskStatusArray, const UBaseType_t uxArraySize, uint32_t * const pulTotalRunTime);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xTaskGetApplicationTaskTag.html">xTaskGetApplicationTaskTag</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline TaskHookFunction_t GetApplicationTaskTag();
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00021.html#xTaskGetIdleTaskHandle">xTaskGetIdleTaskHandle</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline static TaskHandle_t GetIdleTaskHandle();
+
+    /**
+     * \sa <a href="http://www.freertos.org/uxTaskGetStackHighWaterMark.html">uxTaskGetStackHighWaterMark</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline UBaseType_t GetStackHighWaterMark();
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00021.html#eTaskGetState">eTaskGetState</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline eTaskState GetState() const;
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00021.html#pcTaskGetTaskName">pcTaskGetTaskName</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline char *GetTaskName() const;
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00021.html#xTaskGetTickCountFromISR">xTaskGetTickCountFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline static TickType_t GetTickCountFromISR();
+
+    /**
+     * \sa <a href="http://www.freertos.org/vTaskSetApplicationTag.html">vTaskSetApplicationTaskTag</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+    inline void SetApplicationTaskTag(TaskHookFunction_t pxTagValue);
+
     // FreeRTOS class extension.
 	inline bool IsValid() const;
 	void Attach(GenericHandle_t handle);
@@ -258,7 +310,7 @@ UBaseType_t CTask::PriorityGet() const {
 #if ( INCLUDE_uxTaskPriorityGet == 1 )
 	return uxTaskPriorityGet(m_handleTask);
 #else
-	return -1;
+	return 0;
 #endif
 }
 
@@ -325,6 +377,75 @@ GenericHandle_t CTask::Detach() {
 	TaskHandle_t res = m_handleTask;
 	m_handleTask = NULL;
 	return res;
+}
+
+inline
+UBaseType_t CTask::GetSystemState(
+		TaskStatus_t * const pxTaskStatusArray,
+		const UBaseType_t uxArraySize,
+		uint32_t * const pulTotalRunTime) {
+#if ( configUSE_TRACE_FACILITY == 1 )
+	return uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, pulTotalRunTime);
+#else
+	return 0;
+#endif
+}
+
+inline
+TaskHookFunction_t CTask::GetApplicationTaskTag() {
+#if ( configUSE_APPLICATION_TASK_TAG == 1)
+	return xTaskGetApplicationTaskTag(m_handleTask);
+#else
+	return NULL;
+#endif
+}
+
+inline
+TaskHandle_t CTask::GetIdleTaskHandle() {
+#if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+	return  xTaskGetIdleTaskHandle();
+#else
+	return NULL;
+#endif
+}
+
+inline
+UBaseType_t CTask::GetStackHighWaterMark() {
+#if ( INCLUDE_uxTaskGetStackHighWaterMark  == 1)
+	return uxTaskGetStackHighWaterMark(m_handleTask);
+#else
+	return 0;
+#endif
+}
+
+inline
+eTaskState CTask::GetState() const {
+#if ( INCLUDE_eTaskGetState == 1 )
+	return xTaskGetIdleTaskHandle(m_handleTask);
+#else
+	return eSuspended;
+#endif
+}
+
+inline
+char *CTask::GetTaskName() const {
+#if ( INCLUDE_pcTaskGetTaskName == 1 )
+	return pcTaskGetTaskName(m_handleTask);
+#else
+	return NULL;
+#endif
+}
+
+inline
+TickType_t CTask::GetTickCountFromISR() {
+	return xTaskGetTickCountFromISR();
+}
+
+inline
+void CTask::SetApplicationTaskTag(TaskHookFunction_t pxTagValue) {
+#if ( configUSE_APPLICATION_TASK_TAG == 1 )
+	vTaskSetApplicationTaskTag(m_handleTask, pxTagValue);
+#endif
 }
 
 #endif /* CTASK_H_ */
