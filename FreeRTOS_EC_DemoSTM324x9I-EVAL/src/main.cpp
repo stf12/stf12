@@ -107,6 +107,7 @@
 #include "CHelloWorld.h"
 #include "CLcdTask2.h"
 #include "CTimerTestTask.h"
+#include "CIrqDrivenTask.h"
 
 /* Hardware includes. */
 #include "stm32f4xx.h"
@@ -160,7 +161,7 @@ main(int argc, char* argv[])
 	// trace_dump_args(argc, argv);
 
 	// Send a greeting to the trace device (skipped on Release).
-	trace_puts("Hello FreeRTOS ARM World!");
+	trace_puts("Hello C++ FreeRTOS ARM World!");
 
 	// The standard output and the standard error should be forwarded to
 	// the trace device. For this to work, a redirection in _write.c is
@@ -195,6 +196,8 @@ main(int argc, char* argv[])
 	static CTimerTestTask s_timerTask;
 	s_timerTask.Create("timer_t", configMINIMAL_STACK_SIZE*2, mainTIMER_TEST_PRIORITY);
 
+	static CIrqDrivenTask xButtonTest;
+	xButtonTest.Create("BtnTest", configMINIMAL_STACK_SIZE*2, tskIDLE_PRIORITY);
 
 	// Instantiate the shared LCD task object
 	CLcdTask2::GetSharedInstance();
@@ -223,21 +226,12 @@ static void prvSetupHardware( void )
 	/* Configure the button input.  This configures the interrupt to use the
 	lowest interrupt priority, so it is ok to use the ISR safe FreeRTOS API
 	from the button interrupt handler. */
-	BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
+//	BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
 
 	// LED clock initialization
 	LEDx_GPIO_CLK_ENABLE(LED1);
 	LEDx_GPIO_CLK_ENABLE(LED2);
 	LEDx_GPIO_CLK_ENABLE(LED3);
-}
-
-/**
-  * @brief  This function handles External lines 15 to 10 interrupt request.
-  *
-  */
-extern "C"
-void EXTI15_10_IRQHandler(void) {
-	 HAL_GPIO_EXTI_IRQHandler(KEY_BUTTON_PIN);
 }
 
 /**
