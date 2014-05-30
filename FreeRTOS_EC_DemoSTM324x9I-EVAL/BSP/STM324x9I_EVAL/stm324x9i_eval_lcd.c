@@ -76,12 +76,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm324x9i_eval_lcd.h"
-#include "..\..\..\Utilities\Fonts\fonts.h"
-#include "..\..\..\Utilities\Fonts\font24.c"
-#include "..\..\..\Utilities\Fonts\font20.c"
-#include "..\..\..\Utilities\Fonts\font16.c"
-#include "..\..\..\Utilities\Fonts\font12.c"
-#include "..\..\..\Utilities\Fonts\font8.c"
+#include "../../../Utilities/Fonts/fonts.h"
+#include "../../../Utilities/Fonts/font24.c"
+#include "../../../Utilities/Fonts/font20.c"
+#include "../../../Utilities/Fonts/font16.c"
+#include "../../../Utilities/Fonts/font12.c"
+#include "../../../Utilities/Fonts/font8.c"
 
 /** @addtogroup BSP
   * @{

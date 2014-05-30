@@ -46,7 +46,7 @@
    
 /* Includes ------------------------------------------------------------------*/
 #include "stm324x9i_eval.h"
-#include "..\Components\stmpe1600\stmpe1600.h"  
+#include "../Components/stmpe1600/stmpe1600.h"
    
 /** @addtogroup BSP
   * @{

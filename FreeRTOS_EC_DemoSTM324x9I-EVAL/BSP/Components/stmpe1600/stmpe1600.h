@@ -45,7 +45,7 @@
 #endif   
    
 /* Includes ------------------------------------------------------------------*/
-#include "..\Common\io.h"
+#include "../Common/io.h"
 
 /** @addtogroup BSP
   * @{
