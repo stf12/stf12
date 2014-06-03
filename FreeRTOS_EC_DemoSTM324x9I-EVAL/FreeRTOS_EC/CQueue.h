@@ -143,6 +143,63 @@ public:
 	 */
 	inline void AddToRegistry(const char *pcQueueName);
 
+	/* Since FreeRTOS v8 and FreeRTOS_EC v2.0.0*/
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#ucQueueMessagesWaitingFromISR">uxQueueMessagesWaitingFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline UBaseType_t MessagesWaitingFromISR();
+
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#uxQueueSpacesAvailable">uxQueueSpacesAvailable</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline UBaseType_t SpacesAvailable() const;
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#xQueueReset">xQueueReset</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t Reset();
+
+    /**
+     * \sa <a href="http://www.freertos.org/xQueueOverwrite.html">xQueueOverwrite</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t Overwrite(const void * pvItemToQueue);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xQueueOverwriteFromISR.html">xQueueOverwriteFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t OverwriteFromISR(const void * pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xQueuePeekFromISR.html">xQueuePeekFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t PeekFromISR(void *pvBuffer);
+
+    /**
+     * \sa <a href="http://www.freertos.org/vQueueUnregisterQueue.html">vQueueUnregisterQueue</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline void UnregisterQueue();
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#xQueueIsQueueFullFromISR">xQueueIsQueueFullFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t IsQueueFullFromISR() const;
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#xQueueIsQueueEmptyFromISR">xQueueIsQueueEmptyFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t QueueEmptyFromISR() const;
+
 };
 
 // inline method implementation
@@ -232,6 +289,51 @@ GenericHandle_t CQueue::Detach() {
 	QueueHandle_t res = m_handleQueue;
 	m_handleQueue = NULL;
 	return res;
+}
+
+inline
+UBaseType_t CQueue::MessagesWaitingFromISR() {
+	return uxQueueMessagesWaitingFromISR(m_handleQueue);
+}
+
+inline
+UBaseType_t CQueue::SpacesAvailable() const {
+	return uxQueueSpacesAvailable(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::Reset() {
+	return xQueueReset(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::Overwrite(const void * pvItemToQueue) {
+	return xQueueOverwrite(m_handleQueue, pvItemToQueue);
+}
+
+inline
+BaseType_t CQueue::OverwriteFromISR(const void * pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken) {
+	return xQueueOverwriteFromISR(m_handleQueue, pvItemToQueue, pxHigherPriorityTaskWoken);
+}
+
+inline
+BaseType_t CQueue::PeekFromISR(void *pvBuffer) {
+	return xQueuePeekFromISR(m_handleQueue, pvBuffer);
+}
+
+inline
+void CQueue::UnregisterQueue() {
+	vQueueUnregisterQueue(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::IsQueueFullFromISR() const {
+	return xQueueIsQueueFullFromISR(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::QueueEmptyFromISR() const {
+	return xQueueIsQueueEmptyFromISR(m_handleQueue);
 }
 
 #endif /* CQUEUE_H_ */

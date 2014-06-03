@@ -32,6 +32,12 @@ public:
 	void Attach(GenericHandle_t handle);
 	inline GenericHandle_t Detach();
 
+    /**
+     * \sa <a href="http://www.freertos.org/xSemaphoreGetMutexHolder.html">xSemaphoreGetMutexHolder</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline void* GetMutexHolder();
+
 	virtual BaseType_t Take(TickType_t xBlockTime) =0;
 	virtual BaseType_t Give() =0;
 };
@@ -48,6 +54,15 @@ GenericHandle_t ASyncObject::Detach() {
 	SemaphoreHandle_t res = m_handleSemaphore;
 	m_handleSemaphore = NULL;
 	return res;
+}
+
+inline
+void* ASyncObject::GetMutexHolder() {
+#if ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 )
+	return xSemaphoreGetMutexHolder(m_handleSemaphore);
+#else
+	return NULL;
+#endif
 }
 
 #endif /* ASEMAPHORE_H_ */

@@ -134,6 +134,32 @@ public:
 	 */
 	inline void *GetTimerID() const;
 
+    /**
+     * \sa <a href="http://www.freertos.org/FreeRTOS-Software-Timer-API-Functions.html#xTimerGetTimerDaemonTaskHandle">xTimerGetTimerDaemonTaskHandle</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline TaskHandle_t GetTimerDaemonTaskHandle();
+
+    /**
+     * \sa <a href="http://www.freertos.org/xTimerPendFunctionCall.html">xTimerPendFunctionCall</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline static BaseType_t PendFunctionCall(
+			PendedFunction_t xFunctionToPend,
+			void *pvParameter1,
+			uint32_t ulParameter2,
+			TickType_t xTicksToWait);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xTimerPendFunctionCallFromISR.html">xTimerPendFunctionCallFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline static BaseType_t PendFunctionCallFromISR(
+			PendedFunction_t xFunctionToPend,
+			void *pvParameter1,
+			uint32_t ulParameter2,
+			BaseType_t *pxHigherPriorityTaskWoken);
+
 	// FreeRTOS class extension.
 	bool IsValid() const;
 	void Attach(GenericHandle_t handle);
@@ -201,6 +227,34 @@ GenericHandle_t ATimer::Detach() {
 	m_handleTimer = NULL;
 	return res;
 }
+
+inline
+TaskHandle_t ATimer::GetTimerDaemonTaskHandle() {
+#if (INCLUDE_xTimerGetTimerDaemonTaskHandle ==1)
+	return xTimerGetTimerDaemonTaskHandle();
+#else
+	return NULL;
+#endif
+}
+
+inline
+BaseType_t ATimer::PendFunctionCall(PendedFunction_t xFunctionToPend, void *pvParameter1, uint32_t ulParameter2, TickType_t xTicksToWait) {
+#if (INCLUDE_xTimerPendFunctionCall == 1)
+	return xTimerPendFunctionCall(xFunctionToPend, pvParameter1, ulParameter2, xTicksToWait);
+#else
+	return pdFALSE;
+#endif
+}
+
+inline
+BaseType_t ATimer::PendFunctionCallFromISR(PendedFunction_t xFunctionToPend, void *pvParameter1, uint32_t ulParameter2,	BaseType_t *pxHigherPriorityTaskWoken) {
+#if (INCLUDE_xTimerPendFunctionCall == 1)
+	return xTimerPendFunctionCallFromISR(xFunctionToPend, pvParameter1, ulParameter2, pxHigherPriorityTaskWoken);
+#else
+	return pdFALSE;
+#endif
+}
+
 
 #endif // configUSE_TIMERS
 
