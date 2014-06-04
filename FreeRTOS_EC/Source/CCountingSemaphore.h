@@ -3,7 +3,7 @@
  * @class CCountingSemaphore
  * @ingroup FreeRTOS_Wrapper
  *
- * The CCountingSemaphore class wraps a native FreeRTOS counting semaphore handle (xSemaphoreHandle).
+ * The CCountingSemaphore class wraps a native FreeRTOS counting semaphore handle (SemaphoreHandle_t).
  * To create a counting semaphore instance an object of this class and then call its CCountingSemaphore::Create method
  * like showed in the following sample:
  * \code
@@ -48,7 +48,7 @@ public:
 	 *
 	 * @param handleSemaphore a valid counting semaphore handle.
 	 */
-	CCountingSemaphore(xSemaphoreHandle handleSemaphore);
+	CCountingSemaphore(SemaphoreHandle_t handleSemaphore);
 
 	/**
 	 * Destructor. It deletes the native FreeRTOS counting semaphore.
@@ -62,43 +62,43 @@ public:
 	 *
 	 * \sa <a href="http://www.freertos.org/CreateCounting.html">xSemaphoreCreateCounting</a> FreeRTOS API function.
 	 */
-	bool Create(unsigned portBASE_TYPE uxMaxCount, unsigned portBASE_TYPE uxInitialCount);
+	bool Create(UBaseType_t uxMaxCount, UBaseType_t uxInitialCount);
 
 	/**
 	 *  \sa <a href="http://www.freertos.org/a00122.html">xSemaphoreTake</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Take(portTickType xBlockTime);
+	inline BaseType_t Take(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00123.html">xSemaphoreGive</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Give();
+	inline BaseType_t Give();
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00124.html">xSemaphoreGiveFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE GiveFromISR(signed portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t GiveFromISR(BaseType_t *pxHigherPriorityTaskWoken);
 };
 
 
 // inline methods implementation
 
 inline
-portBASE_TYPE CCountingSemaphore::Take(portTickType xBlockTime) {
+BaseType_t CCountingSemaphore::Take(TickType_t xBlockTime) {
 	assert(IsValid());
 
 	return xSemaphoreTake(m_handleSemaphore, xBlockTime);
 }
 
 inline
-portBASE_TYPE CCountingSemaphore::Give() {
+BaseType_t CCountingSemaphore::Give() {
 	assert(IsValid());
 
 	return xSemaphoreGive(m_handleSemaphore);
 }
 
 inline
-portBASE_TYPE CCountingSemaphore::GiveFromISR(signed portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t CCountingSemaphore::GiveFromISR(BaseType_t *pxHigherPriorityTaskWoken) {
 	assert(IsValid());
 
 	return xSemaphoreGiveFromISR(m_handleSemaphore, pxHigherPriorityTaskWoken);

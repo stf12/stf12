@@ -23,8 +23,8 @@ CMessageTask::~CMessageTask() {
 	// TODO Auto-generated destructor stub
 }
 
-portBASE_TYPE CMessageTask::OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority) {
-	portBASE_TYPE res;
+BaseType_t CMessageTask::OnCreate(const char * const pcName, uint16_t usStackDepth, UBaseType_t uxPriority) {
+	BaseType_t res;
 	res = m_queue.Create(CMessageTask::MESSAGE_QUEUE_SIZE, sizeof(char[20])).IsValid();
 
 	return res;
@@ -72,18 +72,18 @@ void CMessageTask::DispatchMessage(const CMessage &msg) {
 	}
 }
 
-bool CMessageTask::PostMessage(CMessage *pMsg, portTickType nTicksToWait/*=portMAX_DELAY*/) {
+bool CMessageTask::PostMessage(CMessage *pMsg, TickType_t nTicksToWait/*=portMAX_DELAY*/) {
 	return (bool)m_queue.Send(pMsg, nTicksToWait);
 }
 
-bool CMessageTask::PostMessageFromISR(CMessage *pMsg, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+bool CMessageTask::PostMessageFromISR(CMessage *pMsg, BaseType_t *pxHigherPriorityTaskWoken) {
 	return (bool)m_queue.SendFromISR(pMsg, pxHigherPriorityTaskWoken);
 }
 
-bool CMessageTask::SendMessage(CMessage *pMsg, portTickType nTicksToWait/*=portMAX_DELAY*/) {
+bool CMessageTask::SendMessage(CMessage *pMsg, TickType_t nTicksToWait/*=portMAX_DELAY*/) {
 	return (bool)m_queue.SendToFront(pMsg, nTicksToWait);
 }
 
-bool CMessageTask::SenfFromISR(CMessage *pMsg, portBASE_TYPE * pxHigherPriorityTaskWoken) {
+bool CMessageTask::SenfFromISR(CMessage *pMsg, BaseType_t * pxHigherPriorityTaskWoken) {
 	return (bool)m_queue.SendToFrontFromISR(pMsg, pxHigherPriorityTaskWoken);
 }

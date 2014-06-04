@@ -70,7 +70,7 @@ public:
 	 *
 	 * @sa CTask::Create
 	 */
-	portBASE_TYPE Create(const portCHAR * const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority);
+	BaseType_t  Create(const char * const pcName, uint16_t usStackDepth, UBaseType_t  uxPriority);
 
 	/**
 	 * The framework calls this function before the scheduler start. The default implementation simply return true.
@@ -96,7 +96,7 @@ public:
 	 * @return pdTRUE if success, pdFALSE otherwise. If the method return pdFALSE the task creation process
 	 * is stopped and no FreeRTOS resource are allocated.
 	 */
-	virtual portBASE_TYPE OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority) { return pdTRUE; }
+	virtual BaseType_t  OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, UBaseType_t  uxPriority) { return pdTRUE; }
 
 	/**
 	 * The task control function passed as first parameter to the CTask::Create method.

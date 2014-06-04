@@ -19,7 +19,7 @@
 #ifndef IFREERTOSPROTOCOL_H_
 #define IFREERTOSPROTOCOL_H_
 
-typedef void *xGenericHandle;
+typedef void *GenericHandle_t;
 
 class IFreeRTOSObj {
 public:
@@ -36,7 +36,7 @@ public:
 	 *
 	 * @param handle specifies a native FreeRTOS handle.
 	 */
-	virtual void Attach(xGenericHandle handle) =0;
+	virtual void Attach(GenericHandle_t handle) =0;
 
 	/**
 	 * Usually a FreeRTOS handle is disposed and his resource freed when the attached object is deleted. Call this method
@@ -44,7 +44,7 @@ public:
 	 *
 	 * @return the native FreeRTOS handle. This handle is valid after the object is disposed.
 	 */
-	virtual xGenericHandle Detach() =0;
+	virtual GenericHandle_t Detach() =0;
 };
 
 #endif /* IFREERTOSPROTOCOL_H_ */

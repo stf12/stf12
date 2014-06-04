@@ -13,7 +13,7 @@ CRecursiveMutex::CRecursiveMutex() {
 
 }
 
-CRecursiveMutex::CRecursiveMutex(xSemaphoreHandle handleSemaphore) {
+CRecursiveMutex::CRecursiveMutex(SemaphoreHandle_t handleSemaphore) {
 	Attach(handleSemaphore);
 }
 
@@ -23,7 +23,7 @@ CRecursiveMutex::~CRecursiveMutex() {
 
 bool CRecursiveMutex::Create() {
 #if (configUSE_RECURSIVE_MUTEXES == 1 && configUSE_MUTEXES ==1)
-	xSemaphoreHandle handle = xSemaphoreCreateRecursiveMutex();
+	SemaphoreHandle_t handle = xSemaphoreCreateRecursiveMutex();
 	if (handle != NULL)
 		Attach(handle);
 #endif

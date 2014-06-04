@@ -18,12 +18,12 @@ CBinarySemaphore::~CBinarySemaphore() {
 	// TODO Auto-generated destructor stub
 }
 
-CBinarySemaphore::CBinarySemaphore(xSemaphoreHandle handleSemaphore) {
+CBinarySemaphore::CBinarySemaphore(SemaphoreHandle_t handleSemaphore) {
 	Attach(handleSemaphore);
 }
 
 bool CBinarySemaphore::Create() {
-	xSemaphoreHandle handle;
+	SemaphoreHandle_t handle;
 
 	vSemaphoreCreateBinary(handle);
 

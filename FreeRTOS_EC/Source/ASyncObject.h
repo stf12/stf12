@@ -19,21 +19,27 @@
 
 class ASyncObject: public IFreeRTOSObj {
 protected:
-    xSemaphoreHandle m_handleSemaphore;
+    SemaphoreHandle_t m_handleSemaphore;
 
 public:
 	ASyncObject();
 	virtual ~ASyncObject();
 
-	inline operator xSemaphoreHandle() const { return m_handleSemaphore; }
+	inline operator SemaphoreHandle_t() const { return m_handleSemaphore; }
 
 	void Delete();
 	inline bool IsValid()const;
-	void Attach(xGenericHandle handle);
-	inline xGenericHandle Detach();
+	void Attach(GenericHandle_t handle);
+	inline GenericHandle_t Detach();
 
-	virtual portBASE_TYPE Take(portTickType xBlockTime) =0;
-	virtual portBASE_TYPE Give() =0;
+    /**
+     * \sa <a href="http://www.freertos.org/xSemaphoreGetMutexHolder.html">xSemaphoreGetMutexHolder</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline void* GetMutexHolder();
+
+	virtual BaseType_t Take(TickType_t xBlockTime) =0;
+	virtual BaseType_t Give() =0;
 };
 
 // inline method
@@ -44,10 +50,19 @@ bool ASyncObject::IsValid() const {
 }
 
 inline
-xGenericHandle ASyncObject::Detach() {
-	xSemaphoreHandle res = m_handleSemaphore;
+GenericHandle_t ASyncObject::Detach() {
+	SemaphoreHandle_t res = m_handleSemaphore;
 	m_handleSemaphore = NULL;
 	return res;
+}
+
+inline
+void* ASyncObject::GetMutexHolder() {
+#if ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 )
+	return xSemaphoreGetMutexHolder(m_handleSemaphore);
+#else
+	return NULL;
+#endif
 }
 
 #endif /* ASEMAPHORE_H_ */

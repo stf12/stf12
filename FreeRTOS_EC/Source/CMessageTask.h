@@ -85,7 +85,7 @@ private:
 	 * Specify maximum amount of time the task should block waiting for an incoming message.
 	 * The default value is portMAX_DELAY and the task blocks indefinitely.
 	 */
-	portTickType m_nTimeOut;
+	TickType_t m_nTimeOut;
 
 	/**
 	 * Specifies the synchronization queue used to serialize the access at the LCD.
@@ -113,7 +113,7 @@ public:
 	 * @param uxPriority specifies the task priority.
 	 *
 	 */
-	portBASE_TYPE OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority);
+	BaseType_t OnCreate(const char * const pcName, uint16_t usStackDepth, UBaseType_t uxPriority);
 
 	/**
 	 * Task control function. It implements the message loop.
@@ -148,7 +148,7 @@ public:
 	 *
 	 * @param nNewTimeOut specifies a new timeout value.
 	 */
-	inline void SetTimeout(portTickType nNewTimeOut);
+	inline void SetTimeout(TickType_t nNewTimeOut);
 
 	/**
 	 * Try to post a message to the task's message queue. This method block the calling task
@@ -160,7 +160,7 @@ public:
 	 * @param nTicksToWait specifies the maximum amount of time the calling task should block.
 	 * @return <code>true</code> if the message was posted, <code>false</code> otherwise.
 	 */
-	bool PostMessage(CMessage *pMsg, portTickType nTicksToWait=portMAX_DELAY);
+	bool PostMessage(CMessage *pMsg, TickType_t nTicksToWait=portMAX_DELAY);
 
 	/**
 	 * Try post a message to the task's message queue.
@@ -175,7 +175,7 @@ public:
 	 * the interrupt is exited.
 	 * @return <code>true</code> if the message was successfully posted, <code>false</code> otherwise.
 	 */
-	bool PostMessageFromISR(CMessage *pMsg, portBASE_TYPE * pxHigherPriorityTaskWoken);
+	bool PostMessageFromISR(CMessage *pMsg, BaseType_t * pxHigherPriorityTaskWoken);
 
 	/**
 	 * Try to send an high priority to the task's message queue. A message sent using this method
@@ -188,7 +188,7 @@ public:
 	 * @param nTicksToWait specifies the maximum amount of time the calling task should block.
 	 * @return <code>true</code> if the message was sent, <code>false</code> otherwise.
 	 */
-	bool SendMessage(CMessage *pMsg, portTickType nTicksToWait=portMAX_DELAY);
+	bool SendMessage(CMessage *pMsg, TickType_t nTicksToWait=portMAX_DELAY);
 
 	/**
 	 * Try to send an high priority to the task's message queue.
@@ -200,7 +200,7 @@ public:
 	 * @param pxHigherPriorityTaskWoken specifies the maximum amount of time the calling task should block.
 	 * @return <code>true</code> if the message was sent, <code>false</code> otherwise.
 	 */
-	bool SenfFromISR(CMessage *pMsg, portBASE_TYPE * pxHigherPriorityTaskWoken);
+	bool SenfFromISR(CMessage *pMsg, BaseType_t * pxHigherPriorityTaskWoken);
 };
 
 // Inline methods implementation
@@ -211,7 +211,7 @@ void CMessageTask::SetDelegate(IMessageTaskDelegate *pDelegate) {
 }
 
 inline
-void CMessageTask::SetTimeout(portTickType nNewTimeout) {
+void CMessageTask::SetTimeout(TickType_t nNewTimeout) {
 	m_nTimeOut = nNewTimeout;
 }
 

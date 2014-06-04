@@ -3,7 +3,7 @@
  * @class ATimer
  * @ingroup FreeRTOS_Wrapper
  *
- * The ATimer class wraps a native FreeRTOS timer handle (xTimerHandle). The application must subclass this class and
+ * The ATimer class wraps a native FreeRTOS timer handle (TimerHandle_t). The application must subclass this class and
  * implements the pure virtual method ATimer::OnExpired. The ATimer::OnExpired method is called when the timer period expires.
  * This class conforms to the iFreeRTOSProtocol protocol, so the application has to call the object ATimer::Create
  * method in order to allocate the underling FreeRTOS resource before using it.
@@ -28,7 +28,7 @@ class ATimer: public IFreeRTOSObj {
 	/**
 	 * Specifies the native FreeRTOS handle managed by an instance of this class.
 	 */
-	xTimerHandle m_handleTimer;
+	TimerHandle_t m_handleTimer;
 
 	/**
 	 * Default timer callback. It gets the timer identifier, that is a pointer to the
@@ -36,7 +36,7 @@ class ATimer: public IFreeRTOSObj {
 	 *
 	 * @param xTimer handle to the expired timer.
 	 */
-	static void Callback(xTimerHandle xTimer);
+	static void Callback(TimerHandle_t xTimer);
 
 public:
 
@@ -51,7 +51,7 @@ public:
 	 *
 	 * @param handleTimer a valid timer handle.
 	 */
-	ATimer(xTimerHandle handleTimer);
+	ATimer(TimerHandle_t handleTimer);
 
 	/**
 	 * Delete the native FreeRTOS timer.
@@ -63,7 +63,7 @@ public:
 	 *
 	 * @return the native FreeRTOS timer handle attached to this object.
 	 */
-	inline operator xTimerHandle() const { return m_handleTimer; }
+	inline operator TimerHandle_t() const { return m_handleTimer; }
 
 	/**
 	 * Allocate the FreeRTOS timer object. The timer identifier of the wrapped xTimerCreate function
@@ -71,7 +71,7 @@ public:
 	 *
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerCreate.html">xTimerCreate</a> FreeRTOS API function.
 	 */
-	ATimer &Create(const signed char *pcTimerName, portTickType xTimerPeriod, unsigned portBASE_TYPE uxAutoReload);
+	ATimer &Create(const char *pcTimerName, TickType_t xTimerPeriod, UBaseType_t uxAutoReload);
 
 	/**
 	 * Application defined callback called when the timer expire.
@@ -81,63 +81,89 @@ public:
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerIsTimerActive.html">xTimerIsTimerActive</a>  FreeRTOS API function.
 	 */
-	inline portBASE_TYPE IsTimerActive() const;
+	inline BaseType_t IsTimerActive() const;
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerStart.html">xTimerStart</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Start(portTickType xBlockTime);
+	inline BaseType_t Start(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerStop.html">xTimerStop</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Stop(portTickType xBlockTime);
+	inline BaseType_t Stop(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerChangePeriod.html">xTimerChangePeriod</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE ChangePeriod(portTickType xNewPeriod, portTickType xBlockTime);
+	inline BaseType_t ChangePeriod(TickType_t xNewPeriod, TickType_t xBlockTime);
 
 	/**
 	 * TODO: STF - da rivedere.
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerDelete.html">xTimerDelete</a>  FreeRTOS API function.
 	 */
-	portBASE_TYPE Delete(portTickType xBlockTime);
+	BaseType_t Delete(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerReset.html">xTimerReset</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Reset(portTickType xBlockTime);
+	inline BaseType_t Reset(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerStartFromISR.html">xTimerStartFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE StartFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t StartFromISR(BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerStopFromISR.html">xTimerStopFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE StopFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t StopFromISR(BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerChangePeriodFromISR.html">xTimerChangePeriodFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE ChangePeriodFromISR(portTickType xNewPeriod, portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t ChangePeriodFromISR(TickType_t xNewPeriod, BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-xTimerResetFromISR.html">xTimerResetFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE ResetFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t ResetFromISR(BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/FreeRTOS-timers-pvTimerGetTimerID.html">pvTimerGetTimerID</a> FreeRTOS API function.
 	 */
 	inline void *GetTimerID() const;
 
+    /**
+     * \sa <a href="http://www.freertos.org/FreeRTOS-Software-Timer-API-Functions.html#xTimerGetTimerDaemonTaskHandle">xTimerGetTimerDaemonTaskHandle</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline TaskHandle_t GetTimerDaemonTaskHandle();
+
+    /**
+     * \sa <a href="http://www.freertos.org/xTimerPendFunctionCall.html">xTimerPendFunctionCall</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline static BaseType_t PendFunctionCall(
+			PendedFunction_t xFunctionToPend,
+			void *pvParameter1,
+			uint32_t ulParameter2,
+			TickType_t xTicksToWait);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xTimerPendFunctionCallFromISR.html">xTimerPendFunctionCallFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0
+     */
+	inline static BaseType_t PendFunctionCallFromISR(
+			PendedFunction_t xFunctionToPend,
+			void *pvParameter1,
+			uint32_t ulParameter2,
+			BaseType_t *pxHigherPriorityTaskWoken);
+
 	// FreeRTOS class extension.
 	bool IsValid() const;
-	void Attach(xGenericHandle handle);
-	xGenericHandle Detach();
+	void Attach(GenericHandle_t handle);
+	GenericHandle_t Detach();
 };
 
 // inline method
@@ -146,42 +172,42 @@ public:
 #if ( configUSE_TIMERS == 1 )
 
 inline
-portBASE_TYPE ATimer::IsTimerActive() const {
+BaseType_t ATimer::IsTimerActive() const {
 	return xTimerIsTimerActive(m_handleTimer);
 }
 
 inline
-portBASE_TYPE ATimer::Start(portTickType xBlockTime) {
+BaseType_t ATimer::Start(TickType_t xBlockTime) {
 	return xTimerStart(m_handleTimer, xBlockTime);
 }
 
 inline
-portBASE_TYPE ATimer::Stop(portTickType xBlockTime) {
+BaseType_t ATimer::Stop(TickType_t xBlockTime) {
 	return xTimerStop(m_handleTimer, xBlockTime);
 }
 
 inline
-portBASE_TYPE ATimer::ChangePeriod(portTickType xNewPeriod, portTickType xBlockTime) {
+BaseType_t ATimer::ChangePeriod(TickType_t xNewPeriod, TickType_t xBlockTime) {
 	return xTimerChangePeriod(m_handleTimer, xNewPeriod, xBlockTime);
 }
 
 inline
-portBASE_TYPE ATimer::Reset(portTickType xBlockTime) {
+BaseType_t ATimer::Reset(TickType_t xBlockTime) {
 	return xTimerReset(m_handleTimer, xBlockTime);
 }
 
 inline
-portBASE_TYPE ATimer::StartFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t ATimer::StartFromISR(BaseType_t *pxHigherPriorityTaskWoken) {
 	return xTimerStartFromISR(m_handleTimer, pxHigherPriorityTaskWoken);
 }
 
 inline
-portBASE_TYPE ATimer::ChangePeriodFromISR(portTickType xNewPeriod, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t ATimer::ChangePeriodFromISR(TickType_t xNewPeriod, BaseType_t *pxHigherPriorityTaskWoken) {
 	return xTimerChangePeriodFromISR(m_handleTimer, xNewPeriod, pxHigherPriorityTaskWoken);
 }
 
 inline
-portBASE_TYPE ATimer::ResetFromISR(portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t ATimer::ResetFromISR(BaseType_t *pxHigherPriorityTaskWoken) {
 	return xTimerResetFromISR(m_handleTimer, pxHigherPriorityTaskWoken);
 }
 
@@ -196,11 +222,39 @@ bool ATimer::IsValid() const{
 }
 
 inline
-xGenericHandle ATimer::Detach() {
-	xTimerHandle res = m_handleTimer;
+GenericHandle_t ATimer::Detach() {
+	TimerHandle_t res = m_handleTimer;
 	m_handleTimer = NULL;
 	return res;
 }
+
+inline
+TaskHandle_t ATimer::GetTimerDaemonTaskHandle() {
+#if (INCLUDE_xTimerGetTimerDaemonTaskHandle ==1)
+	return xTimerGetTimerDaemonTaskHandle();
+#else
+	return NULL;
+#endif
+}
+
+inline
+BaseType_t ATimer::PendFunctionCall(PendedFunction_t xFunctionToPend, void *pvParameter1, uint32_t ulParameter2, TickType_t xTicksToWait) {
+#if (INCLUDE_xTimerPendFunctionCall == 1)
+	return xTimerPendFunctionCall(xFunctionToPend, pvParameter1, ulParameter2, xTicksToWait);
+#else
+	return pdFALSE;
+#endif
+}
+
+inline
+BaseType_t ATimer::PendFunctionCallFromISR(PendedFunction_t xFunctionToPend, void *pvParameter1, uint32_t ulParameter2,	BaseType_t *pxHigherPriorityTaskWoken) {
+#if (INCLUDE_xTimerPendFunctionCall == 1)
+	return xTimerPendFunctionCallFromISR(xFunctionToPend, pvParameter1, ulParameter2, pxHigherPriorityTaskWoken);
+#else
+	return pdFALSE;
+#endif
+}
+
 
 #endif // configUSE_TIMERS
 

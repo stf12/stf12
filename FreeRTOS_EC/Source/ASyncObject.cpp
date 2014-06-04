@@ -25,7 +25,7 @@ void ASyncObject::Delete() {
 	}
 }
 
-void ASyncObject::Attach(xGenericHandle handle) {
+void ASyncObject::Attach(GenericHandle_t handle) {
 	assert(handle != NULL);
 
 	if (IsValid()) {

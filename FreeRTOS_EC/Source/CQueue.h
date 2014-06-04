@@ -3,7 +3,7 @@
  * @class CQueue
  * @ingroup FreeRTOS_Wrapper
  *
- * The CQueue class wraps a native FreeRTOS queue handle (xQueueHandle).
+ * The CQueue class wraps a native FreeRTOS queue handle (QueueHandle_t).
  * To create a queue instance an object of this class and then call its CQueue::Create method
  * like showed in the following sample:
  * \code
@@ -44,7 +44,7 @@ class CQueue: public IFreeRTOSObj {
 	/**
 	 * Specifies the native FreeRTOS handle managed by an instance of this class.
 	 */
-	xQueueHandle m_handleQueue;
+	QueueHandle_t m_handleQueue;
 
 public:
 	/**
@@ -58,7 +58,7 @@ public:
 	 *
 	 * @param handleQueue a valid queue handle.
 	 */
-	CQueue(xQueueHandle handleQueue);
+	CQueue(QueueHandle_t handleQueue);
 
 	/**
 	 * Delete the native FreeRTOS queue.
@@ -70,18 +70,18 @@ public:
 	 *
 	 * @return the native FreeRTOS queue handle attached to this object.
 	 */
-	inline operator xQueueHandle() const { return m_handleQueue; }
+	inline operator QueueHandle_t() const { return m_handleQueue; }
 
 	inline bool IsValid() const;
-	void Attach(xGenericHandle handle);
-	inline xGenericHandle Detach();
+	void Attach(GenericHandle_t handle);
+	inline GenericHandle_t Detach();
 
 	// FreeRTOS API Wrappers
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00116.html">xQueueCreate</a> FreeRTOS API function.
 	 */
-	CQueue &Create(unsigned portBASE_TYPE uxQueueLength, unsigned portBASE_TYPE uxItemSize);
+	CQueue &Create(UBaseType_t uxQueueLength, UBaseType_t uxItemSize);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00018.html#vQueueDelete">vQueueDelete</a> FreeRTOS API function.
@@ -91,130 +91,187 @@ public:
 	/**
 	 * \sa <a href="http://www.freertos.org/a00018.html#ucQueueMessagesWaiting">uxQueueMessagesWaiting</a> FreeRTOS API function.
 	 */
-	inline unsigned portBASE_TYPE MessagesWaiting();
+	inline UBaseType_t MessagesWaiting();
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00117.html">xQueueSend</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Send(const void * pvItemToQueue, portTickType xTicksToWait);
+	inline BaseType_t Send(const void * const pvItemToQueue, TickType_t xTicksToWait);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/xQueueSendToBack.html">SendToBack</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE SendToBack(const void * pvItemToQueue, portTickType xTicksToWait);
+	inline BaseType_t SendToBack(const void * const pvItemToQueue, TickType_t xTicksToWait);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/xQueueSendToFront.html">xQueueSendToFront</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE SendToFront(const void * pvItemToQueue, portTickType xTicksToWait);
+	inline BaseType_t SendToFront(const void * const pvItemToQueue, TickType_t xTicksToWait);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00118.html">xQueueReceive</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Receive(void *pvBuffer, portTickType xTicksToWait);
+	inline BaseType_t Receive(void * const pvBuffer, TickType_t xTicksToWait);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/xQueuePeek.html">xQueuePeek</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Peek(void *pvBuffer, portTickType xTicksToWait);
+	inline BaseType_t Peek(void * const pvBuffer, TickType_t xTicksToWait);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00119.html">xQueueSendFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE SendFromISR(const void * pvItemToQueue, portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t SendFromISR(const void * const pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/xQueueSendToBackFromISR.html">xQueueSendToBackFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE SendToBackFromISR(const void * pvItemToQueue, portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t SendToBackFromISR(const void * const pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/xQueueSendToFrontFromISR.html">xQueueSendToFrontFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE SendToFrontFromISR(const void * pvItemToQueue, portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t SendToFrontFromISR(const void * const pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00120.html">xQueueReceiveFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE ReceiveFromISR(void *pvBuffer, portBASE_TYPE *pxTaskWoken);
+	inline BaseType_t ReceiveFromISR(void * const pvBuffer, BaseType_t *pxTaskWoken);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/vQueueAddToRegistry.html">vQueueAddToRegistry</a> FreeRTOS API function.
 	 */
-	inline void AddToRegistry(signed portCHAR *pcQueueName);
+	inline void AddToRegistry(const char *pcQueueName);
+
+	/* Since FreeRTOS v8 and FreeRTOS_EC v2.0.0*/
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#ucQueueMessagesWaitingFromISR">uxQueueMessagesWaitingFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline UBaseType_t MessagesWaitingFromISR();
+
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#uxQueueSpacesAvailable">uxQueueSpacesAvailable</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline UBaseType_t SpacesAvailable() const;
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#xQueueReset">xQueueReset</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t Reset();
+
+    /**
+     * \sa <a href="http://www.freertos.org/xQueueOverwrite.html">xQueueOverwrite</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t Overwrite(const void * pvItemToQueue);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xQueueOverwriteFromISR.html">xQueueOverwriteFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t OverwriteFromISR(const void * pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
+
+    /**
+     * \sa <a href="http://www.freertos.org/xQueuePeekFromISR.html">xQueuePeekFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t PeekFromISR(void *pvBuffer);
+
+    /**
+     * \sa <a href="http://www.freertos.org/vQueueUnregisterQueue.html">vQueueUnregisterQueue</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline void UnregisterQueue();
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#xQueueIsQueueFullFromISR">xQueueIsQueueFullFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t IsQueueFullFromISR() const;
+
+    /**
+     * \sa <a href="http://www.freertos.org/a00018.html#xQueueIsQueueEmptyFromISR">xQueueIsQueueEmptyFromISR</a>  FreeRTOS API function.
+     * \since FreeRTOS_EC v2.0.0 (FreeRTOS vX.X.X todo: to check FreeRTOS version)
+     */
+	inline BaseType_t QueueEmptyFromISR() const;
 
 };
 
 // inline method implementation
 
 inline
-portBASE_TYPE CQueue::Send(const void * pvItemToQueue, portTickType xTicksToWait) {
+BaseType_t CQueue::Send(const void * const pvItemToQueue, TickType_t xTicksToWait) {
 	return xQueueSend(m_handleQueue, pvItemToQueue, xTicksToWait);
 }
 
 inline
-portBASE_TYPE CQueue::SendFromISR(const void * pvItemToQueue, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t CQueue::SendFromISR(const void * const pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken) {
 	return xQueueSendFromISR(m_handleQueue, pvItemToQueue, pxHigherPriorityTaskWoken);
 }
 
 inline
-unsigned portBASE_TYPE CQueue::MessagesWaiting() {
+UBaseType_t CQueue::MessagesWaiting() {
 	assert(IsValid());
 
 	return uxQueueMessagesWaiting(m_handleQueue);
 }
 
 inline
-portBASE_TYPE CQueue::SendToBack(const void * pvItemToQueue, portTickType xTicksToWait) {
+BaseType_t CQueue::SendToBack(const void * const pvItemToQueue, TickType_t xTicksToWait) {
 	assert(IsValid());
 
 	return xQueueSendToBack(m_handleQueue, pvItemToQueue, xTicksToWait);
 }
 
 inline
-portBASE_TYPE CQueue::SendToFront(const void * pvItemToQueue, portTickType xTicksToWait) {
+BaseType_t CQueue::SendToFront(const void * const pvItemToQueue, TickType_t xTicksToWait) {
 	assert(IsValid());
 
 	return xQueueSendToFront(m_handleQueue, pvItemToQueue, xTicksToWait);
 }
 
 inline
-portBASE_TYPE CQueue::Receive(void *pvBuffer, portTickType xTicksToWait) {
+BaseType_t CQueue::Receive(void * const pvBuffer, TickType_t xTicksToWait) {
 	assert(IsValid());
 
 	return xQueueReceive(m_handleQueue, pvBuffer, xTicksToWait);
 }
 
 inline
-portBASE_TYPE CQueue::Peek(void *pvBuffer, portTickType xTicksToWait) {
+BaseType_t CQueue::Peek(void * const pvBuffer, TickType_t xTicksToWait) {
 	assert(IsValid());
 
 	return xQueuePeek(m_handleQueue, pvBuffer, xTicksToWait);
 }
 
 inline
-portBASE_TYPE CQueue::SendToBackFromISR(const void * pvItemToQueue, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t CQueue::SendToBackFromISR(const void * const pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken) {
 	assert(IsValid());
 
 	return xQueueSendToBackFromISR(m_handleQueue, pvItemToQueue, pxHigherPriorityTaskWoken);
 }
 
 inline
-portBASE_TYPE CQueue::SendToFrontFromISR(const void * pvItemToQueue, portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t CQueue::SendToFrontFromISR(const void * const pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken) {
 	assert(IsValid());
 
 	return xQueueSendToFrontFromISR(m_handleQueue, pvItemToQueue, pxHigherPriorityTaskWoken);
 }
 
 inline
-portBASE_TYPE CQueue::ReceiveFromISR(void *pvBuffer, portBASE_TYPE *pxTaskWoken) {
+BaseType_t CQueue::ReceiveFromISR(void * const pvBuffer, BaseType_t *pxTaskWoken) {
 	assert(IsValid());
 
 	return xQueueReceiveFromISR(m_handleQueue, pvBuffer, pxTaskWoken);
 }
 
 inline
-void CQueue::AddToRegistry(signed portCHAR *pcQueueName) {
+void CQueue::AddToRegistry(const char *pcQueueName) {
 #if (configQUEUE_REGISTRY_SIZE > 0)
 	assert(IsValid());
 
@@ -228,10 +285,55 @@ bool CQueue::IsValid() const{
 }
 
 inline
-xGenericHandle CQueue::Detach() {
-	xQueueHandle res = m_handleQueue;
+GenericHandle_t CQueue::Detach() {
+	QueueHandle_t res = m_handleQueue;
 	m_handleQueue = NULL;
 	return res;
+}
+
+inline
+UBaseType_t CQueue::MessagesWaitingFromISR() {
+	return uxQueueMessagesWaitingFromISR(m_handleQueue);
+}
+
+inline
+UBaseType_t CQueue::SpacesAvailable() const {
+	return uxQueueSpacesAvailable(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::Reset() {
+	return xQueueReset(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::Overwrite(const void * pvItemToQueue) {
+	return xQueueOverwrite(m_handleQueue, pvItemToQueue);
+}
+
+inline
+BaseType_t CQueue::OverwriteFromISR(const void * pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken) {
+	return xQueueOverwriteFromISR(m_handleQueue, pvItemToQueue, pxHigherPriorityTaskWoken);
+}
+
+inline
+BaseType_t CQueue::PeekFromISR(void *pvBuffer) {
+	return xQueuePeekFromISR(m_handleQueue, pvBuffer);
+}
+
+inline
+void CQueue::UnregisterQueue() {
+	vQueueUnregisterQueue(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::IsQueueFullFromISR() const {
+	return xQueueIsQueueFullFromISR(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::QueueEmptyFromISR() const {
+	return xQueueIsQueueEmptyFromISR(m_handleQueue);
 }
 
 #endif /* CQUEUE_H_ */

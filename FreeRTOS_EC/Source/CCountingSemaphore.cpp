@@ -18,14 +18,14 @@ CCountingSemaphore::~CCountingSemaphore() {
 	// TODO Auto-generated destructor stub
 }
 
-CCountingSemaphore::CCountingSemaphore(xSemaphoreHandle handleSemaphore) {
+CCountingSemaphore::CCountingSemaphore(SemaphoreHandle_t handleSemaphore) {
 	Attach(handleSemaphore);
 }
 
-bool CCountingSemaphore::Create(unsigned portBASE_TYPE uxMaxCount, unsigned portBASE_TYPE uxInitialCount) {
+bool CCountingSemaphore::Create(UBaseType_t uxMaxCount, UBaseType_t uxInitialCount) {
 
 #if (configUSE_COUNTING_SEMAPHORES == 1)
-	xSemaphoreHandle handle = NULL;
+	SemaphoreHandle_t handle = NULL;
 	handle = xSemaphoreCreateCounting(uxMaxCount, uxInitialCount);
 
 	if (handle != NULL)

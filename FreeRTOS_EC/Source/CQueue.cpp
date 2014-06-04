@@ -18,14 +18,14 @@ CQueue::~CQueue() {
 		Delete();
 }
 
-CQueue::CQueue(xQueueHandle handleQueue) {
+CQueue::CQueue(QueueHandle_t handleQueue) {
 	Attach(handleQueue);
 }
 
-CQueue &CQueue::Create(unsigned portBASE_TYPE uxQueueLength, unsigned portBASE_TYPE uxItemSize) {
+CQueue &CQueue::Create(UBaseType_t uxQueueLength, UBaseType_t uxItemSize) {
 	assert(!IsValid());
 
-	xQueueHandle handle;
+	QueueHandle_t handle;
 
 	handle = xQueueCreate(uxQueueLength, uxItemSize);
 	if (handle != NULL)
@@ -34,7 +34,7 @@ CQueue &CQueue::Create(unsigned portBASE_TYPE uxQueueLength, unsigned portBASE_T
 	return *this;
 }
 
-void CQueue::Attach(xGenericHandle handle) {
+void CQueue::Attach(GenericHandle_t handle) {
 	assert(handle != NULL);
 
 	if (IsValid())

@@ -3,7 +3,7 @@
  * @class CMutex
  * @ingroup FreeRTOS_Wrapper
  *
- * The CMutex class wraps a native FreeRTOS mutex handle (xSemaphoreHandle).
+ * The CMutex class wraps a native FreeRTOS mutex handle (SemaphoreHandle_t).
  * To create a mutex instance an object of this class and then call its CMutex::Create method
  * like showed in the following sample:
  * \code
@@ -47,7 +47,7 @@ public:
 	 *
 	 * @param handleSemaphore a valid mutex handle.
 	 */
-	CMutex(xSemaphoreHandle handleSemaphore);
+	CMutex(SemaphoreHandle_t handleSemaphore);
 
 	/**
 	 * Destructor. It deletes the native FreeRTOS recursive mutex.
@@ -66,26 +66,26 @@ public:
 	/**
 	 *  \sa <a href="http://www.freertos.org/a00122.html">xSemaphoreTake</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Take(portTickType xBlockTime);
+	inline BaseType_t Take(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00123.html">xSemaphoreGive</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Give();
+	inline BaseType_t Give();
 };
 
 
 // inline methods implementation
 
 inline
-portBASE_TYPE CMutex::Take(portTickType xBlockTime) {
+BaseType_t CMutex::Take(TickType_t xBlockTime) {
 	assert(IsValid());
 
 	return xSemaphoreTake(m_handleSemaphore, xBlockTime);
 }
 
 inline
-portBASE_TYPE CMutex::Give() {
+BaseType_t CMutex::Give() {
 	assert(IsValid());
 
 	return xSemaphoreGive(m_handleSemaphore);

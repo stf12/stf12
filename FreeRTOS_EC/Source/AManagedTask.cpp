@@ -19,7 +19,7 @@ AManagedTask::~AManagedTask() {
 	RemoveFromManagedTask(this);
 }
 
-portBASE_TYPE AManagedTask::Create(const portCHAR * const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority) {
+BaseType_t  AManagedTask::Create(const char * const pcName, uint16_t usStackDepth, UBaseType_t  uxPriority) {
 	return OnCreate(pcName, usStackDepth, uxPriority) &&
 			CTask::Create(AManagedTask::taskControlFunc, pcName, usStackDepth, this, uxPriority);
 }

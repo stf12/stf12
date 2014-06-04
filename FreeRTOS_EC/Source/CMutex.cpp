@@ -17,7 +17,7 @@ CMutex::~CMutex() {
 	// TODO Auto-generated destructor stub
 }
 
-CMutex::CMutex(xSemaphoreHandle handleSemaphore) {
+CMutex::CMutex(SemaphoreHandle_t handleSemaphore) {
 	Attach(handleSemaphore);
 }
 
@@ -25,7 +25,7 @@ bool CMutex::Create() {
 
 #if ( configUSE_MUTEXES == 1 )
 
-	xSemaphoreHandle handle;
+	SemaphoreHandle_t handle;
 
 	handle = xSemaphoreCreateMutex();
 

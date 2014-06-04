@@ -3,7 +3,7 @@
  * @class CRecursiveMutex
  * @ingroup FreeRTOS_Wrapper
  *
- * The CRecursiveMutex class wraps a native FreeRTOS recursive mutex handle (xSemaphoreHandle).
+ * The CRecursiveMutex class wraps a native FreeRTOS recursive mutex handle (SemaphoreHandle_t).
  * To create a recursive mutex instance an object of this class and then call its CRecursiveMutex::Create method
  * like showed in the following sample:
  * \code
@@ -46,7 +46,7 @@ public:
 	 * Create a recursive mutex instance and attach it to a valid handle.
 	 * @param handleSemaphore a valid mutex handle.
 	 */
-	CRecursiveMutex(xSemaphoreHandle handleSemaphore);
+	CRecursiveMutex(SemaphoreHandle_t handleSemaphore);
 
 	/**
 	 * Delete the native FreeRTOS recursive mutex.
@@ -63,19 +63,19 @@ public:
 	/**
 	 * \sa <a href="http://www.freertos.org/xSemaphoreTakeRecursive.html">xSemaphoreTakeRecursive</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Take(portTickType xBlockTime);
+	inline BaseType_t Take(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/xSemaphoreGiveRecursive.html">xSemaphoreGiveRecursive</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Give();
+	inline BaseType_t Give();
 };
 
 
 // inline methods implementation
 
 inline
-portBASE_TYPE CRecursiveMutex::Take(portTickType xBlockTime) {
+BaseType_t CRecursiveMutex::Take(TickType_t xBlockTime) {
 #if (configUSE_RECURSIVE_MUTEXES == 1)
 	assert(IsValid());
 
@@ -86,7 +86,7 @@ portBASE_TYPE CRecursiveMutex::Take(portTickType xBlockTime) {
 }
 
 inline
-portBASE_TYPE CRecursiveMutex::Give() {
+BaseType_t CRecursiveMutex::Give() {
 #if (configUSE_RECURSIVE_MUTEXES == 1)
 	assert(IsValid());
 

@@ -61,7 +61,16 @@ public:
 	/**
 	 * \sa <a href="http://www.freertos.org/a00135.html">xTaskResumeAll</a> FreeRTOS API function.
 	 */
-	static signed portBASE_TYPE ResumeAllTasks() { return xTaskResumeAll(); }
+	static BaseType_t ResumeAllTasks() { return xTaskResumeAll(); }
+
+	/**
+	 * \sa <a href="http://www.freertos.org/vTaskStepTick.html">vTaskStepTick</a> FreeRTOS API function.
+	 */
+	static void StepTick(TickType_t xTicksToJump) {
+#if ( configUSE_TICKLESS_IDLE == 1 )
+		vTaskStepTick(xTicksToJump);
+#endif
+		}
 
 	// Managed FreeRTOS Extension
 	/**

@@ -14,7 +14,7 @@ CTask::CTask() {
 	m_handleTask = NULL;
 }
 
-CTask::CTask(xTaskHandle handleTask) {
+CTask::CTask(TaskHandle_t handleTask) {
 	Attach(handleTask);
 }
 
@@ -23,7 +23,7 @@ CTask::~CTask() {
 		Delete();
 }
 
-void CTask::Attach(xGenericHandle handle) {
+void CTask::Attach(GenericHandle_t handle) {
 	assert(handle != NULL);
 
 	if (IsValid()) {
@@ -32,22 +32,22 @@ void CTask::Attach(xGenericHandle handle) {
 	m_handleTask = handle;
 }
 
-portBASE_TYPE CTask::Create(pdTASK_CODE pvTaskCode, const portCHAR * const pcName, unsigned portSHORT usStackDepth, void *pvParameters, unsigned portBASE_TYPE uxPriority)
+BaseType_t CTask::Create(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority)
 {
-	portBASE_TYPE res;
-	xTaskHandle handle;
-	res = xTaskCreate(pvTaskCode, (const signed char*)pcName, usStackDepth, pvParameters, uxPriority, &handle);
+	BaseType_t res;
+	TaskHandle_t handle;
+	res = xTaskCreate(pvTaskCode, pcName, usStackDepth, pvParameters, uxPriority, &handle);
 	if (res == pdTRUE)
 		Attach(handle);
 
 	return res;
 }
 
-portBASE_TYPE CTask::CreateRestricted(xTaskParameters *pxTaskDefinition)
+BaseType_t CTask::CreateRestricted(TaskParameters_t *pxTaskDefinition)
 {
-	portBASE_TYPE res = pdFALSE;
+	BaseType_t res = pdFALSE;
 #if( portUSING_MPU_WRAPPERS == 1 )
-	xTaskHandle handle;
+	TaskHandle_t handle;
 	res = xTaskCreateRestricted(pxTaskDefinition, &handle);
 	if (res == pdTRUE)
 		Attach(handle);
@@ -60,7 +60,7 @@ portBASE_TYPE CTask::CreateRestricted(xTaskParameters *pxTaskDefinition)
 void CTask::Delete() {
 	if (m_handleTask != NULL) {
 #if ( INCLUDE_vTaskDelete == 1 )
-		xTaskHandle handleTaskToDelete = m_handleTask;
+		TaskHandle_t handleTaskToDelete = m_handleTask;
 		m_handleTask = NULL;
 		vTaskDelete(handleTaskToDelete);
 #else

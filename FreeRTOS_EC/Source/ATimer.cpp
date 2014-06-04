@@ -16,7 +16,7 @@ ATimer::ATimer() {
 
 }
 
-ATimer::ATimer(xTimerHandle handleTimer) {
+ATimer::ATimer(TimerHandle_t handleTimer) {
 	Attach(handleTimer);
 }
 
@@ -25,15 +25,15 @@ ATimer::~ATimer() {
 		Delete(portMAX_DELAY);
 }
 
-void ATimer::Callback(xTimerHandle xTimer) {
+void ATimer::Callback(TimerHandle_t xTimer) {
 
 	static_cast<ATimer *>(pvTimerGetTimerID(xTimer))->OnExpired();
 }
 
-ATimer &ATimer::Create(const signed char *pcTimerName, portTickType xTimerPeriod, unsigned portBASE_TYPE uxAutoReload){//, void * pvTimerID, tmrTIMER_CALLBACK pxCallbackFunction) {
+ATimer &ATimer::Create(const char *pcTimerName, TickType_t xTimerPeriod, UBaseType_t uxAutoReload){//, void * pvTimerID, tmrTIMER_CALLBACK pxCallbackFunction) {
 	assert(!IsValid());
 
-	xTimerHandle handle;
+	TimerHandle_t handle;
 	handle = xTimerCreate(pcTimerName, xTimerPeriod, uxAutoReload, this, ATimer::Callback);
 	if (handle != NULL)
 		Attach(handle);
@@ -41,7 +41,7 @@ ATimer &ATimer::Create(const signed char *pcTimerName, portTickType xTimerPeriod
 	return *this;
 }
 
-void ATimer::Attach(xGenericHandle handle) {
+void ATimer::Attach(GenericHandle_t handle) {
 	assert(handle != NULL);
 
 	if (IsValid()) {
@@ -50,8 +50,8 @@ void ATimer::Attach(xGenericHandle handle) {
 	m_handleTimer = handle;
 }
 
-portBASE_TYPE ATimer::Delete(portTickType xBlockTime) {
-	portBASE_TYPE res = pdTRUE;
+BaseType_t ATimer::Delete(TickType_t xBlockTime) {
+	BaseType_t res = pdTRUE;
 	if (m_handleTimer != NULL) {
 		res = xTimerDelete(m_handleTimer, xBlockTime);
 		if (res != pdTRUE)

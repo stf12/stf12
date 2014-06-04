@@ -3,7 +3,7 @@
  * @class CBinarySemaphore
  * @ingroup FreeRTOS_Wrapper
  *
- * The CBinarySemaphore class wraps a native FreeRTOS binary semaphore handle (xSemaphoreHandle).
+ * The CBinarySemaphore class wraps a native FreeRTOS binary semaphore handle (SemaphoreHandle_t).
  * To create a binary semaphore instance an object of this class and then call its CBinarySemaphore::Create method
  * like showed in the following sample:
  * \code
@@ -49,7 +49,7 @@ public:
 	 *
 	 * @param handleSemaphore a valid binary semaphore handle.
 	 */
-	CBinarySemaphore(xSemaphoreHandle handleSemaphore);
+	CBinarySemaphore(SemaphoreHandle_t handleSemaphore);
 
 	/**
 	 * Destructor. It deletes the native FreeRTOS counting semaphore.
@@ -68,38 +68,38 @@ public:
 	/**
 	 * \sa <a href="http://www.freertos.org/a00122.html">xSemaphoreTake</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Take(portTickType xBlockTime);
+	inline BaseType_t Take(TickType_t xBlockTime);
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00123.html">xSemaphoreGive</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE Give();
+	inline BaseType_t Give();
 
 	/**
 	 * \sa <a href="http://www.freertos.org/a00124.html">xSemaphoreGiveFromISR</a> FreeRTOS API function.
 	 */
-	inline portBASE_TYPE GiveFromISR(signed portBASE_TYPE *pxHigherPriorityTaskWoken);
+	inline BaseType_t GiveFromISR(BaseType_t *pxHigherPriorityTaskWoken);
 };
 
 
 // inline methods implementation
 
 inline
-portBASE_TYPE CBinarySemaphore::Take(portTickType xBlockTime) {
+BaseType_t CBinarySemaphore::Take(TickType_t xBlockTime) {
 	assert(IsValid());
 
 	return xSemaphoreTake(m_handleSemaphore, xBlockTime);
 }
 
 inline
-portBASE_TYPE CBinarySemaphore::Give() {
+BaseType_t CBinarySemaphore::Give() {
 	assert(IsValid());
 
 	return xSemaphoreGive(m_handleSemaphore);
 }
 
 inline
-portBASE_TYPE CBinarySemaphore::GiveFromISR(signed portBASE_TYPE *pxHigherPriorityTaskWoken) {
+BaseType_t CBinarySemaphore::GiveFromISR(BaseType_t *pxHigherPriorityTaskWoken) {
 	assert(IsValid());
 
 	return xSemaphoreGiveFromISR(m_handleSemaphore, pxHigherPriorityTaskWoken);
