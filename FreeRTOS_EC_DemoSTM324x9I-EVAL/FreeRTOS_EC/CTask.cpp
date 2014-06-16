@@ -7,7 +7,6 @@
  */
 
 #include "CTask.h"
-#include <assert.h>
 
 
 CTask::CTask() {

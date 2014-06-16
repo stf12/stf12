@@ -31,6 +31,8 @@
 #ifndef CTASK_H_
 #define CTASK_H_
 
+#include <assert.h>
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "IFreeRTOSProtocol.h"

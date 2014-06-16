@@ -7,7 +7,6 @@
  */
 
 #include "CBinarySemaphore.h"
-#include <assert.h>
 
 CBinarySemaphore::CBinarySemaphore() {
 	// TODO Auto-generated constructor stub
@@ -23,9 +22,8 @@ CBinarySemaphore::CBinarySemaphore(SemaphoreHandle_t handleSemaphore) {
 }
 
 bool CBinarySemaphore::Create() {
-	SemaphoreHandle_t handle;
-
-	vSemaphoreCreateBinary(handle);
+	SemaphoreHandle_t handle = NULL;
+	handle = xSemaphoreCreateBinary();
 
 	if (handle != NULL)
 		Attach(handle);

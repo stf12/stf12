@@ -26,6 +26,7 @@
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "IFreeRTOSProtocol.h"
+#include "IQueueSetMember.h"
 
 class CQueueSet: public IFreeRTOSObj {
 	/**
@@ -44,7 +45,7 @@ public:
 	/**
 	 * Create a CQueue instance and attach it to a valid handle.
 	 *
-	 * @param handleQueue a valid queue handle.
+	 * @param handleQueueSet a valid queue set handle.
 	 */
 	CQueueSet(QueueSetHandle_t handleQueueSet);
 
@@ -70,19 +71,19 @@ public:
      * \sa <a href="http://www.freertos.org/xQueueCreateSet.html">xQueueCreateSet</a>  FreeRTOS API function.
      * \since FreeRTOS_EC v2.0.0
      */
-	inline QueueSetHandle_t CreateSet(const UBaseType_t uxEventQueueLength);
+	CQueueSet &CreateSet(const UBaseType_t uxEventQueueLength);
 
     /**
      * \sa <a href="http://www.freertos.org/xQueueAddToSet.html">xQueueAddToSet</a>  FreeRTOS API function.
      * \since FreeRTOS_EC v2.0.0
      */
-	inline BaseType_t AddToSet(QueueSetMemberHandle_t xQueueOrSemaphore);
+	inline BaseType_t AddToSet(IQueueSetMember &xQueueOrSemaphore);
 
     /**
      * \sa <a href="http://www.freertos.org/xQueueRemoveFromSet.html">xQueueRemoveFromSet</a>  FreeRTOS API function.
      * \since FreeRTOS_EC v2.0.0
      */
-	inline BaseType_t RemoveFromSet(QueueSetMemberHandle_t xQueueOrSemaphore);
+	inline BaseType_t RemoveFromSet(IQueueSetMember &xQueueOrSemaphore);
 
     /**
      * \sa <a href="http://www.freertos.org/xQueueSelectFromSet.html">xQueueSelectFromSet</a>  FreeRTOS API function.
@@ -112,16 +113,7 @@ GenericHandle_t CQueueSet::Detach() {
 }
 
 inline
-QueueSetHandle_t CQueueSet::CreateSet(const UBaseType_t uxEventQueueLength) {
-#if (configUSE_QUEUE_SETS == 1)
-	return xQueueCreateSet(uxEventQueueLength);
-#else
-	return NULL;
-#endif
-}
-
-inline
-BaseType_t CQueueSet::AddToSet(QueueSetMemberHandle_t xQueueOrSemaphore) {
+BaseType_t CQueueSet::AddToSet(IQueueSetMember &xQueueOrSemaphore) {
 #if (configUSE_QUEUE_SETS == 1)
 	return xQueueAddToSet(xQueueOrSemaphore, m_handleQueueSet);
 #else
@@ -130,7 +122,7 @@ BaseType_t CQueueSet::AddToSet(QueueSetMemberHandle_t xQueueOrSemaphore) {
 }
 
 inline
-BaseType_t CQueueSet::RemoveFromSet(QueueSetMemberHandle_t xQueueOrSemaphore) {
+BaseType_t CQueueSet::RemoveFromSet(IQueueSetMember &xQueueOrSemaphore) {
 #if (configUSE_QUEUE_SETS == 1)
 	return xQueueRemoveFromSet(xQueueOrSemaphore, m_handleQueueSet);
 #else

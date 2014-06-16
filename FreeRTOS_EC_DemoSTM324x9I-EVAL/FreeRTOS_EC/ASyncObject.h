@@ -16,8 +16,9 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "IFreeRTOSProtocol.h"
+#include "IQueueSetMember.h"
 
-class ASyncObject: public IFreeRTOSObj {
+class ASyncObject: public IFreeRTOSObj, IQueueSetMember {
 protected:
     SemaphoreHandle_t m_handleSemaphore;
 
@@ -40,6 +41,8 @@ public:
 
 	virtual BaseType_t Take(TickType_t xBlockTime) =0;
 	virtual BaseType_t Give() =0;
+
+	inline BaseType_t Read(TickType_t xTicksToWait, void * const pvBuffer);
 };
 
 // inline method
@@ -63,6 +66,11 @@ void* ASyncObject::GetMutexHolder() {
 #else
 	return NULL;
 #endif
+}
+
+inline
+BaseType_t ASyncObject::Read(TickType_t xTicksToWait, void * const pvBuffer) {
+	return Take(xTicksToWait);
 }
 
 #endif /* ASEMAPHORE_H_ */

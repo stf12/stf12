@@ -7,7 +7,6 @@
  */
 
 #include "CCountingSemaphore.h"
-#include <assert.h>
 
 CCountingSemaphore::CCountingSemaphore() {
 	// TODO Auto-generated constructor stub

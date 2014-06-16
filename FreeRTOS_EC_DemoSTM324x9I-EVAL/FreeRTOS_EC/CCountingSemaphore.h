@@ -32,6 +32,7 @@
 #define CCOUNTINGSEMAPHORE_H_
 
 #include <assert.h>
+
 #include "ASyncObject.h"
 
 class CCountingSemaphore: public ASyncObject {
@@ -78,6 +79,11 @@ public:
 	 * \sa <a href="http://www.freertos.org/a00124.html">xSemaphoreGiveFromISR</a> FreeRTOS API function.
 	 */
 	inline BaseType_t GiveFromISR(BaseType_t *pxHigherPriorityTaskWoken);
+
+	/**
+	 * \sa <a href="http://www.freertos.org/xSemaphoreTakeFromISR.html">xSemaphoreTakeFromISR</a> FreeRTOS API function.
+	 */
+	inline BaseType_t TakeFromISR(BaseType_t *pxHigherPriorityTaskWoken);
 };
 
 
@@ -102,6 +108,13 @@ BaseType_t CCountingSemaphore::GiveFromISR(BaseType_t *pxHigherPriorityTaskWoken
 	assert(IsValid());
 
 	return xSemaphoreGiveFromISR(m_handleSemaphore, pxHigherPriorityTaskWoken);
+}
+
+inline
+BaseType_t CCountingSemaphore::TakeFromISR(BaseType_t *pxHigherPriorityTaskWoken) {
+	assert(IsValid());
+
+	return xSemaphoreTakeFromISR(m_handleSemaphore, pxHigherPriorityTaskWoken);
 }
 
 #endif /* CCOUNTINGSEMAPHORE_H_ */

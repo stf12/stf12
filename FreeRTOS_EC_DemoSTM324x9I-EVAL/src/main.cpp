@@ -103,6 +103,7 @@
 #include "CInteger.h"
 #include "CPollQ.h"
 #include "CSemTest.h"
+#include "CQueueSetTest.h"
 
 #include "CHelloWorld.h"
 #include "CLcdTask2.h"
@@ -124,6 +125,9 @@
 #define mainQUEUE_POLL_PRIORITY				( tskIDLE_PRIORITY + 2UL )
 #define mainSEM_TEST_PRIORITY				( tskIDLE_PRIORITY + 1UL )
 #define mainTIMER_TEST_PRIORITY				( configMAX_PRIORITIES - 2UL )
+#define mainQUEUE_SET_LOW_PRIORITY			( tskIDLE_PRIORITY )
+#define mainQUEUE_SET_MEDIUM_PRIORITY 		( mainQUEUE_SET_LOW_PRIORITY + 1UL )
+
 
 
 /**
@@ -192,6 +196,7 @@ main(int argc, char* argv[])
 	CInteger::StartIntegerMathTasks(&g_checkTask, mainINTEGER_TASK_PRIORITY);
 	APollQ::StartPolledQueueTasks(&g_checkTask, mainQUEUE_POLL_PRIORITY);
 	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
+	CQueueSetTest::StartTestTasks(&g_checkTask, mainQUEUE_SET_LOW_PRIORITY);
 
 	static CTimerTestTask s_timerTask;
 	s_timerTask.Create("timer_t", configMINIMAL_STACK_SIZE*2, mainTIMER_TEST_PRIORITY);
@@ -269,6 +274,7 @@ void vApplicationMallocFailedHook( void ) {
  */
 extern "C"
 void vApplicationIdleHook( void ) {
+	//CQueueSetTest
 }
 
 /**

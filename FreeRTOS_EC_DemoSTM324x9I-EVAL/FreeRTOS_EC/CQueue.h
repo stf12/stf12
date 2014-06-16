@@ -38,9 +38,10 @@
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "IFreeRTOSProtocol.h"
+#include "IQueueSetMember.h"
 
 
-class CQueue: public IFreeRTOSObj {
+class CQueue: public IFreeRTOSObj, public IQueueSetMember {
 	/**
 	 * Specifies the native FreeRTOS handle managed by an instance of this class.
 	 */
@@ -200,6 +201,8 @@ public:
      */
 	inline BaseType_t QueueEmptyFromISR() const;
 
+	inline BaseType_t Read(TickType_t xTicksToWait, void * const pvBuffer);
+
 };
 
 // inline method implementation
@@ -334,6 +337,11 @@ BaseType_t CQueue::IsQueueFullFromISR() const {
 inline
 BaseType_t CQueue::QueueEmptyFromISR() const {
 	return xQueueIsQueueEmptyFromISR(m_handleQueue);
+}
+
+inline
+BaseType_t CQueue::Read(TickType_t xTicksToWait, void * const pvBuffer) {
+	return Receive(pvBuffer, xTicksToWait);
 }
 
 #endif /* CQUEUE_H_ */

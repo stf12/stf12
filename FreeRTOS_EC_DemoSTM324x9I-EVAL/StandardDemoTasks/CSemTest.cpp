@@ -37,6 +37,7 @@ void CSemTest::StartSemTestTasks(CCheckTask *pCheckTask, UBaseType_t nPriority )
 	static CSemTest polSem2(pCheckTask);
 
 	if ( semaphore1.Create() ) {
+		semaphore1.Give();
 		polSem1.m_pSemaphore = &semaphore1;
 		polSem2.m_pSemaphore = &semaphore1;
 		//Create the variable which is to be shared by the first two tasks.
@@ -59,6 +60,7 @@ void CSemTest::StartSemTestTasks(CCheckTask *pCheckTask, UBaseType_t nPriority )
 	static CSemTest polSem4(pCheckTask);
 
 	if (semaphore2.Create()) {
+		semaphore2.Give();
 		polSem3.m_pSemaphore = &semaphore2;
 		polSem4.m_pSemaphore = &semaphore2;
 		polSem3.m_pSharedVariable = (unsigned long *) pvPortMalloc(sizeof(unsigned long));

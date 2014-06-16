@@ -18,16 +18,24 @@ CQueueSet::CQueueSet(QueueSetHandle_t handleQueueSet) {
 }
 
 CQueueSet::~CQueueSet() {
-//	if (IsValid())
-//		Delete();
 }
 
 void CQueueSet::Attach(GenericHandle_t handle) {
 	assert(handle != NULL);
 
-//	if (IsValid())
-//		Delete();
-
 	m_handleQueueSet = handle;
+}
+
+CQueueSet &CQueueSet::CreateSet(const UBaseType_t uxEventQueueLength) {
+#if (configUSE_QUEUE_SETS == 1)
+	assert(!IsValid());
+
+	QueueSetHandle_t handle;
+
+	handle = xQueueCreateSet(uxEventQueueLength);
+	if (handle != NULL)
+		Attach(handle);
+#endif
+	return *this;
 }
 
