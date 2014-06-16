@@ -43,13 +43,15 @@ the received value. */
 testing of limits easier (don't have to deal with wrapping values). */
 #define queuesetIGNORED_BOUNDARY	( queuesetALLOWABLE_RX_DEVIATION * 2 )
 
+
+// CQueueSet class implementation
+//*******************************
+
 CQueueSet CQueueSetTest::s_xQueueSet;
 
 unsigned long CQueueSetTest::s_ulNextRand = 0;
 
 volatile unsigned long CQueueSetTest::s_ulCycleCounter = 0UL;
-
-volatile BaseType_t CQueueSetTest::s_xSetupComplete = pdFALSE;
 
 CQueueSetTest::CQueueSetTest() {
 	// TODO Auto-generated constructor stub
@@ -117,7 +119,6 @@ BaseType_t CQueueSetTest::CheckReceivedValue(unsigned long ulReceived) {
 		{
 			/* Check the value against its expected value range. */
 			if(CQueueSetTest::CheckReceivedValueWithinExpectedRange(ulReceived, ulExpectedReceivedFromISR) != pdPASS )
-//			if( prvCheckReceivedValueWithinExpectedRange( ulReceived, ulExpectedReceivedFromISR ) != pdPASS )
 			{
 				res = pdFAIL;
 			}
@@ -149,7 +150,6 @@ BaseType_t CQueueSetTest::CheckReceivedValue(unsigned long ulReceived) {
 		{
 			/* Check the value against its expected value range. */
 			if( CQueueSetTest::CheckReceivedValueWithinExpectedRange(ulReceived, ulExpectedReceivedFromTask) != pdPASS )
-//			if( prvCheckReceivedValueWithinExpectedRange( ulReceived, ulExpectedReceivedFromTask ) != pdPASS )
 			{
 				res = pdFAIL;
 			}
@@ -205,6 +205,10 @@ void CQueueSetTest::SRand(unsigned long ulSeed)
 
 // QSTxTask implementation
 // ***********************
+
+CQSTxTask *CQSTxTask::s_pxTxTask = NULL;
+
+volatile unsigned long CQSTxTask::s_ulISRTxValue = queuesetINITIAL_ISR_TX_VALUE;
 
 CQSTxTask::CQSTxTask(CCheckTask *pCheckTask): ICommonDemoTask(pCheckTask) {
 	m_xTasksStatus = pdPASS;
@@ -359,6 +363,77 @@ bool CQSTxTask::PreTest() {
 	return true;
 }
 
+void CQSTxTask::ReceiveFromQueueInSetFromISR() {
+	unsigned long ulReceived;
+	static CQueue xActivatedQueue;
+	QueueSetMemberHandle_t xActivatedQueueHandle;
+
+	/* See if any of the queues in the set contain data. */
+
+	xActivatedQueueHandle = CQueueSetTest::s_xQueueSet.SelectFromSetFromISR();
+	if( xActivatedQueueHandle != NULL )
+	{
+		xActivatedQueue.Attach(xActivatedQueueHandle);
+		/* Reading from the queue for test purposes only. */
+		if( xActivatedQueue.ReceiveFromISR( &ulReceived, NULL ) != pdPASS )
+		{
+			/* Data should have been available as the handle was returned from xQueueSelectFromSetFromISR(). */
+			m_xTasksStatus = pdFAIL;
+		}
+
+		/* Ensure the value received was the value expected. */
+		CQueueSetTest::CheckReceivedValue( ulReceived );
+
+		xActivatedQueue.Detach();
+	}
+
+}
+
+void CQSTxTask::SendToQueueInSetFromISR() {
+	static BaseType_t xQueueToWriteTo = 0;
+
+	if (m_xQueues[xQueueToWriteTo].SendFromISR((void*)&s_ulISRTxValue, NULL) == pdPASS)
+	{
+		s_ulISRTxValue++;
+
+		/* If the Tx value has wrapped then set it back to its initial	value. */
+		if( s_ulISRTxValue == 0UL )
+		{
+			s_ulISRTxValue = queuesetINITIAL_ISR_TX_VALUE;
+		}
+
+		/* Use a different queue next time. */
+		xQueueToWriteTo++;
+		if( xQueueToWriteTo >= queuesetNUM_QUEUES_IN_SET )
+		{
+			xQueueToWriteTo = 0;
+		}
+	}
+}
+
+void CQSTxTask::AccessQueueSetFromISR() {
+	static unsigned long ulCallCount = 0;
+
+	/* xSetupComplete is set to pdTRUE when the queues have been created and
+		are available for use. */
+	if( s_pxTxTask != NULL )
+	{
+		/* It is intended that this function is called from the tick hook
+			function, so each call is one tick period apart. */
+		ulCallCount++;
+		if( ulCallCount > queuesetISR_TX_PERIOD )
+		{
+			ulCallCount = 0;
+
+			/* First attempt to read from the queue set. */
+			s_pxTxTask->ReceiveFromQueueInSetFromISR();
+
+			/* Then write to the queue set. */
+			s_pxTxTask->SendToQueueInSetFromISR();
+		}
+	}
+}
+
 // QSRxTask implementation
 // ***********************
 
@@ -382,7 +457,7 @@ void CQSRxTask::Run() {
 	m_pTxTask->Resume();
 
 	/* Let the ISR access the queues also. */
-	CQueueSetTest::s_xSetupComplete = pdTRUE;
+	m_pTxTask->s_pxTxTask = m_pTxTask;
 
 
 	for( ;; )

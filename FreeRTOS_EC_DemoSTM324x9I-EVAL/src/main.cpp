@@ -240,7 +240,7 @@ static void prvSetupHardware( void )
 extern "C"
 void vApplicationTickHook( void )
 {
-
+	CQSTxTask::AccessQueueSetFromISR();
 }
 
 /**

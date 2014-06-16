@@ -48,11 +48,6 @@ private:
 	ulCycleCounter has stopped incrementing (indicating an error condition). */
 	static volatile unsigned long s_ulCycleCounter;
 
-	/* Just a flag to let the function that writes to a queue from an ISR know that
-	the queues are setup and can be used. */
-	static volatile BaseType_t s_xSetupComplete;
-
-
 	static unsigned long Rand();
 	static void SRand(unsigned long ulSeed);
 
@@ -83,6 +78,23 @@ private:
 	/* Counts how many times each queue in the set is used to ensure all the
 	queues are used. */
 	unsigned long m_ulQueueUsedCounter[queuesetNUM_QUEUES_IN_SET];
+
+	/* The value sent to the queue from the ISR is file scope so the
+	xAreQueeuSetTasksStillRunning() function can check it is incrementing as
+	expected. */
+	static volatile unsigned long s_ulISRTxValue;
+
+
+	void ReceiveFromQueueInSetFromISR();
+	void SendToQueueInSetFromISR();
+
+public:
+	/**
+	 * Just to let the function that writes to a queue from an ISR know that
+	 * the queues are setup and can be used, and to provide it a context.
+	 */
+	static CQSTxTask *s_pxTxTask;
+	static void AccessQueueSetFromISR();
 
 public:
 	CQSTxTask(CCheckTask *pCheckTask);
