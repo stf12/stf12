@@ -9,6 +9,11 @@
 #include "CFreeRTOS.h"
 #include "AManagedTask.h"
 
+using namespace freertosec::managed;
+
+namespace freertosec {
+namespace wrapper {
+
 CFreeRTOS::CFreeRTOS() {
 	// TODO Auto-generated constructor stub
 
@@ -21,3 +26,6 @@ CFreeRTOS::~CFreeRTOS() {
 bool CFreeRTOS::InitHardwareForManagedTasks() {
 	return AManagedTask::InitHardwareForManagedTasks();
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */

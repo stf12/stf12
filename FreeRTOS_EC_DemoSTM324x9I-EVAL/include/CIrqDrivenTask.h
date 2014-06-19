@@ -17,6 +17,9 @@
 #include <AManagedTask.h>
 #include <CBinarySemaphore.h>
 
+using namespace freertosec::managed;
+using namespace freertosec::wrapper;
+
 
 class CIrqDrivenTask: public AManagedTask {
 public:

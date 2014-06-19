@@ -33,6 +33,8 @@
 #include "CCheckTask.h"
 #include "CQueue.h"
 
+using namespace freertosec::wrapper;
+
 class APollQ: public AManagedTask, public ICommonDemoTask {
 protected:
 	/**

@@ -8,6 +8,9 @@
 #include "AManagedTask.h"
 #include "CFreeRTOS.h"
 
+namespace freertosec {
+namespace managed {
+
 AManagedTask* AManagedTask::s_pManagedTaskListHead = NULL;
 
 AManagedTask::AManagedTask() {
@@ -52,7 +55,7 @@ void AManagedTask::RemoveFromManagedTask(AManagedTask *pTaskToRemove) {
 	}
 	else {
 		ExitCritical();
-		CFreeRTOS::SuspendAllTasks();
+		freertosec::wrapper::CFreeRTOS::SuspendAllTasks();
 		AManagedTask *pTask = s_pManagedTaskListHead;
 		while (pTask != NULL && pTask->m_pNextManagedTask != pTaskToRemove) {
 			pTask = pTask->m_pNextManagedTask;
@@ -61,7 +64,7 @@ void AManagedTask::RemoveFromManagedTask(AManagedTask *pTaskToRemove) {
 			// remove the thask from the list
 			pTask->m_pNextManagedTask = pTaskToRemove->m_pNextManagedTask;
 		}
-		CFreeRTOS::ResumeAllTasks();
+		freertosec::wrapper::CFreeRTOS::ResumeAllTasks();
 	}
 }
 
@@ -72,3 +75,6 @@ bool AManagedTask::InitHardwareForManagedTasks() {
 
 	return bRes;
 }
+
+} /* namespace managed */
+} /* namespace freertosec */

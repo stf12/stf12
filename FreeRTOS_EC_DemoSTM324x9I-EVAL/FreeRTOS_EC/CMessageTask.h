@@ -69,6 +69,10 @@
 #include "IMessageTaskDelegate.h"
 #include "CQueue.h"
 
+using namespace freertosec::wrapper;
+
+namespace freertosec {
+namespace managed {
 
 class CMessageTask: public AManagedTask {
 public:
@@ -214,5 +218,8 @@ inline
 void CMessageTask::SetTimeout(TickType_t nNewTimeout) {
 	m_nTimeOut = nNewTimeout;
 }
+
+} /* namespace managed */
+} /* namespace freertosec */
 
 #endif /* CMESSAGETASK_H_ */

@@ -36,8 +36,11 @@
 
 #include "CTask.h"
 
-class AManagedTask: public CTask {
-	friend class CFreeRTOS;
+namespace freertosec {
+namespace managed {
+
+class AManagedTask: public freertosec::wrapper::CTask {
+	friend class FreeRTOS;
 
 	/**
 	 * Specifies the head of the linked list used to group all application managed task.
@@ -108,9 +111,11 @@ public:
 private:
 	void AddToManagedTask(AManagedTask *pTaskToAdd);
 	void RemoveFromManagedTask(AManagedTask *pTaskToRemove);
-	static bool InitHardwareForManagedTasks();
+public: static bool InitHardwareForManagedTasks();
 };
 
+} /* namespace managed */
+} /* namespace freertosec */
 
 #endif /* AMANAGEDTASK_H_ */
 

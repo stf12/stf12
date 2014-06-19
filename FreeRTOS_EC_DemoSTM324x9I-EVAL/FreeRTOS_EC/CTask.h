@@ -37,6 +37,9 @@
 #include "task.h"
 #include "IFreeRTOSProtocol.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CTask: public IFreeRTOSObj {
 
 	/**
@@ -449,5 +452,8 @@ void CTask::SetApplicationTaskTag(TaskHookFunction_t pxTagValue) {
 	vTaskSetApplicationTaskTag(m_handleTask, pxTagValue);
 #endif
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* CTASK_H_ */

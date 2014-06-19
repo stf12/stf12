@@ -8,6 +8,9 @@
 
 #include "CMutex.h"
 
+namespace freertosec {
+namespace wrapper {
+
 CMutex::CMutex() {
 	// TODO Auto-generated constructor stub
 
@@ -35,4 +38,8 @@ bool CMutex::Create() {
 
 	return IsValid();
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 

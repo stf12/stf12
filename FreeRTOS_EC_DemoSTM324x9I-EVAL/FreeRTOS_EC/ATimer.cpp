@@ -6,8 +6,12 @@
  *         E-Mail: software@stf12.net
  */
 
+
 #include "ATimer.h"
 #include <assert.h>
+
+namespace freertosec {
+namespace wrapper {
 
 #if ( configUSE_TIMERS == 1 )
 
@@ -61,4 +65,6 @@ BaseType_t ATimer::Delete(TickType_t xBlockTime) {
 	return res;
 }
 
+} /* namespace wrapper */
+} /* namespace freertosec */
 #endif // configUSE_TIMERS

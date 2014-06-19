@@ -20,6 +20,8 @@
 
 #include "AManagedTask.h"
 
+using namespace freertosec::managed;
+
 class CCheckTask;
 
 /**

@@ -24,6 +24,8 @@
 
 #include <CMessageTask.h>
 
+using namespace freertosec::managed;
+
 class CLcdTask2: public CMessageTask {
 public:
 	enum {

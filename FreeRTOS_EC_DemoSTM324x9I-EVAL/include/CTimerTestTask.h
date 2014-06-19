@@ -11,6 +11,10 @@
 #include <AManagedTask.h>
 #include <ATimer.h>
 
+using namespace freertosec::managed;
+using namespace freertosec::wrapper;
+
+
 /**
  * One Shot timer class.
  */

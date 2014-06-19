@@ -8,6 +8,8 @@
 
 #include "CTask.h"
 
+namespace freertosec {
+namespace wrapper {
 
 CTask::CTask() {
 	m_handleTask = NULL;
@@ -68,3 +70,7 @@ void CTask::Delete() {
 		m_handleTask = NULL;
 	}
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+

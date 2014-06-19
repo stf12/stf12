@@ -8,6 +8,9 @@
 
 #include "CBinarySemaphore.h"
 
+namespace freertosec {
+namespace wrapper {
+
 CBinarySemaphore::CBinarySemaphore() {
 	// TODO Auto-generated constructor stub
 
@@ -30,3 +33,6 @@ bool CBinarySemaphore::Create() {
 
 	return IsValid();
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */

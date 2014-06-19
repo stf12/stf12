@@ -11,6 +11,8 @@
 #ifndef MESSAGEMACRO_H_
 #define MESSAGEMACRO_H_
 
+namespace freertosec {
+namespace managed {
 
 /**
  * @class CMessage
@@ -108,5 +110,7 @@ public:
 	{ NULL_MSG, NULL } \
 	};
 
+} /* namespace managed */
+} /* namespace freertosec */
 
 #endif /* MESSAGEMACRO_H_ */

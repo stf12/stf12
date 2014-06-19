@@ -17,10 +17,13 @@
 #include <assert.h>
 #include "FreeRTOS.h"
 
+namespace freertosec {
+namespace managed {
+
 // forward declaration
 template <class T, class L, int nTimeout> class CDefaultResourceEditor;
 
-template<class T, class L, int nTimeout=(20/portTICK_RATE_MS)>
+template<class T, class L, int nTimeout=(20/TickType_t)>
 class CSharedResource {
 public:
 	class IResourceEditor {
@@ -120,5 +123,8 @@ void CSharedResource<T, L, nTimeout>::SetResource(const T &value, void *pParams)
 		m_pEditor->OnTimeOut(*this);
 	}
 }
+
+} /* namespace managed */
+} /* namespace freertosec */
 
 #endif /* CSharedResource_H_ */

@@ -35,6 +35,9 @@
 
 #include "ASyncObject.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CCountingSemaphore: public ASyncObject {
 public:
 
@@ -116,5 +119,9 @@ BaseType_t CCountingSemaphore::TakeFromISR(BaseType_t *pxHigherPriorityTaskWoken
 
 	return xSemaphoreTakeFromISR(m_handleSemaphore, pxHigherPriorityTaskWoken);
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 
 #endif /* CCOUNTINGSEMAPHORE_H_ */

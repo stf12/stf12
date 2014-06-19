@@ -34,6 +34,9 @@
 #include <assert.h>
 #include "ASyncObject.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CMutex: public ASyncObject {
 public:
 	/**
@@ -90,5 +93,8 @@ BaseType_t CMutex::Give() {
 
 	return xSemaphoreGive(m_handleSemaphore);
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* CMUTEX_H_ */

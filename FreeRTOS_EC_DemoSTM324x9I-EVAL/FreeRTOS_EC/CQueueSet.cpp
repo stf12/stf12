@@ -8,6 +8,9 @@
 
 #include <CQueueSet.h>
 
+namespace freertosec {
+namespace wrapper {
+
 CQueueSet::CQueueSet() {
 	m_handleQueueSet = NULL;
 
@@ -39,3 +42,5 @@ CQueueSet &CQueueSet::CreateSet(const UBaseType_t uxEventQueueLength) {
 	return *this;
 }
 
+} /* namespace wrapper */
+} /* namespace freertosec */

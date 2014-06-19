@@ -40,6 +40,8 @@
 #include "IFreeRTOSProtocol.h"
 #include "IQueueSetMember.h"
 
+namespace freertosec {
+namespace wrapper {
 
 class CQueue: public IFreeRTOSObj, public IQueueSetMember {
 	/**
@@ -343,6 +345,9 @@ inline
 BaseType_t CQueue::Read(TickType_t xTicksToWait, void * const pvBuffer) {
 	return Receive(pvBuffer, xTicksToWait);
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* CQUEUE_H_ */
 

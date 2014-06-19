@@ -28,6 +28,9 @@
 #include "IFreeRTOSProtocol.h"
 #include "IQueueSetMember.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CQueueSet: public IFreeRTOSObj {
 	/**
 	 * Specifies the native FreeRTOS handle managed by an instance of this class.
@@ -147,5 +150,8 @@ QueueSetMemberHandle_t CQueueSet::SelectFromSetFromISR() {
 	return NULL;
 #endif
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* CQUEUESET_H_ */

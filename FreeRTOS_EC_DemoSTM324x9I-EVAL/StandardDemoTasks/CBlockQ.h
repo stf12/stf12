@@ -37,6 +37,9 @@
 #include "CCheckTask.h"
 #include "CQueue.h"
 
+using namespace freertosec::wrapper;
+
+
 /**
  * Abstract base class.
  */

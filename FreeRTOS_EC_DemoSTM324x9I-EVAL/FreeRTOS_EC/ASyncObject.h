@@ -18,6 +18,9 @@
 #include "IFreeRTOSProtocol.h"
 #include "IQueueSetMember.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class ASyncObject: public IFreeRTOSObj, IQueueSetMember {
 protected:
     SemaphoreHandle_t m_handleSemaphore;
@@ -72,6 +75,9 @@ inline
 BaseType_t ASyncObject::Read(TickType_t xTicksToWait, void * const pvBuffer) {
 	return Take(xTicksToWait);
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* ASEMAPHORE_H_ */
 

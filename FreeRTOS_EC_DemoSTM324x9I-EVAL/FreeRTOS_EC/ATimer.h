@@ -23,6 +23,9 @@
 #include "task.h"
 #include "IFreeRTOSProtocol.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class ATimer: public IFreeRTOSObj {
 
 	/**
@@ -255,7 +258,10 @@ BaseType_t ATimer::PendFunctionCallFromISR(PendedFunction_t xFunctionToPend, voi
 #endif
 }
 
-
 #endif // configUSE_TIMERS
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 
 #endif /* CTIMER_H_ */

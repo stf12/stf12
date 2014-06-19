@@ -14,6 +14,9 @@
 #ifndef IMESSAGETASKDELEGATE_H_
 #define IMESSAGETASKDELEGATE_H_
 
+namespace freertosec {
+namespace managed {
+
 
 class IMessageTaskDelegate {
 public:
@@ -31,5 +34,8 @@ public:
 	 */
 	virtual void DidHandleEvent(const CMessage &msg) =0;
 };
+
+} /* namespace managed */
+} /* namespace freertosec */
 
 #endif /* IDISPLAYDELEGATE_H_ */

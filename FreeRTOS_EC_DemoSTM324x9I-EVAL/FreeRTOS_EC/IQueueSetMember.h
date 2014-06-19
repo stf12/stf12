@@ -10,6 +10,8 @@
 
 #include "queue.h"
 
+namespace freertosec {
+namespace wrapper {
 
 class IQueueSetMember {
 public:
@@ -18,5 +20,9 @@ public:
 	virtual BaseType_t Read(TickType_t xTicksToWait, void * const pvBuffer=NULL) =0;
 	virtual operator QueueSetMemberHandle_t() const =0;
 };
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 
 #endif /* IQUEUESETMEMBER_H_ */

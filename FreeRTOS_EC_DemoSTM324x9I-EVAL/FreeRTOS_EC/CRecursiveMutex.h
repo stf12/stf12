@@ -34,6 +34,9 @@
 #include <assert.h>
 #include "ASyncObject.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CRecursiveMutex: public ASyncObject {
 public:
 	/**
@@ -96,5 +99,7 @@ BaseType_t CRecursiveMutex::Give() {
 #endif
 }
 
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* CRECURSIVEMUTEX_H_ */

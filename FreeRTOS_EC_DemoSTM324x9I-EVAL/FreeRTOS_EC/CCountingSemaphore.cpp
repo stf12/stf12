@@ -8,6 +8,9 @@
 
 #include "CCountingSemaphore.h"
 
+namespace freertosec {
+namespace wrapper {
+
 CCountingSemaphore::CCountingSemaphore() {
 	// TODO Auto-generated constructor stub
 
@@ -33,3 +36,6 @@ bool CCountingSemaphore::Create(UBaseType_t uxMaxCount, UBaseType_t uxInitialCou
 
 	return IsValid();
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */

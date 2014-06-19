@@ -19,6 +19,9 @@
 #ifndef IFREERTOSPROTOCOL_H_
 #define IFREERTOSPROTOCOL_H_
 
+namespace freertosec {
+namespace wrapper {
+
 typedef void *GenericHandle_t;
 
 class IFreeRTOSObj {
@@ -46,5 +49,9 @@ public:
 	 */
 	virtual GenericHandle_t Detach() =0;
 };
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 
 #endif /* IFREERTOSPROTOCOL_H_ */

@@ -28,6 +28,8 @@
 /* The number of queues that are created and added to the queue set. */
 #define queuesetNUM_QUEUES_IN_SET 3
 
+using namespace freertosec::wrapper;
+
 
 class CQueueSetTest {
 	friend class CQSRxTask;

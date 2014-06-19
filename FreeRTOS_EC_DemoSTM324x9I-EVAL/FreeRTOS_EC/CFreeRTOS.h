@@ -31,6 +31,9 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CFreeRTOS {
 public:
 	/**
@@ -83,6 +86,8 @@ public:
 	static bool InitHardwareForManagedTasks();
 };
 
+} /* namespace wrapper */
+} /* namespace freertosec */
 
 #endif /* CFREERTOS_H_ */
 

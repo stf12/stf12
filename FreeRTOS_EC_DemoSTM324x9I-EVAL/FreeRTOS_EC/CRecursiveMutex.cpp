@@ -8,6 +8,9 @@
 
 #include "CRecursiveMutex.h"
 
+namespace freertosec {
+namespace wrapper {
+
 CRecursiveMutex::CRecursiveMutex() {
 	// TODO Auto-generated constructor stub
 
@@ -30,4 +33,8 @@ bool CRecursiveMutex::Create() {
 
 	return IsValid();
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 

@@ -9,6 +9,10 @@
 #include "ASyncObject.h"
 #include <assert.h>
 
+namespace freertosec {
+namespace wrapper {
+
+
 ASyncObject::ASyncObject() {
 	m_handleSemaphore = NULL;
 }
@@ -33,3 +37,7 @@ void ASyncObject::Attach(GenericHandle_t handle) {
 	}
 	m_handleSemaphore = handle;
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+

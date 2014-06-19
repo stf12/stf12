@@ -33,6 +33,8 @@
 #include "CCheckTask.h"
 #include "CBinarySemaphore.h"
 
+using namespace freertosec::wrapper;
+
 class CSemTest: public AManagedTask, public ICommonDemoTask {
 	unsigned long *m_pSharedVariable;
 	TickType_t m_nBlockTime;

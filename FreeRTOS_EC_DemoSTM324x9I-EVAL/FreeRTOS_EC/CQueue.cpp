@@ -8,6 +8,8 @@
 
 #include "CQueue.h"
 
+namespace freertosec {
+namespace wrapper {
 
 CQueue::CQueue() {
 	m_handleQueue = NULL;
@@ -50,3 +52,5 @@ void CQueue::Delete() {
 	}
 }
 
+} /* namespace wrapper */
+} /* namespace freertosec */

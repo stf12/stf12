@@ -8,7 +8,6 @@
 #include "CTimerTestTask.h"
 #include "CLcdTask2.h"
 
-
 CTimerTestTask::CTimerTestTask() {
 	// TODO Auto-generated contructor stub
 }

@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include "CMessageTask.h"
 
+namespace freertosec {
+namespace managed {
 
 const CMessageTask::message_map_entry_t CMessageTask::s_message_map[] = {
 		{ NULL_MSG, NULL }
@@ -87,3 +89,6 @@ bool CMessageTask::SendMessage(CMessage *pMsg, TickType_t nTicksToWait/*=portMAX
 bool CMessageTask::SenfFromISR(CMessage *pMsg, BaseType_t * pxHigherPriorityTaskWoken) {
 	return (bool)m_queue.SendToFrontFromISR(pMsg, pxHigherPriorityTaskWoken);
 }
+
+} /* namespace managed */
+} /* namespace freertosec */

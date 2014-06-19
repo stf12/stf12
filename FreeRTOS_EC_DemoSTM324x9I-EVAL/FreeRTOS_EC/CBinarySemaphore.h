@@ -36,6 +36,9 @@
 
 #include "ASyncObject.h"
 
+namespace freertosec {
+namespace wrapper {
+
 class CBinarySemaphore: public ASyncObject {
 public:
 
@@ -117,6 +120,10 @@ BaseType_t CBinarySemaphore::TakeFromISR(BaseType_t *pxHigherPriorityTaskWoken) 
 
 	return xSemaphoreTakeFromISR(m_handleSemaphore, pxHigherPriorityTaskWoken);
 }
+
+} /* namespace wrapper */
+} /* namespace freertosec */
+
 
 #endif /* CBINARYSEMAPHORE_H_ */
 
