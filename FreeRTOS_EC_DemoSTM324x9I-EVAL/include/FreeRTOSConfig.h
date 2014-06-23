@@ -165,5 +165,8 @@ standard names. */
 #define xPortPendSVHandler PendSV_Handler
 #define xPortSysTickHandler SysTick_Handler
 
+/* FreeRTOS_EC configuration */
+#define configALLOCATE_DEFAULT_MANAGED_TASK_CONTEXT		1
+
 #endif /* FREERTOS_CONFIG_H */
 

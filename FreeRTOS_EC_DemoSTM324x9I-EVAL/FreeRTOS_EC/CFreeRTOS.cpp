@@ -23,9 +23,5 @@ CFreeRTOS::~CFreeRTOS() {
 	// TODO Auto-generated destructor stub
 }
 
-bool CFreeRTOS::InitHardwareForManagedTasks() {
-	return AManagedTask::InitHardwareForManagedTasks();
-}
-
 } /* namespace wrapper */
 } /* namespace freertosec */

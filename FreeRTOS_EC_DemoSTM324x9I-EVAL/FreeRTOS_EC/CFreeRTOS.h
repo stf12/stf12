@@ -74,16 +74,6 @@ public:
 		vTaskStepTick(xTicksToJump);
 #endif
 		}
-
-	// Managed FreeRTOS Extension
-	/**
-	 * Call the AManagedTask::InitHardwareForManagedTasks() method for all managed task. When this method is
-	 * performed the scheduler is not started yet, so the application must avoid tu use FreeRTOS function
-	 * in the AManagedTask::InitHardwareForManagedTasks() method.
-	 *
-	 * @return true if success. false otherwise.
-	 */
-	static bool InitHardwareForManagedTasks();
 };
 
 } /* namespace wrapper */

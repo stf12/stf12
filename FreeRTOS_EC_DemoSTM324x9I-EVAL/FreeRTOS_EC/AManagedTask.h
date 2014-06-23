@@ -34,18 +34,23 @@
 #ifndef AMANAGEDTASK_H_
 #define AMANAGEDTASK_H_
 
+#include "CFreeRTOS.h"
 #include "CTask.h"
+
+using freertosec::wrapper::CTask;
 
 namespace freertosec {
 namespace managed {
 
-class AManagedTask: public freertosec::wrapper::CTask {
-	friend class FreeRTOS;
+class CMTContext;
+
+class AManagedTask: public CTask {
+	friend class CMTContext;
 
 	/**
-	 * Specifies the head of the linked list used to group all application managed task.
+	 * Specifies the managed task this context belong to.
 	 */
-	static AManagedTask *s_pManagedTaskListHead;
+	CMTContext *m_pContext;
 
 	/**
 	 * Specifies the next managed task in the list or NULL if this is the last managed task.
@@ -99,7 +104,13 @@ public:
 	 * @return pdTRUE if success, pdFALSE otherwise. If the method return pdFALSE the task creation process
 	 * is stopped and no FreeRTOS resource are allocated.
 	 */
-	virtual BaseType_t  OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, UBaseType_t  uxPriority) { return pdTRUE; }
+	virtual BaseType_t  OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, UBaseType_t  uxPriority) {
+		(void)pcName;
+		(void)usStackDepth;
+		(void) uxPriority;
+
+		return pdTRUE;
+	}
 
 	/**
 	 * The task control function passed as first parameter to the CTask::Create method.
@@ -107,11 +118,6 @@ public:
 	 * @param pParams pointer to this object.
 	 */
 	static void taskControlFunc(void *pParams);
-
-private:
-	void AddToManagedTask(AManagedTask *pTaskToAdd);
-	void RemoveFromManagedTask(AManagedTask *pTaskToRemove);
-public: static bool InitHardwareForManagedTasks();
 };
 
 } /* namespace managed */

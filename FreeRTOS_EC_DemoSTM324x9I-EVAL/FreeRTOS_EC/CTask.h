@@ -307,6 +307,8 @@ inline
 void CTask::GetRunTimeStats(char *pcWriteBuffer) {
 #if (configGENERATE_RUN_TIME_STATS == 1)
 	vTaskGetRunTimeStats(pcWriteBuffer);
+#else
+	(void)pcWriteBuffer;
 #endif
 }
 
@@ -353,6 +355,8 @@ inline
 void CTask::SetApplicationTag(TaskHookFunction_t pxTagValue) {
 #if ( configUSE_APPLICATION_TASK_TAG == 1 )
 	vTaskSetApplicationTaskTag(m_handleTask, pxTagValue);
+#else
+	(void)pxTagValue;
 #endif
 }
 
@@ -361,6 +365,7 @@ BaseType_t CTask::CallApplicationTaskHook(void *pvParameter) {
 #if ( configUSE_APPLICATION_TASK_TAG == 1 )
 	return xTaskCallApplicationTaskHook(m_handleTask, pvParameter);
 #else
+	(void)pvParameter;
 	return 0;
 #endif
 }
@@ -369,6 +374,8 @@ inline
 void CTask::AllocateMPURegions(const MemoryRegion_t * const xRegions) {
 #if ( portUSING_MPU_WRAPPERS == 1 )
 	vTaskAllocateMPURegions(m_handleTask, xRegions);
+#else
+	(void)xRegions;
 #endif
 }
 

@@ -95,7 +95,9 @@
 /* Kernel includes. */
 #include "CFreeRTOS.h"
 #include "CTask.h"
-#include "timers.h"
+
+/* Managed Extension include */
+#include "CManagedFreeRTOSApp.h"
 
 /* Demo application includes. */
 #include "CCheckTask.h"
@@ -207,9 +209,8 @@ main(int argc, char* argv[])
 	// Instantiate the shared LCD task object
 	CLcdTask2::GetSharedInstance();
 
-	/* Start the scheduler. */
-	CFreeRTOS::InitHardwareForManagedTasks();
-	CFreeRTOS::StartScheduler();
+	/* Start the managed application. */
+	CManagedFreeRTOSApp::StartManagedApplication(NULL);
 
 	/* If all is well, the scheduler will now be running, and the following line
 	will never be reached.  If the following line does execute, then there was
