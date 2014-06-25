@@ -5,15 +5,16 @@
  *      Author: oliveris
  */
 
+#include <FreeRTOS_EC.h>
 #include "CTimerTestTask.h"
 #include "CLcdTask2.h"
 
-CTimerTestTask::CTimerTestTask() {
-	// TODO Auto-generated contructor stub
+CTimerTestTask::CTimerTestTask(CMTContext *pContext): AManagedTask(pContext) {
+
 }
 
 CTimerTestTask::~CTimerTestTask() {
-	// TODO Auto-generated destructor stub
+
 }
 
 void CTimerTestTask::Run() {

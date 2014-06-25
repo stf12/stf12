@@ -6,6 +6,8 @@
  *         E-mail: software@stf12.net
  */
 
+#include <FreeRTOS_EC.h>
+
 #include "CLcdTask2.h"
 #include "stm324x9i_eval.h"
 #include "stm324x9i_eval_lcd.h"
@@ -28,6 +30,7 @@ BEGIN_MESSAGE_MAP(CMessageTask, CLcdTask2)
 END_MESSAGE_MAP(CLcdTask2)
 
 CLcdTask2::CLcdTask2() {
+	m_nCurrentLine = 0;
 }
 
 CLcdTask2::~CLcdTask2() {

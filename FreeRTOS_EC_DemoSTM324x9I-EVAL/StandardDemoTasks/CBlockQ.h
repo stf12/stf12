@@ -33,9 +33,9 @@
 #ifndef CBLOCKQ_H_
 #define CBLOCKQ_H_
 
-#include "AManagedTask.h"
+//#include "AManagedTask.h"
+//#include "CQueue.h"
 #include "CCheckTask.h"
-#include "CQueue.h"
 
 using namespace freertosec::wrapper;
 
@@ -72,7 +72,7 @@ public:
 	bool IsStillRunning();
 	const char*GetErrorMessage();
 
-	static void StartBlockingQueueTasks(CCheckTask *pCheckTask, UBaseType_t nPriority );
+	static void StartBlockingQueueTasks(CCheckTask *pCheckTask, UBaseType_t nPriority);
 };
 
 class CBlockQProducer: public ABlockQ {

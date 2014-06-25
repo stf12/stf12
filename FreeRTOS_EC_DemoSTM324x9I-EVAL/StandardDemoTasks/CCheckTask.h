@@ -18,7 +18,7 @@
 #ifndef CCHECKTASK_H_
 #define CCHECKTASK_H_
 
-#include "AManagedTask.h"
+//#include "AManagedTask.h"
 
 using namespace freertosec::managed;
 
@@ -86,9 +86,10 @@ public:
 	/**
 	 * Default constructor.
 	 *
+	 * @param pContext specifies a managed task context.
 	 * @param checkFrequency specifies the task frequency.
 	 */
-	CCheckTask(TickType_t checkFrequency=(4000/portTICK_PERIOD_MS));
+	CCheckTask(CMTContext *pContext, TickType_t checkFrequency=(4000/portTICK_PERIOD_MS));
 
 	/**
 	 * Destructor.

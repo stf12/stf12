@@ -20,10 +20,10 @@
 #ifndef CQUEUESETTEST_H_
 #define CQUEUESETTEST_H_
 
-#include "AManagedTask.h"
+//#include "AManagedTask.h"
+//#include "CQueueSet.h"
+//#include "CQueue.h"
 #include "CCheckTask.h"
-#include "CQueueSet.h"
-#include "CQueue.h"
 
 /* The number of queues that are created and added to the queue set. */
 #define queuesetNUM_QUEUES_IN_SET 3

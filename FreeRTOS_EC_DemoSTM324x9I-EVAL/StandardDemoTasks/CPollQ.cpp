@@ -6,22 +6,26 @@
  *         E-mail: software@stf12.net
  */
 
-#include <assert.h>
+#include <FreeRTOS_EC.h>
 #include "CPollQ.h"
+#include <assert.h>
 
 #define pollqSTACK_SIZE			configMINIMAL_STACK_SIZE
 #define pollqQUEUE_SIZE			( 10 )
 #define pollqPRODUCER_DELAY		( ( TickType_t ) 200 / portTICK_PERIOD_MS )
 #define pollqCONSUMER_DELAY		( pollqPRODUCER_DELAY - ( TickType_t ) ( 20 / portTICK_PERIOD_MS ) )
 #define pollqNO_DELAY			( ( TickType_t ) 0 )
-#define pollqVALUES_TO_PRODUCE	( ( signed BaseType_t ) 3 )
-#define pollqINITIAL_VALUE		( ( signed BaseType_t ) 0 )
+#define pollqVALUES_TO_PRODUCE	( ( BaseType_t ) 3 )
+#define pollqINITIAL_VALUE		( ( BaseType_t ) 0 )
 
 
 // APollQ implementation
 ////////////////////////
 
-APollQ::APollQ(CCheckTask *pCheckTask, CQueue *pQueue): ICommonDemoTask(pCheckTask) {
+APollQ::APollQ(CCheckTask *pCheckTask, CQueue *pQueue):
+	AManagedTask(pCheckTask->GetContext()),
+	ICommonDemoTask(pCheckTask)
+{
 	assert(pQueue->IsValid());
 
 	m_pQueue = pQueue;
@@ -29,7 +33,7 @@ APollQ::APollQ(CCheckTask *pCheckTask, CQueue *pQueue): ICommonDemoTask(pCheckTa
 }
 
 APollQ::~APollQ() {
-	// TODO Auto-generated destructor stub
+
 }
 
 bool APollQ::IsStillRunning() {

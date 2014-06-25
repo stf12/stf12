@@ -5,6 +5,7 @@
  *      Author: Stefano Oliveri
  */
 
+#include <FreeRTOS_EC.h>
 #include "CCheckTask.h"
 #include <stdio.h>
 
@@ -13,6 +14,7 @@
 /////////////////////////////////
 
 ICommonDemoTask::ICommonDemoTask(CCheckTask *pCheckTask) {
+	m_pNext = NULL;
 	pCheckTask->AddTask(this);
 }
 
@@ -25,7 +27,7 @@ ICommonDemoTask::~ICommonDemoTask()
 // CCheckTask implementation
 ////////////////////////////
 
-CCheckTask::CCheckTask(TickType_t checkFrequency/*=(4000/portTICK_RATE_MS)*/) {
+CCheckTask::CCheckTask(CMTContext *pContext, TickType_t checkFrequency/*=(4000/portTICK_RATE_MS)*/): AManagedTask(pContext) {
 	m_pListCommonDemoTaskHead = NULL;
 	m_checkFrequency = checkFrequency;
 }

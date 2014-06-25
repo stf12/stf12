@@ -5,6 +5,7 @@
  *      Author: stefano
  */
 
+#include <FreeRTOS_EC.h>
 #include <CQueueSetTest.h>
 #include <limits.h>
 #include <stdio.h>
@@ -210,7 +211,10 @@ CQSTxTask *CQSTxTask::s_pxTxTask = NULL;
 
 volatile unsigned long CQSTxTask::s_ulISRTxValue = queuesetINITIAL_ISR_TX_VALUE;
 
-CQSTxTask::CQSTxTask(CCheckTask *pCheckTask): ICommonDemoTask(pCheckTask) {
+CQSTxTask::CQSTxTask(CCheckTask *pCheckTask):
+		AManagedTask(pCheckTask->GetContext()),
+		ICommonDemoTask(pCheckTask)
+{
 	m_xTasksStatus = pdPASS;
 	for (int i=0; i<queuesetNUM_QUEUES_IN_SET; i++) {
 		m_ulQueueUsedCounter[i] = 0;
@@ -437,7 +441,10 @@ void CQSTxTask::AccessQueueSetFromISR() {
 // QSRxTask implementation
 // ***********************
 
-CQSRxTask::CQSRxTask(CCheckTask *pCheckTask, CQSTxTask *pTxTask): ICommonDemoTask(pCheckTask) {
+CQSRxTask::CQSRxTask(CCheckTask *pCheckTask, CQSTxTask *pTxTask):
+		AManagedTask(pCheckTask->GetContext()),
+		ICommonDemoTask(pCheckTask)
+{
 	m_pTxTask = pTxTask;
 	m_xTasksStatus = pdPASS;
 }

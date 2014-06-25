@@ -92,12 +92,8 @@
 
 // ----------------------------------------------------------------------------
 
-/* Kernel includes. */
-#include "CFreeRTOS.h"
-#include "CTask.h"
-
-/* Managed Extension include */
-#include "CManagedFreeRTOSApp.h"
+/* Extension class include */
+#include <FreeRTOS_EC.h>
 
 /* Demo application includes. */
 #include "CCheckTask.h"
@@ -130,12 +126,25 @@
 #define mainQUEUE_SET_LOW_PRIORITY			( tskIDLE_PRIORITY )
 #define mainQUEUE_SET_MEDIUM_PRIORITY 		( mainQUEUE_SET_LOW_PRIORITY + 1UL )
 
+class MyApplicationDelegate : public AManagedApplicationDelegate
+{
+public:
+	MyApplicationDelegate() {};
 
+	void OnTick();
+	void OnMallocFailed();
+	void OnStackOverflow(TaskHandle_t xTask, char *pcTaskName);
+} g_xMyAppDelegate;
 
 /**
  * Set up the hardware ready to run this demo.
  */
 static void prvSetupHardware( void );
+
+/**
+ * The global application context for the managed tasks.
+ */
+CMTContext g_xContext(&g_xMyAppDelegate);
 
 /**
  * Heap allocated task object
@@ -145,8 +154,8 @@ CHelloWorld *g_pLed1Task;
 /**
  * Global task objects.
  */
-CHelloWorld g_Led2Task(LED2_GPIO_PORT, LED2_PIN, 1000);
-CCheckTask g_checkTask(4000/portTICK_PERIOD_MS);
+CHelloWorld g_Led2Task(&g_xContext, LED2_GPIO_PORT, LED2_PIN, 1000);
+CCheckTask g_checkTask(&g_xContext, 4000/portTICK_PERIOD_MS);
 
 // Sample pragmas to cope with warnings. Please note the related line at
 // the end of this function, used to pop the compiler diagnostics status.
@@ -181,16 +190,19 @@ main(int argc, char* argv[])
 
 	// Create the task objects.
 
+	// Activate the conetxt for this application.
+	g_xContext.Activate();
+
 	// While usually dynamic memory is not a good practice in an embedded program,
 	// this task is allocated on the heap only to test if the low level layer works fine.
 	// (linker script and runtime support)
-	g_pLed1Task = new CHelloWorld(LED1_GPIO_PORT, LED1_PIN, 2000);
+	g_pLed1Task = new CHelloWorld(&g_xContext, LED1_GPIO_PORT, LED1_PIN, 2000);
 	g_pLed1Task->Create("Led1", configMINIMAL_STACK_SIZE, mainFLASH_TASK_PRIORITY);
 
 	g_Led2Task.Create("Led2", configMINIMAL_STACK_SIZE, 0);//mainFLASH_TASK_PRIORITY);
 
 	// Static task object
-	static CHelloWorld led3Task(LED3_GPIO_PORT, LED3_PIN, 3000);
+	static CHelloWorld led3Task(&g_xContext, LED3_GPIO_PORT, LED3_PIN, 3000);
 	led3Task.Create("Led3", configMINIMAL_STACK_SIZE, mainFLASH_TASK_PRIORITY);
 
 	g_checkTask.Create("Check", configMINIMAL_STACK_SIZE, configMAX_PRIORITIES-1);
@@ -200,17 +212,17 @@ main(int argc, char* argv[])
 	CSemTest::StartSemTestTasks(&g_checkTask, mainSEM_TEST_PRIORITY);
 	CQueueSetTest::StartTestTasks(&g_checkTask, mainQUEUE_SET_LOW_PRIORITY);
 
-	static CTimerTestTask s_timerTask;
+	static CTimerTestTask s_timerTask(&g_xContext);
 	s_timerTask.Create("timer_t", configMINIMAL_STACK_SIZE*2, mainTIMER_TEST_PRIORITY);
 
-	static CIrqDrivenTask xButtonTest;
+	static CIrqDrivenTask xButtonTest(&g_xContext);
 	xButtonTest.Create("BtnTest", configMINIMAL_STACK_SIZE*2, tskIDLE_PRIORITY);
 
 	// Instantiate the shared LCD task object
 	CLcdTask2::GetSharedInstance();
 
 	/* Start the managed application. */
-	CManagedFreeRTOSApp::StartManagedApplication(NULL);
+	CManagedFreeRTOSApp::StartManagedApplication(&g_xContext);
 
 	/* If all is well, the scheduler will now be running, and the following line
 	will never be reached.  If the following line does execute, then there was
@@ -235,68 +247,31 @@ static void prvSetupHardware( void )
 	LEDx_GPIO_CLK_ENABLE(LED3);
 }
 
-/**
- *
- */
-extern "C"
-void vApplicationTickHook( void )
-{
+
+/* ********************************************
+ * class MyApplicationDelegate implementation *
+ **********************************************/
+
+void MyApplicationDelegate::OnTick() {
 	CQSTxTask::AccessQueueSetFromISR();
 }
 
-/**
- *	vApplicationMallocFailedHook() will only be called if
- *	configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h.  It is a hook
- *	function that will get called if a call to pvPortMalloc() fails.
- *	pvPortMalloc() is called internally by the kernel whenever a task, queue,
- *	timer or semaphore is created.  It is also called by various parts of the
- *	demo application.  If heap_1.c or heap_2.c are used, then the size of the
- *	heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
- *	FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
- *	to query the size of free heap space that remains (although it does not
- *	provide information on how the remaining heap might be fragmented).
- */
-extern "C"
-void vApplicationMallocFailedHook( void ) {
+void MyApplicationDelegate::OnMallocFailed() {
 	taskDISABLE_INTERRUPTS();
 	for( ;; );
 }
 
-/**
- * 	vApplicationIdleHook() will only be called if configUSE_IDLE_HOOK is set
- * 	to 1 in FreeRTOSConfig.h.  It will be called on each iteration of the idle
- * 	task.  It is essential that code added to this hook function never attempts
- * 	to block in any way (for example, call xQueueReceive() with a block time
- * 	specified, or call vTaskDelay()).  If the application makes use of the
- * 	vTaskDelete() API function (as this demo application does) then it is also
- * 	important that vApplicationIdleHook() is permitted to return to its calling
- * 	function, because it is the responsibility of the idle task to clean up
- * 	memory allocated by the kernel to any task that has since been deleted.
- */
-extern "C"
-void vApplicationIdleHook( void ) {
-	//CQueueSetTest
-}
-
-/**
- * 	Run time stack overflow checking is performed if
- * 	configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
- * 	function is called if a stack overflow is detected.
- *
- * @param pxTask
- * @param pcTaskName
- */
-extern "C"
-void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
-{
+void MyApplicationDelegate::OnStackOverflow(TaskHandle_t xTask, char *pcTaskName) {
 	( void ) pcTaskName;
-	( void ) pxTask;
-
+	( void ) xTask;
 
 	taskDISABLE_INTERRUPTS();
 	for( ;; );
 }
 
+/* ***************************************************
+ * end of class MyApplicationDelegate implementation *
+ *****************************************************/
 
 #pragma GCC diagnostic pop
 

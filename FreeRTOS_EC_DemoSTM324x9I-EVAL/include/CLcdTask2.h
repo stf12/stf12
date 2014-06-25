@@ -22,7 +22,7 @@
 #ifndef CLCDTASK2_H_
 #define CLCDTASK2_H_
 
-#include <CMessageTask.h>
+//#include <CMessageTask.h>
 
 using namespace freertosec::managed;
 

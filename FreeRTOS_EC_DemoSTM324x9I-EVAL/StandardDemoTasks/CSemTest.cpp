@@ -6,6 +6,7 @@
  *         E-mail: software@stf12.net
  */
 
+#include <FreeRTOS_EC.h>
 #include "CSemTest.h"
 
 /* The value to which the shared variables are counted. */
@@ -16,7 +17,10 @@
 #define semtstNUM_TASKS				( 4 )
 #define semtstDELAY_FACTOR			( ( TickType_t ) 10 )
 
-CSemTest::CSemTest(CCheckTask *pCheckTask): ICommonDemoTask(pCheckTask) {
+CSemTest::CSemTest(CCheckTask *pCheckTask):
+	AManagedTask(pCheckTask->GetContext()),
+	ICommonDemoTask(pCheckTask)
+{
 	m_pSharedVariable = NULL;
 	m_nBlockTime = 0;
 	m_pSemaphore = NULL;

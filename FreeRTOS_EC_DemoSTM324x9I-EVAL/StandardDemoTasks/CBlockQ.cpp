@@ -5,8 +5,9 @@
  *  @author Stefano Oliveri
  */
 
-#include <assert.h>
+#include <FreeRTOS_EC.h>
 #include "CBlockQ.h"
+#include <assert.h>
 
 #define blckqSTACK_SIZE		(configMINIMAL_STACK_SIZE)
 #define blckqNUM_TASK_SETS	( 3 )
@@ -29,7 +30,9 @@ static short s_sBlockingProducerCount[ blckqNUM_TASK_SETS ] = { ( unsigned short
 // ABlockQ implementation.
 //////////////////////////
 
-ABlockQ::ABlockQ(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable,  TickType_t xBlockTime): ICommonDemoTask(pCheckTask) {
+ABlockQ::ABlockQ(CCheckTask *pCheckTask, CQueue *pQueue, short *psCheckVariable,  TickType_t xBlockTime):
+		AManagedTask(pCheckTask->GetContext()),
+		ICommonDemoTask(pCheckTask) {
 	assert(pQueue->IsValid());
 
 	m_pQueue = pQueue;

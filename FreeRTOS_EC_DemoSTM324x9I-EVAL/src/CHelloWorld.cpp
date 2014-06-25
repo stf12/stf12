@@ -6,12 +6,13 @@
  *      E-Mail: software@stf12.net
  */
 
-#include <stdio.h>
+#include <FreeRTOS_EC.h>
 #include "CHelloWorld.h"
+#include <stdio.h>
 
 
 
-CHelloWorld::CHelloWorld(GPIO_TypeDef *pPort, uint16_t pin, TickType_t nFlashRate) {
+CHelloWorld::CHelloWorld(CMTContext *pContext, GPIO_TypeDef *pPort, uint16_t pin, TickType_t nFlashRate): AManagedTask(pContext) {
 	m_pPort = pPort;
 	m_pin = pin;
 	m_bState = false;

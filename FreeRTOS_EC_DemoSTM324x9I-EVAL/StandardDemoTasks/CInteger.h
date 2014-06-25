@@ -22,7 +22,7 @@
 #ifndef CINTEGER_H_
 #define CINTEGER_H_
 
-#include "AManagedTask.h"
+//#include "AManagedTask.h"
 #include "CCheckTask.h"
 
 class CInteger: public AManagedTask, public ICommonDemoTask {

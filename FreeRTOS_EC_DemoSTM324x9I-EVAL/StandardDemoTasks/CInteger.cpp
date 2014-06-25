@@ -6,6 +6,7 @@
  *         E-mail: software@stf12.net
  */
 
+#include <FreeRTOS_EC.h>
 #include "CInteger.h"
 
 /* The constants used in the calculation. */
@@ -20,7 +21,10 @@
 /* As this is the minimal version, we will only create one task. */
 #define intgNUMBER_OF_TASKS		( 1 )
 
-CInteger::CInteger(CCheckTask *pCheckTask): ICommonDemoTask(pCheckTask) {
+CInteger::CInteger(CCheckTask *pCheckTask):
+	AManagedTask(pCheckTask->GetContext()),
+	ICommonDemoTask(pCheckTask)
+{
 	m_nCheck = true;
 }
 

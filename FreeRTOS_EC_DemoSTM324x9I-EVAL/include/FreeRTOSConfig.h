@@ -166,7 +166,8 @@ standard names. */
 #define xPortSysTickHandler SysTick_Handler
 
 /* FreeRTOS_EC configuration */
-#define configALLOCATE_DEFAULT_MANAGED_TASK_CONTEXT		1
+#define configALLOCATE_DEFAULT_MANAGED_TASK_CONTEXT		0
+#define configUSE_FREERTOS_EC_MANAGED_EXTENSION			1
 
 #endif /* FREERTOS_CONFIG_H */
 

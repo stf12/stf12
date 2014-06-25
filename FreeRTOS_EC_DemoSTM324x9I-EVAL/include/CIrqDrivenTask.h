@@ -14,8 +14,8 @@
 #ifndef CIRQDRIVENTASK_H_
 #define CIRQDRIVENTASK_H_
 
-#include <AManagedTask.h>
-#include <CBinarySemaphore.h>
+//#include <AManagedTask.h>
+//#include <CBinarySemaphore.h>
 
 using namespace freertosec::managed;
 using namespace freertosec::wrapper;
@@ -36,7 +36,7 @@ private:
 	int m_nButtonPressedCount;
 
 public:
-	CIrqDrivenTask();
+	CIrqDrivenTask(CMTContext *pContext);
 	virtual ~CIrqDrivenTask();
 
 	/**

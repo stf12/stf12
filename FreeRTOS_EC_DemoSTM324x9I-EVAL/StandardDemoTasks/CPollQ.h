@@ -29,9 +29,9 @@
 #ifndef CPOLLQ_H_
 #define CPOLLQ_H_
 
-#include "AManagedTask.h"
+//#include "AManagedTask.h"
+//#include "CQueue.h"
 #include "CCheckTask.h"
-#include "CQueue.h"
 
 using namespace freertosec::wrapper;
 

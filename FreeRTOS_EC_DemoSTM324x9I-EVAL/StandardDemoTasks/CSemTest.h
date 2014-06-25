@@ -29,9 +29,9 @@
 #ifndef CSEMTEST_H_
 #define CSEMTEST_H_
 
-#include "AManagedTask.h"
+//#include "AManagedTask.h"
+//#include "CBinarySemaphore.h"
 #include "CCheckTask.h"
-#include "CBinarySemaphore.h"
 
 using namespace freertosec::wrapper;
 

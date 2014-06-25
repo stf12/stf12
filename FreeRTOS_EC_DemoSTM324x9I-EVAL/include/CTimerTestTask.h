@@ -8,8 +8,8 @@
 #ifndef CTIMERTESTTASK_H_
 #define CTIMERTESTTASK_H_
 
-#include <AManagedTask.h>
-#include <ATimer.h>
+//#include <AManagedTask.h>
+//#include <ATimer.h>
 
 using namespace freertosec::managed;
 using namespace freertosec::wrapper;
@@ -42,7 +42,7 @@ public:
 
 class CTimerTestTask: public AManagedTask {
 public:
-	CTimerTestTask();
+	CTimerTestTask(CMTContext *pContext);
 	virtual ~CTimerTestTask();
 
 	/**

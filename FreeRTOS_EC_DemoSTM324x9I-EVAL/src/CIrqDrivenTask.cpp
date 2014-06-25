@@ -5,9 +5,10 @@
  *      Author: oliveris
  */
 
+#include <FreeRTOS_EC.h>
 #include "CIrqDrivenTask.h"
-#include "stm324x9i_eval.h"
 #include "CLcdTask2.h"
+#include "stm324x9i_eval.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -15,7 +16,7 @@
 // Allocate the static object
 CBinarySemaphore CIrqDrivenTask::s_semButton;
 
-CIrqDrivenTask::CIrqDrivenTask() {
+CIrqDrivenTask::CIrqDrivenTask(CMTContext *pContext): AManagedTask(pContext) {
 	m_nButtonPressedCount = 0;
 }
 
@@ -34,6 +35,9 @@ bool CIrqDrivenTask::HardwareInit() {
 }
 
 BaseType_t  CIrqDrivenTask::OnCreate(const portCHAR * const pcName, unsigned portSHORT usStackDepth, UBaseType_t  uxPriority) {
+	(void)pcName;
+	(void)usStackDepth;
+	(void)uxPriority;
 
 	if ( s_semButton.Create() )
 		return pdPASS;
