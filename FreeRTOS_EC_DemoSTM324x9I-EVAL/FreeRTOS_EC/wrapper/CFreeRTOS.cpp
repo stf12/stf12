@@ -10,7 +10,7 @@
 //#include "CFreeRTOS.h"
 //#include "AManagedTask.h"
 
-using namespace freertosec::managed;
+//using namespace freertosec::managed;
 
 namespace freertosec {
 namespace wrapper {

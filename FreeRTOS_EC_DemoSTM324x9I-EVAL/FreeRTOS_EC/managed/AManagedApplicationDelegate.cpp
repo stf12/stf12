@@ -7,6 +7,9 @@
 
 #include <FreeRTOS_EC.h>
 
+#if ( configUSE_FREERTOS_EC_MANAGED_EXTENSION == 1 )
+
+
 namespace freertosec {
 namespace managed {
 
@@ -45,3 +48,5 @@ AManagedApplicationDelegate::AManagedApplicationDelegate() {
 
 } /* namespace managed */
 } /* namespace freertosec */
+
+#endif
