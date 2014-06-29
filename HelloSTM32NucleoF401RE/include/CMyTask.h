@@ -17,6 +17,7 @@ public:
 	virtual ~CMyTask();
 
 	void Run();
+	bool HardwareInit();
 };
 
 #endif /* CMYTASK_H_ */
