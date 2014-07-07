@@ -34,6 +34,11 @@ using namespace freertosec::managed;
  */
 static void prvSetupHardware( void );
 
+class CMyAppDelegate : public AManagedApplicationDelegate {
+public:
+	void OnStackOverflow(TaskHandle_t xTask, char *pcTaskName);
+} g_xMyAppDelegate;
+
 
 // ----- main() ---------------------------------------------------------------
 
@@ -43,6 +48,7 @@ static void prvSetupHardware( void );
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
+
 
 int
 main(int argc, char* argv[])
@@ -68,19 +74,21 @@ main(int argc, char* argv[])
 	// at high speed.
 	trace_printf("System clock: %uHz\n", SystemCoreClock);
 
+
 	// FreeRTOS_EC Demo
 
 	// Create the context for the managed task
-	CMTContext *pxContext = new CMTContext();
+	CMTContext *pxContext = new CMTContext(&g_xMyAppDelegate);
 	// Activate the context
 	pxContext->Activate();
 
 	// Create a simple task.
 	CMyTask task1(pxContext);
-	task1.Create("task1", configMINIMAL_STACK_SIZE, tskIDLE_PRIORITY + 1);
+	task1.Create("task1", 4*configMINIMAL_STACK_SIZE, tskIDLE_PRIORITY + 1);
 
 	// Start the managed application
 	CManagedFreeRTOSApp::StartManagedApplication(pxContext);
+//	CFreeRTOS::StartScheduler();
 
 	// Infinite loop
 	while (1)
@@ -98,6 +106,10 @@ static void prvSetupHardware( void )
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 }
 
+void CMyAppDelegate::OnStackOverflow(TaskHandle_t xTask, char *pcTaskName) {
+	CTask::DisableInterrupt();
+	for (;;);
+}
 
 #pragma GCC diagnostic pop
 

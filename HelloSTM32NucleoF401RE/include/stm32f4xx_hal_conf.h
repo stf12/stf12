@@ -53,42 +53,42 @@ extern "C"
  */
 #define HAL_MODULE_ENABLED
 #define HAL_ADC_MODULE_ENABLED
-#define HAL_CAN_MODULE_ENABLED
-#define HAL_CRC_MODULE_ENABLED
-#define HAL_CRYP_MODULE_ENABLED
-#define HAL_DAC_MODULE_ENABLED
-#define HAL_DCMI_MODULE_ENABLED
+//#define HAL_CAN_MODULE_ENABLED
+//#define HAL_CRC_MODULE_ENABLED
+//#define HAL_CRYP_MODULE_ENABLED
+//#define HAL_DAC_MODULE_ENABLED
+//#define HAL_DCMI_MODULE_ENABLED
 #define HAL_DMA_MODULE_ENABLED
-#define HAL_DMA2D_MODULE_ENABLED
-#define HAL_ETH_MODULE_ENABLED
+//#define HAL_DMA2D_MODULE_ENABLED
+//#define HAL_ETH_MODULE_ENABLED
 #define HAL_FLASH_MODULE_ENABLED
-#define HAL_NAND_MODULE_ENABLED
-#define HAL_NOR_MODULE_ENABLED
-#define HAL_PCCARD_MODULE_ENABLED
-#define HAL_SRAM_MODULE_ENABLED
-#define HAL_SDRAM_MODULE_ENABLED
-#define HAL_HASH_MODULE_ENABLED
+//#define HAL_NAND_MODULE_ENABLED
+//#define HAL_NOR_MODULE_ENABLED
+//#define HAL_PCCARD_MODULE_ENABLED
+//#define HAL_SRAM_MODULE_ENABLED
+//#define HAL_SDRAM_MODULE_ENABLED
+//#define HAL_HASH_MODULE_ENABLED
 #define HAL_GPIO_MODULE_ENABLED
-#define HAL_I2C_MODULE_ENABLED
-#define HAL_I2S_MODULE_ENABLED
+//#define HAL_I2C_MODULE_ENABLED
+//#define HAL_I2S_MODULE_ENABLED
 #define HAL_IWDG_MODULE_ENABLED
-#define HAL_LTDC_MODULE_ENABLED
+//#define HAL_LTDC_MODULE_ENABLED
 #define HAL_PWR_MODULE_ENABLED
 #define HAL_RCC_MODULE_ENABLED
-#define HAL_RNG_MODULE_ENABLED
-#define HAL_RTC_MODULE_ENABLED
-#define HAL_SAI_MODULE_ENABLED
-#define HAL_SD_MODULE_ENABLED
+//#define HAL_RNG_MODULE_ENABLED
+//#define HAL_RTC_MODULE_ENABLED
+//#define HAL_SAI_MODULE_ENABLED
+//#define HAL_SD_MODULE_ENABLED
 #define HAL_SPI_MODULE_ENABLED
 #define HAL_TIM_MODULE_ENABLED
-#define HAL_UART_MODULE_ENABLED
-#define HAL_USART_MODULE_ENABLED
-#define HAL_IRDA_MODULE_ENABLED
-#define HAL_SMARTCARD_MODULE_ENABLED
-#define HAL_WWDG_MODULE_ENABLED
+//#define HAL_UART_MODULE_ENABLED
+//#define HAL_USART_MODULE_ENABLED
+//#define HAL_IRDA_MODULE_ENABLED
+//#define HAL_SMARTCARD_MODULE_ENABLED
+//#define HAL_WWDG_MODULE_ENABLED
 #define HAL_CORTEX_MODULE_ENABLED
-#define HAL_PCD_MODULE_ENABLED
-#define HAL_HCD_MODULE_ENABLED
+//#define HAL_PCD_MODULE_ENABLED
+//#define HAL_HCD_MODULE_ENABLED
 
 /* ########################## HSE/HSI Values adaptation ##################### */
 /**
@@ -96,7 +96,7 @@ extern "C"
  *        This value is used by the RCC HAL module to compute the system frequency
  *        (when HSE is used as system clock source, directly or through the PLL).
  */
-#if !defined  (HSE_VALUE) 
+#if !defined  (HSE_VALUE)
 #define HSE_VALUE    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
 #endif /* HSE_VALUE */
 
@@ -279,11 +279,11 @@ extern "C"
 
 #ifdef HAL_PCCARD_MODULE_ENABLED
 #include "stm32f4xx_hal_pccard.h"
-#endif /* HAL_PCCARD_MODULE_ENABLED */ 
+#endif /* HAL_PCCARD_MODULE_ENABLED */
 
 #ifdef HAL_SDRAM_MODULE_ENABLED
 #include "stm32f4xx_hal_sdram.h"
-#endif /* HAL_SDRAM_MODULE_ENABLED */      
+#endif /* HAL_SDRAM_MODULE_ENABLED */
 
 #ifdef HAL_HASH_MODULE_ENABLED
 #include "stm32f4xx_hal_hash.h"
@@ -376,7 +376,7 @@ extern "C"
 void assert_failed(uint8_t* file, uint32_t line);
 #else
 #define assert_param(expr) ((void)0)
-#endif /* USE_FULL_ASSERT */    
+#endif /* USE_FULL_ASSERT */
 
 #ifdef __cplusplus
 }

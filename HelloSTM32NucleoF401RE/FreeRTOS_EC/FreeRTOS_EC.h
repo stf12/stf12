@@ -41,5 +41,9 @@
 
 #endif
 
+// Include the FreeRTOS_EC Math layer
+//#include "arm_math.h"
+//#include "math/CMatrix.h"
+
 
 #endif /* FREERTOS_EC_H_ */

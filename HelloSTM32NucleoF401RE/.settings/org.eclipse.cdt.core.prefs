@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.533437098/CYGWIN/delimiter=;
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.533437098/CYGWIN/operation=append
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.533437098/CYGWIN/value=${CYGWIN} nodosfilewarning
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.533437098/append=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.533437098/appendContributed=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.250328729/CYGWIN/delimiter=;
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.250328729/CYGWIN/operation=append
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.250328729/CYGWIN/value=${CYGWIN} nodosfilewarning
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.250328729/append=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.250328729/appendContributed=true
