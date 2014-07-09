@@ -9,6 +9,7 @@
 #include "CMyTask.h"
 #include "diag/Trace.h"
 #include "math/CMatrixF32.h"
+#include "math/CMatrix.h"
 #include "iNEMO_math.h"
 
 using namespace freertosec::math;
@@ -31,6 +32,16 @@ static  float32_t s2_m3x3_data[] = {
 		1.1, 1.2, 1.3,
 		2.1, 2.2, 2.3,
 		3.1, 3.2, 3.3
+};
+
+static float s3_m7x7_data[] = {
+		1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0,
+		0.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0,
+		0.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0,
+		0.0, 0.0, 0.0, 0.0, 0.0, 6.0, 0.0,
+		0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7.0
 };
 
 static TIM_HandleTypeDef *s_pCurrentTimerHandle = NULL;
@@ -94,8 +105,9 @@ void CMyTask::Run() {
 //	char buff[512];
 //	buff[1] = 12;
 
-//	doMatrixTest1();
+	doMatrixTest1();
 	doMatrixTest2();
+	doMatrixTest3();
 
 	for(;;) {
 		trace_printf("My first task: %i\n", n);
@@ -192,7 +204,7 @@ bool CMyTask::doMatrixTest2() {
 	bool bRes = true;
 	uint64_t nStartTime;
 
-	// Start teh test
+	// Start the test
 	nStartTime = GetTimerTickCount();
 
 	// Load the matrix data.
@@ -201,15 +213,19 @@ bool CMyTask::doMatrixTest2() {
 	identity.InitWithIdentity();
 
 	// Make MATRIX_INVERSE_COUNT inversion using the CMatrixF32 class
+	//***************************************************************
 	for (int i=0; i<MATRIX_INVERSE_COUNT; ++i) {
 		CMatrixF32<5,5> mClone = m1;
 		CMatrixF32<5,5> mInverse = mClone.Inverse();
 		CMatrixF32<5,5> mCheck = m1 * mInverse;
 	}
+
 	uint64_t nInverseTestTime = GetTimerTickCount() - nStartTime;
 	trace_printf("Inversion of %i matrix<5,5> = %i ticks\n", MATRIX_INVERSE_COUNT, nInverseTestTime);
 
-	// Make the same test using iNEMO_math
+
+	// Make the test using iNEMO_math
+	//*******************************
 	nStartTime = GetTimerTickCount();
 
 	iNEMO_fMATRIX_TYPE *in_identity = iNEMO_fMatCreateInit(5, 5, iNEMO_IDEN_MATRIX);
@@ -223,12 +239,79 @@ bool CMyTask::doMatrixTest2() {
 		iNEMO_fMatInv(in_m1, in_Inverse);
 		iNEMO_fMatMulMat(in_m1, in_Inverse, in_Check);
 	}
+
 	uint64_t nIN_InverseTestTime = GetTimerTickCount() - nStartTime;
 	trace_printf("IN Inversion of %i matrix<5,5> = %i ticks\n", MATRIX_INVERSE_COUNT, nIN_InverseTestTime);
 
 
+	// Make the test using CMatrix<T,m,n>
+	//************************************
+	nStartTime = GetTimerTickCount();
+
+	CMatrix<float, 5,5>mIdentity, mm1;
+	mm1 = s_fHilbertMAtrix5x5_data;
+	mIdentity.InitWithIdentity();
+	for (int i=0; i<MATRIX_INVERSE_COUNT; ++i) {
+		CMatrix<float, 5,5> mmInverse = mm1.Inverse();
+		CMatrix<float, 5,5> mmCheck = mm1 * mmInverse;
+	}
+
+	uint64_t nMM_InverseTestTime = GetTimerTickCount() - nStartTime;
+	trace_printf("CMatrix Inversion of %i matrix<5,5> = %i ticks\n", MATRIX_INVERSE_COUNT, nMM_InverseTestTime);
+
 	return bRes;
 }
+
+bool CMyTask::doMatrixTest3() {
+	bool bRes = true;
+	uint64_t nStartTime;
+
+	// Load the matrix data.
+//	CMatrix<float, 7,7> m1, identity, mInverse, mCheck;
+	CMatrixF32<7,7> m1, identity, mInverse, mCheck, mClone;
+	m1 = s3_m7x7_data;
+	identity.InitWithIdentity();
+
+	// Make MATRIX_INVERSE_COUNT inversion using the CMatrixF32 class
+	//***************************************************************
+
+	// Start the test
+	nStartTime = GetTimerTickCount();
+
+	for (int i=0; i<MATRIX_INVERSE_COUNT; ++i) {
+		mClone = m1;
+		mInverse = mClone.Inverse();
+//		mCheck = m1 * mInverse;
+	}
+
+	uint64_t nInverseTestTime = GetTimerTickCount() - nStartTime;
+	trace_printf("Inversion of %i matrix<7,7> = %i ticks\n", MATRIX_INVERSE_COUNT, nInverseTestTime);
+
+
+	// Make the test using iNEMO_math
+	//*******************************
+
+	iNEMO_fMATRIX_TYPE *in_m1, *in_Inverse, *in_Check;
+	in_m1 = iNEMO_fMatCreate(7, 7);
+	for (int i=0; i<7; i++)
+		for (int j=0; j<7; j++)
+			iNEMO_MatData(in_m1)[i][j] = s3_m7x7_data[(i*7)+j];
+	in_Inverse = iNEMO_fMatCreate(7, 7);
+	in_Check = iNEMO_fMatCreate(7, 7);
+
+	nStartTime = GetTimerTickCount();
+
+	for (int i=0; i<MATRIX_INVERSE_COUNT; ++i) {
+		iNEMO_fMatInv(in_m1, in_Inverse);
+//		iNEMO_fMatMulMat(in_m1, in_Inverse, in_Check);
+	}
+
+	uint64_t nIN_InverseTestTime = GetTimerTickCount() - nStartTime;
+	trace_printf("IN Inversion of %i matrix<7,7> = %i ticks\n", MATRIX_INVERSE_COUNT, nIN_InverseTestTime);
+
+	return bRes;
+}
+
 
 /**
   * @brief  This function handles TIM interrupt request.

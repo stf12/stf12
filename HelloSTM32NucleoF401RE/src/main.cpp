@@ -84,7 +84,7 @@ main(int argc, char* argv[])
 
 	// Create a simple task.
 	CMyTask task1(pxContext);
-	task1.Create("task1", 4*configMINIMAL_STACK_SIZE, tskIDLE_PRIORITY + 1);
+	task1.Create("task1", 6*configMINIMAL_STACK_SIZE, tskIDLE_PRIORITY + 1);
 
 	// Start the managed application
 	CManagedFreeRTOSApp::StartManagedApplication(pxContext);

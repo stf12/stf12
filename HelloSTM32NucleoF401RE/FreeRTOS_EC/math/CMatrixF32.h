@@ -1,5 +1,5 @@
 /*
- * CMatrix.h
+ * CMatrixF32.h
  *
  *  Created on: Jun 30, 2014
  *      Author: oliveris
@@ -61,7 +61,7 @@ public:
 #ifdef DEBUG
 		static uint32_t nId = 1;
 		m_nId = nId++;
-		trace_printf("create m<%i,%i>%i\n", nRows, nColumns, m_nId);
+//		trace_printf("create m<%i,%i>%i\n", nRows, nColumns, m_nId);
 #endif
 
 		m_matrix.numCols = nColumns;
@@ -71,7 +71,7 @@ public:
 
 	virtual ~CMatrixF32() {
 #ifdef DEBUG
-		trace_printf("dispose m<%i,%i>%i\n", nRows, nColumns, m_nId);
+//		trace_printf("dispose m<%i,%i>%i\n", nRows, nColumns, m_nId);
 #endif
 	}
 
@@ -189,7 +189,7 @@ CMatrixF32<nRows, nColumns>::CMatrixF32(const CMatrixF32 &obj) {
 
 #ifdef DEBUG
 	m_nId = obj.m_nId + 10000;
-	trace_printf("cc m<%i,%i>%i\n", nRows, nColumns, m_nId);
+//	trace_printf("cc m<%i,%i>%i\n", nRows, nColumns, m_nId);
 #endif
 }
 
@@ -203,7 +203,7 @@ CMatrixF32<nRows, nColumns> & CMatrixF32<nRows, nColumns>::operator=(const CMatr
 	memcpy(m_data, m.m_data, sizeof(m_data));
 
 #ifdef DEBUG
-	trace_printf("copy m<%i,%i>%i to m<%i,%i>%i\n", nRows, nColumns, m.m_nId, nRows, nColumns, m_nId);
+//	trace_printf("copy m<%i,%i>%i to m<%i,%i>%i\n", nRows, nColumns, m.m_nId, nRows, nColumns, m_nId);
 #endif
 
 	return *this;

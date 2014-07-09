@@ -41,6 +41,8 @@ private:
 
 	bool doMatrixTest2();
 
+	bool doMatrixTest3();
+
 	void LowLevelHadwareInit();
 
 public:
